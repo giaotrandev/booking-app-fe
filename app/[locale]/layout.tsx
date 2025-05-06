@@ -1,6 +1,5 @@
 import { typographyVariants } from '#/components/ui/typography';
 import { i18n } from '#/i18n/config';
-import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import {
   fontArchivoBlack,
   fontArmata,
@@ -11,25 +10,29 @@ import {
 import { cn } from '#/lib/utilities/cn';
 import { Providers } from '#/providers';
 import { PageProps } from '#/types/global';
-import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { PropsWithChildren } from 'react';
+import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
+import { NextIntlClientProvider } from 'next-intl';
 
-interface LocaleLayoutProps extends PageProps, PropsWithChildren {}
+interface LocaleLayoutProps
+  extends Pick<PageProps, 'params'>,
+    PropsWithChildren {}
 
 export const generateStaticParams = () => {
   return getStaticParams();
 };
 
-const LocaleLayout = async ({ params, children }: LocaleLayoutProps) => {
-  const { locale } = await params;
+const LocaleLayout = async (props: LocaleLayoutProps) => {
+  const { locale } = await props.params;
   if (!locale || !i18n.locales.includes(locale)) {
     notFound();
   }
   setStaticParamsLocale(locale);
   const messages = await getMessages();
+
   return (
     <html lang={locale} suppressHydrationWarning className="scroll-smooth">
       <body
@@ -42,7 +45,6 @@ const LocaleLayout = async ({ params, children }: LocaleLayoutProps) => {
           fontRoboto.variable,
           'font-sans antialiased',
           'text-ts-grey-darkest bg-white',
-          // 'dark:bg-black dark:text-white',
           typographyVariants({ variant: 'body' }),
         )}
       >
@@ -54,7 +56,7 @@ const LocaleLayout = async ({ params, children }: LocaleLayoutProps) => {
           />
         )}
         <NextIntlClientProvider messages={messages}>
-          <Providers>{children}</Providers>
+          <Providers>{props.children}</Providers>
         </NextIntlClientProvider>
       </body>
     </html>
