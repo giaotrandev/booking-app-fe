@@ -1,4 +1,4 @@
-import { Template } from "#/templates";
+import { Template } from '#/components/templates';
 
 const RootNotFound = () => {
   return <Template name="notFound" />;

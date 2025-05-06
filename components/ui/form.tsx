@@ -137,7 +137,6 @@ const FormMessage = ({
 }: ComponentProps<'p'>) => {
   const { error, formMessageId } = useFormField();
   const body = error ? String(error?.message) : children;
-
   if (!body) {
     return null;
   }

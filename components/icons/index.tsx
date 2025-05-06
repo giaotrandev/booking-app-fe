@@ -1,10 +1,18 @@
 import { SvgProps } from '#/types/global';
+import { Address } from './address';
 import Arrow from './arrow';
 import Check from './check';
 import { ChevronDown } from './chevron-down';
 import { ChevronLeft } from './chevron-left';
 import { ChevronRight } from './chevron-right';
 import { ChevronUp } from './chevron-up';
+import Date from './date';
+import Email from './email';
+import Eye from './eye';
+import { Hamburger } from './hamburger';
+import HidePassword from './hide-password';
+import Phone from './phone';
+import { SelectChevronDown } from './select-chevron-down';
 import Upload from './upload';
 import { XMark } from './x-mark';
 
@@ -14,9 +22,17 @@ const icons = {
   'chevron-up': ChevronUp,
   'chevron-down': ChevronDown,
   'x-mark': XMark,
+  'hide-password': HidePassword,
+  'select-chevron-down': SelectChevronDown,
+  hamburger: Hamburger,
+  eye: Eye,
+  date: Date,
   arrow: Arrow,
   check: Check,
   upload: Upload,
+  phone: Phone,
+  email: Email,
+  address: Address,
 };
 
 export type IconNamesProps = keyof typeof icons;

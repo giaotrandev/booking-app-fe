@@ -7,9 +7,29 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 @theme {
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-archivo: var(--font-archivo), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-montserrat: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-armata: var(--font-armata), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-roboto: var(--font-roboto), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --color-pj-red: #E04141;
+  --color-pj-grey-light: #6A6A6B;
+  --color-pj-grey: #414242;
+  --color-pj-blue: #1D7ED8;
+  --color-pj-blue-medium: #393F4E;
+  --color-pj-green: #4CAF50;
+  --color-pj-black: #000000;
+  --color-pj-brown: #434141;
+  --color-pj-input-focus: #0b0b0b;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;

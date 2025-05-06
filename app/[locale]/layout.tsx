@@ -1,7 +1,13 @@
 import { typographyVariants } from '#/components/ui/typography';
 import { i18n } from '#/i18n/config';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
-import { fontSans } from '#/lib/font';
+import {
+  fontArchivoBlack,
+  fontArmata,
+  fontMontserrat,
+  fontRoboto,
+  fontSans,
+} from '#/lib/font';
 import { cn } from '#/lib/utilities/cn';
 import { Providers } from '#/providers';
 import { PageProps } from '#/types/global';
@@ -30,9 +36,13 @@ const LocaleLayout = async ({ params, children }: LocaleLayoutProps) => {
         suppressHydrationWarning
         className={cn(
           fontSans.variable,
+          fontArmata.variable,
+          fontArchivoBlack.variable,
+          fontMontserrat.variable,
+          fontRoboto.variable,
           'font-sans antialiased',
-          'bg-white text-black',
-          'dark:bg-black dark:text-white',
+          'text-ts-grey-darkest bg-white',
+          // 'dark:bg-black dark:text-white',
           typographyVariants({ variant: 'body' }),
         )}
       >

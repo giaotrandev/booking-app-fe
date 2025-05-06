@@ -9,52 +9,57 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '#/components/headless/sheet';
+import { Hamburger } from '#/components/icons/hamburger';
+import { useTranslate } from '#/i18n/client';
 // import { useTranslate } from '#/i18n/client';
 import { useGlobalsStore } from '#/store/globals';
+import { useMediaQuery } from 'usehooks-ts';
+import { LayoutHeaderMenu, LayoutHeaderMenuProps } from './menu';
+import { useEffect } from 'react';
 
-export interface LayoutHeaderSidenavProps {}
+export interface LayoutHeaderSidenavProps {
+  list?: LayoutHeaderMenuProps['list'];
+}
 
-const LayoutHeaderSidenav = ({}: LayoutHeaderSidenavProps) => {
-  // const { translate } = useTranslate();
+const LayoutHeaderSidenav = ({ list }: LayoutHeaderSidenavProps) => {
+  const { translate } = useTranslate();
   const { sidenavOpen, setSidenavOpen } = useGlobalsStore();
   const onOpenChange = (open: boolean) => {
     setSidenavOpen(open);
   };
+  const matches = useMediaQuery('(min-width: 1024px)');
+  useEffect(() => {
+    if (matches && sidenavOpen) {
+      setSidenavOpen(false);
+    }
+  }, [matches, sidenavOpen, setSidenavOpen]);
   return (
     <Sheet open={sidenavOpen} onOpenChange={onOpenChange}>
       <SheetTrigger asChild>
-        <button type="button">
-          <span>Hamburger</span>
+        <button type="button" className="inline-flex cursor-pointer">
           <span className="sr-only">
-            {/* {translate({
+            {translate({
               de: 'Sidenav öffnen',
               en: 'Open sidenav',
-            })} */}
+            })}
           </span>
+          <Hamburger />
         </button>
       </SheetTrigger>
-      <SheetContent className="h-full w-full max-w-xs overflow-x-hidden overflow-y-auto">
+      <SheetContent
+        onInteractOutside={event => event.preventDefault()}
+        className="pointer-events-none z-1050 h-full w-full overflow-x-hidden overflow-y-auto outline-hidden data-[state=closed]:duration-300 data-[state=open]:duration-300"
+        overlay={{ className: 'z-1040' }}
+      >
         <SheetHeader>
           <SheetTitle></SheetTitle>
           <SheetDescription></SheetDescription>
-          <SheetClose asChild>
-            <button type="button">
-              {/* <span>
-                {translate({
-                  de: 'Schließen',
-                  en: 'Close',
-                })}
-              </span>
-              <span className="sr-only">
-                {translate({
-                  de: 'Schließen',
-                  en: 'Close',
-                })}
-              </span> */}
-            </button>
-          </SheetClose>
         </SheetHeader>
-        <div></div>
+        <div className="h-16 lg:h-23.75" />
+
+        <div className="pointer-events-auto h-[calc(100%-64px)] bg-white py-15">
+          <LayoutHeaderMenu list={list} />
+        </div>
         <SheetFooter></SheetFooter>
       </SheetContent>
     </Sheet>

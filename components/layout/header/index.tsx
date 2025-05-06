@@ -1,6 +1,14 @@
 // import { LanguageSwitcher } from '#/components/ui/language-switcher';
 import { ThemeSwitcher } from '#/components/ui/theme-switcher';
+import Image from 'next/image';
 import { LayoutHeaderSidenav, LayoutHeaderSidenavProps } from './sidenav';
+import { Link } from '#/i18n/routing';
+import { LayoutHeaderMenu } from './menu';
+import { LinkProps } from '#/types/global';
+import { Typography } from '#/components/ui/typography';
+import { cn } from '#/lib/utilities/cn';
+import { StretchedLink } from '#/components/common/stretched-link';
+import React from 'react';
 
 export interface LayoutHeaderProps {
   sidenav?: LayoutHeaderSidenavProps;
@@ -8,13 +16,85 @@ export interface LayoutHeaderProps {
 
 const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
   return (
-    <header id="site-header">
-      Header
-      <LayoutHeaderSidenav {...sidenav} />
-      {/* <LanguageSwitcher /> */}
-      <ThemeSwitcher />
-    </header>
+    <>
+      <header
+        id="site-header"
+        className="pointer-events-auto fixed top-0 left-0 z-1090 flex h-16 w-full items-center justify-center py-3 lg:h-23.75 lg:py-5"
+      >
+        <div className="flex w-full justify-between px-4 lg:pr-18.5 lg:pl-14">
+          <div>
+            <Link href="/">
+              <Image
+                height={100}
+                width={180}
+                src="/images/logo.png"
+                alt="logo"
+              />
+            </Link>
+          </div>
+          <div className="hidden lg:flex">
+            <LayoutHeaderMenu list={menu.slice(0, -2)} />
+          </div>
+          <div className="hidden lg:inline-block">
+            <ul className="flex w-auto shrink-0 grow-0 basis-auto space-x-2">
+              {menu.slice(-2).map((item, key) => (
+                <React.Fragment key={key}>
+                  <li className="relative block">
+                    <Typography
+                      variant="label"
+                      className={cn(
+                        "hocus:text-pj-blue hocus:transition-[color] before:bg-pj-blue hocus:before:scale-100 hocus:before:origin-left before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-['']",
+                      )}
+                      asChild
+                    >
+                      <StretchedLink link={item}>{item.text}</StretchedLink>
+                    </Typography>
+                  </li>
+                  {key === 0 && (
+                    <li>
+                      <span>|</span>
+                    </li>
+                  )}
+                </React.Fragment>
+              ))}
+            </ul>
+          </div>
+          <div className="lg:hidden">
+            <LayoutHeaderSidenav {...sidenav} list={menu.slice(0, -2)} />
+          </div>
+        </div>
+        {/* <LanguageSwi  tcher /> */}
+        {/* <ThemeSwitcher /> */}
+      </header>
+      <div className="h-16 lg:h-23.75" />
+    </>
   );
 };
 
 export { LayoutHeader };
+const menu: LinkProps[] = [
+  {
+    text: 'Home',
+    url: '/',
+  },
+  {
+    text: 'Promotion',
+    url: '/promotion',
+  },
+  {
+    text: 'My Booking',
+    url: '/my-booking',
+  },
+  {
+    text: 'About us',
+    url: '/about-us',
+  },
+  {
+    text: 'Sign in',
+    url: '/login',
+  },
+  {
+    text: 'Register',
+    url: '/register',
+  },
+];

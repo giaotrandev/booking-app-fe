@@ -21,7 +21,7 @@ const NotFoundTemplate = async () => {
       <div>
         <Link href="/">
           {await translate({
-            de: 'Zur Startseite',
+            de: 'Zur Startseite eeee',
             en: 'Back to the home page',
           })}
         </Link>
