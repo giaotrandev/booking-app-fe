@@ -1,5 +1,4 @@
 import { typographyVariants } from '#/components/ui/typography';
-import { i18n } from '#/i18n/config';
 import {
   fontArchivoBlack,
   fontArmata,
@@ -11,12 +10,13 @@ import { cn } from '#/lib/utilities/cn';
 import { Providers } from '#/providers';
 import { PageProps } from '#/types/global';
 import { getMessages } from 'next-intl/server';
+import { i18n } from '#/i18n/config';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { PropsWithChildren } from 'react';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { NextIntlClientProvider } from 'next-intl';
-
+import '#/styles/globals.css';
 interface LocaleLayoutProps
   extends Pick<PageProps, 'params'>,
     PropsWithChildren {}
@@ -43,7 +43,7 @@ const LocaleLayout = async (props: LocaleLayoutProps) => {
           fontArchivoBlack.variable,
           fontMontserrat.variable,
           fontRoboto.variable,
-          'font-sans antialiased',
+          'relative font-sans antialiased',
           'text-ts-grey-darkest bg-white',
           typographyVariants({ variant: 'body' }),
         )}

@@ -6,7 +6,7 @@ import { ComponentProps } from 'react';
 const containerVariants = cva([''], {
   variants: {
     variant: {
-      standard: 'px-5 lg:px-31',
+      standard: 'px-5 lg:px-20',
     },
   },
   defaultVariants: {

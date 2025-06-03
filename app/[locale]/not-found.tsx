@@ -1,7 +1,7 @@
-import { Template } from "#/components/templates";
+import { Template } from '#/components/templates';
 
-const LocaleNotFound = async () => {
+const NotFoundPage = async () => {
   return <Template name="notFound" />;
 };
 
-export default LocaleNotFound;
+export default NotFoundPage;

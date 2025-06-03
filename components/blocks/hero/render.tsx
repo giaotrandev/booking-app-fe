@@ -7,11 +7,18 @@ import { useIsClient } from 'usehooks-ts';
 import { useId, useState } from 'react';
 import { useTranslate } from '#/i18n/client';
 import { useDotButton } from '#/lib/embla-carousel/dot-button';
-import { Typography } from '../ui/typography';
 import Autoplay from 'embla-carousel-autoplay';
+import { Typography } from '#/components/ui/typography';
+import {
+  NavigationBooking,
+  NavigationBookingProps,
+} from './navigation-booking/render';
 
-export interface HeroRenderBlockProps {}
-const HeroRenderBlock = () => {
+export interface HeroRenderBlockProps extends NavigationBookingProps {}
+const HeroRenderBlock = ({
+  arrivalList,
+  destinationList,
+}: HeroRenderBlockProps) => {
   const { translate } = useTranslate();
   const uuid = useId();
   const isClient = useIsClient();
@@ -52,6 +59,15 @@ const HeroRenderBlock = () => {
             <h1>START YOUR TRIP WITH US HERE </h1>
           </Typography>
         </div>
+        {((Array.isArray(arrivalList) && arrivalList.length > 0) ||
+          (Array.isArray(destinationList) && destinationList.length > 0)) && (
+          <div className="absolute top-1/2 left-1/2 z-[10] -translate-x-1/2 -translate-y-1/2">
+            <NavigationBooking
+              arrivalList={arrivalList}
+              destinationList={destinationList}
+            />
+          </div>
+        )}
         <div
           className="absolute bottom-4 left-1/2 z-[11] flex -translate-x-1/2 gap-x-2"
           role="tablist"

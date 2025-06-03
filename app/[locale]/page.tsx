@@ -1,4 +1,7 @@
-import { HeroRenderBlock } from '#/components/hero/render';
+import { FeaturedArticlesRenderBlock } from '#/components/blocks/featured-articles/render';
+import { HeroBlock } from '#/components/blocks/hero';
+import ServiceRenderBlock from '#/components/blocks/service/render';
+import { TeaserRenderBlock } from '#/components/blocks/teaser/render';
 import { Layout } from '#/components/layout';
 import { setStaticParamsLocale } from '#/i18n/server';
 import { homePagePath } from '#/lib/constant';
@@ -20,7 +23,10 @@ const HomePage = async (props: PageProps) => {
 
   return (
     <Layout>
-      <HeroRenderBlock />
+      <HeroBlock />
+      <TeaserRenderBlock />
+      <ServiceRenderBlock />
+      <FeaturedArticlesRenderBlock />
     </Layout>
   );
 };

@@ -1,7 +1,9 @@
 'use client';
+
 import { cn } from '#/lib/utilities/cn';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { ComponentProps } from 'react';
+import { ComponentProps, useId } from 'react';
+import { Typography } from '../ui/typography'; // Đảm bảo bạn đã import Typography đúng
 
 export type RadioGroupProps = ComponentProps<typeof RadioGroupPrimitive.Root>;
 
@@ -9,7 +11,7 @@ const RadioGroup = ({ className, ...props }: RadioGroupProps) => {
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn('', className)}
+      className={cn('flex gap-x-12', className)}
       {...props}
     />
   );
@@ -17,35 +19,53 @@ const RadioGroup = ({ className, ...props }: RadioGroupProps) => {
 
 export type RadioGroupItemProps = ComponentProps<
   typeof RadioGroupPrimitive.Item
->;
+> & {
+  label?: string;
+};
 
-const RadioGroupItem = ({ className, ...props }: RadioGroupItemProps) => {
+const RadioGroupItem = ({
+  className,
+  label,
+  ...props
+}: RadioGroupItemProps) => {
+  const id = useId(); // tạo id duy nhất để kết nối label với radio
+
   return (
-    <RadioGroupPrimitive.Item
-      data-slot="radio-group-item"
-      className={cn(
-        'peer size-4 rounded-full border',
-        'border-black',
-        'dark:border-white',
-        // disabled
-        'disabled:pointer-events-none disabled:opacity-50',
-        className,
-      )}
-      {...props}
-    >
-      <RadioGroupPrimitive.Indicator
-        data-slot="radio-group-indicator"
-        className="flex items-center justify-center"
+    <div className="flex items-center gap-x-2">
+      <RadioGroupPrimitive.Item
+        id={id}
+        data-slot="radio-group-item"
+        className={cn(
+          'peer border-pj-grey size-4 rounded-[50%] border dark:border-white',
+          'data-[state=checked]:border-pj-grey [&[aria-invalid=true]]:border-pj-orange bg-white',
+          'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+          // 'lg:hocus-visible:border-pj-input-focus',
+          // 'transition-[border]',
+
+          className,
+        )}
+        {...props}
       >
-        <span
-          className={cn(
-            'block size-3 rounded-full',
-            'bg-black',
-            'dark:bg-white',
-          )}
-        />
-      </RadioGroupPrimitive.Indicator>
-    </RadioGroupPrimitive.Item>
+        <RadioGroupPrimitive.Indicator
+          data-slot="radio-group-indicator"
+          className="flex items-center justify-center"
+        >
+          <span className="bg-pj-grey block size-4 flex-none rounded-[50%] border-current dark:bg-white" />
+        </RadioGroupPrimitive.Indicator>
+      </RadioGroupPrimitive.Item>
+
+      {label && (
+        <label htmlFor={id}>
+          <Typography
+            asChild
+            variant="small-label"
+            className="text-pj-grey-light cursor-pointer"
+          >
+            <p>{label}</p>
+          </Typography>
+        </label>
+      )}
+    </div>
   );
 };
 

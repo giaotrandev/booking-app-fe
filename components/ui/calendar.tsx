@@ -36,7 +36,7 @@ const Calendar = ({
       showOutsideDays={showOutsideDays}
       className={cn('', className)}
       classNames={{
-        root: 'text-[14px] p-3',
+        root: 'text-[14px] p-3 bg-white border',
         months: cn('', classNames?.months),
         month: cn('space-y-4', classNames?.month),
         month_grid: 'w-full border-collapse space-y-1', // updated from 'table'
@@ -49,12 +49,12 @@ const Calendar = ({
         years_dropdown: 'relative inline-flex items-center', // updated from 'dropdown_year'
         nav: 'flex w-full justify-between',
         button_previous: cn(
-          'cursor-pointer inline-flex h-10 w-10 rounded items-center justify-center',
+          'cursor-pointer inline-flex h-7 w-7 lg:h-8 lg:w-10 rounded items-center justify-center',
           'lg:hocus-visible:bg-pj-input-focus/5',
           'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
         ), // ✅ (nav_button_previous -> button_previous)
         button_next: cn(
-          'cursor-pointer inline-flex h-10 w-10 rounded items-center justify-center ml-auto',
+          'cursor-pointer inline-flex h-7 w-7 lg:h-8 lg:w-10 rounded items-center justify-center ml-auto',
           'lg:hocus-visible:bg-pj-input-focus/5',
           'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
         ), // ✅ (nav_button_next -> button_next)
@@ -63,14 +63,14 @@ const Calendar = ({
         weekday: 'w-full font-semibold text-[12px]', // ✅ (head_cell -> weekday)
         week: 'flex w-full mt-2', // ✅ (row -> week)
         week_number: 'text-[12px]', // ✅ (weeknumber -> week_number)
-        day: 'relative inline-flex h-10 rounded w-full items-center justify-center p-0 text-center',
+        day: 'relative inline-flex h-7 lg:h-8 rounded w-full items-center justify-center p-0 text-center',
         day_button: cn(
-          'm-0 inline-flex h-10 rounded w-full items-center justify-center p-0 cursor-pointer',
+          'm-0 inline-flex h-7 lg:h-8 rounded w-full items-center justify-center p-0 cursor-pointer',
           'aria-selected:opacity-100',
           // hover
           'lg:[&:not([aria-selected=true])]:hocus-visible:bg-vs-input-focus/5',
         ),
-        outside: 'opacity-50', // ✅ (day_outside -> outside)
+        // outside: 'opacity-50', // ✅ (day_outside -> outside)
         selected: 'bg-black text-white', // ✅ (day_selected -> selected)
         disabled:
           'pointer-events-none opacity-20 aria-selected:bg-pj-input-focus/5', // ✅ (day_disabled -> disabled)

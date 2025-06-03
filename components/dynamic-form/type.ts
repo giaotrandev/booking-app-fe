@@ -1,5 +1,5 @@
 export interface FormFieldOptionProps {
-    value: string;
+    value: string | boolean;
     label: string;
     id: string;
 }

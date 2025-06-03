@@ -1,4 +1,5 @@
 'use client';
+import VideoItem from '#/components/common/video';
 import { cn } from '#/lib/utilities/cn';
 import { ImageProps, MediaProps } from '#/types/global';
 import { EmblaCarouselType } from 'embla-carousel';
@@ -10,7 +11,6 @@ import {
   useEffect,
   useState,
 } from 'react';
-import VideoItem from '../common/video';
 
 export interface HeroVideoItemProps {
   videoUrl?: string;

@@ -38,7 +38,7 @@ const LayoutFooter = ({}: LayoutFooterProps) => {
                 </Typography>
               </li>
               {linkItemList.linkList.map((item, index) => (
-                <li>
+                <li key={index}>
                   <Link
                     href={item.url}
                     className='hocus-visible:text-pj-blue hocus-visible:transition-[color] before:bg-pj-blue hocus-visible:before:scale-100 hocus-visible:before:origin-left relative before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-[""]'

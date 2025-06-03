@@ -16,6 +16,7 @@ const buttonVariants = cva(
       variant: {
         default: 'text-[16px]',
         small: 'text-[13px]',
+        'supper-small': 'text-[11px]',
       },
       colors: {
         none: '',
@@ -59,7 +60,7 @@ const ButtonLink = ({
       {...props}
     >
       <Slottable>{children}</Slottable>
-      <span className="relative overflow-hidden">
+      <span className="relative overflow-hidden disabled:pointer-events-none disabled:opacity-50">
         <span
           className={cn(
             'group-hocus-visible/button:-translate-y-[110%] relative inline-block transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)] before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:content-[""]',

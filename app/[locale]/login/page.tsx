@@ -1,9 +1,5 @@
 import LoginRenderBlock from '#/components/blocks/login/render';
-import { FormRenderBlock } from '#/components/dynamic-form/render';
 import { FormFieldProps } from '#/components/dynamic-form/type';
-import { Layout } from '#/components/layout';
-import { TemplateProps } from '#/components/templates';
-import { Link } from '#/i18n/routing';
 import { getTranslate, setStaticParamsLocale } from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
@@ -43,12 +39,12 @@ const formFields: FormFieldProps[] = [
   },
   {
     id: 'login-remember-me',
-    name: 'remember-me',
+    name: 'rememberMe',
     required: false,
     options: [
       {
-        id: 'remember-me-1',
-        value: 'remember-me',
+        id: 'rememberMe-1',
+        value: true,
         label: 'Remember me',
       },
     ],

@@ -8,11 +8,12 @@ export interface PageProps {
       uri?: string;
       slug?: string;
       id?: string;
+      token?: string;
     }>;
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-// export interface StaticParamsProps extends Pick<PageProps, 'params'> {}
+export interface StaticParamsProps extends Pick<PageProps, 'params'> {}
 
 export type SvgProps = SVGProps<SVGSVGElement>;
 

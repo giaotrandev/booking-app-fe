@@ -1,10 +1,5 @@
-import LoginRenderBlock from '#/components/blocks/login/render';
 import RegisterRenderBlock from '#/components/blocks/register/render';
-import { FormRenderBlock } from '#/components/dynamic-form/render';
 import { FormFieldProps } from '#/components/dynamic-form/type';
-import { Layout } from '#/components/layout';
-import { TemplateProps } from '#/components/templates';
-import { Link } from '#/i18n/routing';
 import { getTranslate, setStaticParamsLocale } from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
@@ -37,30 +32,44 @@ const formFields: FormFieldProps[] = [
   },
   {
     id: 'first-name',
-    name: 'first-name',
+    name: 'firstName',
     type: 'text',
     label: 'First name',
     required: true,
   },
   {
     id: 'last-name',
-    name: 'last-name',
+    name: 'lastName',
     type: 'text',
     label: 'Last name',
     required: true,
+  },
+  {
+    id: '67b53c380c32252cb540c1b1',
+    name: 'gender',
+    required: true,
+    options: [
+      {
+        id: '67b53c440c32252cb540c1b3',
+        value: 'MALE',
+        label: 'Male',
+      },
+
+      {
+        id: '67b53c4c0c32252cb540c1b5',
+        value: 'FEMALE',
+        label: 'Female',
+      },
+    ],
+    type: 'radio',
+    label: 'Gender',
+    placeholder: 'Gender',
   },
   {
     id: 'birthday',
     name: 'birthday',
     type: 'date',
     label: 'Birthday',
-    required: true,
-  },
-  {
-    id: ' id-number',
-    name: 'id-number',
-    type: 'number',
-    label: 'ID Number',
     required: true,
   },
   {
@@ -72,7 +81,7 @@ const formFields: FormFieldProps[] = [
   },
   {
     id: 'register-confirm-password',
-    name: 'password',
+    name: 'confirmPassword',
     type: 'password',
     label: 'Confirm password',
     required: true,

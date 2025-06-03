@@ -1,4 +1,6 @@
 'use client';
+import { Toaster } from '#/components/ui/toaster';
+import { ToastProvider } from '#/components/ui/use-toast';
 // import { GoogleReCaptchaProvider } from '#/lib/google/recaptcha/v3/provider'; // SETUP - Provider: Enable this component if your site is using Google reCAPTCHA
 import { ThemeProvider } from 'next-themes';
 import { PropsWithChildren } from 'react';
@@ -15,10 +17,12 @@ const Providers = ({ children }: ProvidersProps) => {
       disableTransitionOnChange
     >
       {/* <GoogleReCaptchaProvider> */}
-      <div id="site-wrapper">
-        {/* <Tracking /> */}
-        {children}
-      </div>
+      <ToastProvider>
+        <div id="site-wrapper">
+          {/* <Tracking /> */}
+          {children}
+        </div>
+      </ToastProvider>
       {/* </GoogleReCaptchaProvider> */}
     </ThemeProvider>
   );

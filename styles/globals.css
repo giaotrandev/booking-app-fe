@@ -15,6 +15,12 @@
   }
 }
 
+@layer utilities {
+  .shadow-custom {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  }
+}
+
 @theme {
   --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-archivo: var(--font-archivo), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -22,6 +28,7 @@
   --font-armata: var(--font-armata), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-roboto: var(--font-roboto), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --color-pj-red: #E04141;
+  --color-pj-grey-lightest: #EEEDED;
   --color-pj-grey-light: #6A6A6B;
   --color-pj-grey: #414242;
   --color-pj-blue: #1D7ED8;
@@ -29,6 +36,7 @@
   --color-pj-green: #4CAF50;
   --color-pj-black: #000000;
   --color-pj-brown: #434141;
+  --color-pj-orange: #F07272;
   --color-pj-input-focus: #0b0b0b;
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
@@ -36,6 +44,8 @@
   --animate-indeterminate-bar: indeterminate-bar 1.5s
     cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite normal none running;
   --animate-marquee: marquee 30s linear infinite;
+  --animate-fade-in: fadeIn 300ms ease forwards;
+  --animate-fade-out: fadeOut 300ms ease-in forwards;
 
   @keyframes accordion-down {
     from {
@@ -67,6 +77,26 @@
     }
     to {
       transform: translateX(-100%);
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(8px);
     }
   }
 }

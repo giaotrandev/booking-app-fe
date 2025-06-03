@@ -19,6 +19,8 @@ const buttonVariants = cva(
         'with-shadow':
           'text-black font-normal py-3 px-4.5 shadow-[0px_4px_4px_0px_#00000040]',
         special: 'w-full lg:max-w-74 py-2.25 px-8',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        small: 'px-4 py-2 text-[14px] lg:text-[16px]',
       },
       colors: {
         none: '',
@@ -63,17 +65,21 @@ const Button = ({
       className={cn(
         'group/button',
         buttonVariants({ variant, colors, shape, className }),
+        variant === 'with-shadow' && 'text-[14px] lg:text-[14px]',
       )}
       {...props}
     >
-      <span className="relative flex items-center overflow-hidden">
-        <span className="group-hocus-visible/button:-translate-y-full inline-block transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
-          {text ? text : <Slottable>{children}</Slottable>}
+      <Slottable>{children}</Slottable>
+      {text && (
+        <span className="relative flex items-center overflow-hidden">
+          <span className="group-hocus-visible/button:-translate-y-full inline-block transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
+            {text}
+          </span>
+          <span className="group-hocus-visible/button:translate-y-0 absolute inset-0 flex translate-y-full items-center justify-center transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
+            {text}
+          </span>
         </span>
-        <span className="group-hocus-visible/button:translate-y-0 absolute inset-0 flex translate-y-full items-center justify-center transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
-          {text ? text : <Slottable>{children}</Slottable>}
-        </span>
-      </span>
+      )}
     </Comp>
   );
 };

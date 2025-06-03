@@ -78,7 +78,7 @@ const Select = ({
           type="button"
           className={cn(
             inputVariants(),
-            'relative line-clamp-1 pr-4 text-left',
+            'relative line-clamp-1 flex cursor-pointer items-center pr-4 text-left',
           )}
           disabled={disabled}
         >
@@ -91,7 +91,7 @@ const Select = ({
               {placeholder}
             </span>
           )}
-          <span className="pointer-events-none absolute top-1 right-0">
+          <span className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">
             <Icon
               name="chevron-down"
               className={cn(
@@ -105,7 +105,7 @@ const Select = ({
         </button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[var(--radix-popover-trigger-width)]"
+        className="relative z-[12] w-[var(--radix-popover-trigger-width)]"
         onOpenAutoFocus={() => {
           if (ref && ref.current) {
             ref.current.focus();
