@@ -10,45 +10,71 @@ import { Typography } from '#/components/ui/typography';
 import { Link } from '#/i18n/routing';
 import { useUserStore } from '#/store/user';
 import Image from 'next/image';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '#/components/ui/use-toast';
+import { useTurnstileVerification } from '#/lib/hooks/use-turnstile-verification';
+import { dynamicFormSubmissionsAction } from '#/components/dynamic-form/action/submission';
+import { TurnstileBlock } from '#/lib/cloudflare/turnstile/turnstile-verifier';
 
 export interface LoginRenderBlockProps
   extends Pick<FormRenderBlockProps, 'fields'> {}
 
 const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
-  const [processing, setProcessing] = useState<boolean>(false);
   const router = useRouter();
   const { toast } = useToast();
-
   const formRenderRef = useRef<{ handleReset: () => void } | null>(null);
+
+  const {
+    token,
+    canSubmit,
+    loading: turnstileLoading,
+    setLoading: setTurnstileLoading,
+    handleVerify,
+    handleLoad,
+    handleExpire,
+    handleError,
+    reset: resetTurnstile,
+  } = useTurnstileVerification();
+
+  const [processing, setProcessing] = useState(false);
+  const [showTurnstile, setShowTurnstile] = useState(true);
   const handleSubmit = async (formData: Record<string, any>) => {
+    if (!token) {
+      toast({
+        title: 'Verification required',
+        description: 'Please complete the verification.',
+        variant: 'error',
+      });
+      return;
+    }
+
+    const currentToken = token;
+
     try {
       setProcessing(true);
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
+      const result = await dynamicFormSubmissionsAction({
+        token: currentToken,
+        data: formData,
+        fields,
       });
 
-      const resultResponse = await response.json();
-      if (!response.ok) {
-        const message = resultResponse.message || 'Login failed';
+      // ✅ QUAN TRỌNG: Reset token NGAY sau khi submit (dù thành công hay thất bại)
+      // Vì token đã được consumed bởi server
+      resetTurnstile();
+
+      if (!result.success) {
         toast({
           title: 'Login failed',
-          description: message,
+          description: result.message,
           variant: 'error',
         });
-
-        setProcessing(false);
-        return;
+        return; // Token đã reset, user phải verify lại
       }
 
+      // Success logic
       useUserStore.getState().setAuth({
-        user: resultResponse.user,
+        user: result.data.user,
         rememberMe: formData.rememberMe,
       });
 
@@ -58,14 +84,10 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
         description: 'You have successfully signed in.',
       });
 
-      if (formRenderRef.current) {
-        formRenderRef.current.handleReset();
-      }
-
+      formRenderRef.current?.handleReset();
       router.push('/');
     } catch (error) {
-      console.error('Unexpected login error:', error);
-
+      // Token đã reset ở trên, không cần reset lại
       toast({
         title: 'Login failed',
         description: 'Something went wrong. Please try again later.',
@@ -76,66 +98,19 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
     }
   };
   const handleSubmitWithGoogle = () => {
-    // window.location.href =
-    //   'https://booking-app-s5m3.onrender.com/api/auth/google';
-    const width1 = 500;
-    const height1 = 600;
-    const left2 = window.screenX + (window.outerWidth - width1) / 2;
-    const top2 = window.screenY + (window.outerHeight - height1) / 2.5;
+    const width = 500;
+    const height = 600;
+    const left = window.screenX + (window.outerWidth - width) / 2;
+    const top = window.screenY + (window.outerHeight - height) / 2.5;
     window.open(
       'https://booking-app-s5m3.onrender.com/api/auth/google',
       'googleLogin',
-      `width=${width1},height=${height1},left=${left2},top=${top2},toolbar=0,scrollbars=0,status=0,resizable=0,location=0,menuBar=0`,
+      `width=${width},height=${height},left=${left},top=${top},toolbar=0,scrollbars=0,status=0,resizable=0,location=0,menuBar=0`,
     );
   };
-  useEffect(() => {
-    const handleMessage = (e: MessageEvent) => {
-      console.log('🔥 Message received:', e.data);
-    };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-  // useEffect(() => {
-  //   const handleMessage = (event: MessageEvent) => {
-  //     if (event.origin !== 'http://localhost:3000') return;
-
-  //     const { success, type, user, error } = event.data;
-  //     console.log('Received user data:', event);
-  //     if (type === 'GOOGLE_AUTH_SUCCESS' && success && user) {
-  //       // Cập nhật Zustand store
-  //       // setUser({
-  //       //   id: user.id,
-  //       //   name: user.name,
-  //       //   email: user.email,
-  //       //   role: user.role,
-  //       // });
-  //       useUserStore.getState().setAuth({
-  //         user,
-  //       });
-  //       toast({
-  //         variant: 'success',
-  //         title: 'Login successful',
-  //         description: 'You have successfully signed in.',
-  //       });
-  //     } else if (type === 'GOOGLE_AUTH_ERROR') {
-  //       console.error('Authentication error:', error);
-  //       toast({
-  //         title: 'Login failed',
-  //         description: 'Something went wrong. Please try again later.',
-  //         variant: 'error',
-  //       });
-  //     }
-  //   };
-
-  //   window.addEventListener('message', handleMessage);
-
-  //   return () => {
-  //     window.removeEventListener('message', handleMessage);
-  //   };
-  // }, []);
   return (
-    <div className="bg-pj-brown flex h-screen w-full items-center lg:flex-row lg:justify-between lg:gap-x-3">
+    <div className="bg-pj-brown flex min-h-screen w-full items-center lg:flex-row lg:justify-between lg:gap-x-3">
       <div className="w-full px-5 py-6 lg:flex lg:w-1/2 lg:items-center lg:justify-center lg:p-0">
         <div className="flex w-full flex-col rounded-[10px] bg-white p-4 lg:max-w-150 lg:py-12 lg:pr-15 lg:pl-8.5">
           <div className="mb-6 flex items-center justify-between lg:mb-12">
@@ -147,16 +122,15 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
               description="Please enter valid email and password to Sign In"
             />
           </div>
-          <div className="relative">
+          <div>
             <FormRenderBlock
+              ref={formRenderRef}
               fields={fields}
               containerClassName="gap-y-8"
               isLoginLayout
-              submitButton={{
-                label: 'Sign in',
-              }}
+              submitButton={{ label: 'Sign in' }}
               onSubmit={handleSubmit}
-              processing={processing}
+              processing={processing || turnstileLoading || !canSubmit}
             />
             <div className="mt-3 flex justify-center lg:absolute lg:right-0 lg:bottom-22.5">
               <ButtonLink
@@ -168,13 +142,20 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
                 <Link href="/forgot-password" />
               </ButtonLink>
             </div>
+            <TurnstileBlock
+              show={true}
+              onVerify={handleVerify}
+              onLoad={handleLoad}
+              onExpire={handleExpire}
+              onError={handleError}
+            />
           </div>
           <div className="mt-3 flex flex-col justify-center gap-y-3 lg:mt-4 lg:gap-y-4">
             <ButtonLink
               asChild
               colors="blue"
               variant="small"
-              text="Don’t have an account ? Click to SIGN UP"
+              text="Don't have an account ? Click to SIGN UP"
             >
               <Link href="/register" />
             </ButtonLink>
@@ -186,7 +167,6 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
               <span className="block h-px w-12 bg-black" />
             </div>
             <div className="flex justify-center">
-              {/* TODO: Improve this button */}
               <Button
                 asChild
                 colors="none"
@@ -235,7 +215,7 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
         />
         <div className="absolute bottom-25 left-7.5 max-w-103.5 bg-[linear-gradient(90.4deg,_#2E2E2E_0.32%,_rgba(29,27,32,0)_98.09%)] px-2.5 py-1.5">
           <Typography asChild variant="h1" className="text-white uppercase">
-            <p>EXPLORE NEW DESINATION WITH US</p>
+            <p>EXPLORE NEW DESTINATION WITH US</p>
           </Typography>
         </div>
       </div>

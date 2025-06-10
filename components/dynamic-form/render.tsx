@@ -32,6 +32,10 @@ import { Calendar } from '../ui/calendar';
 import { Typography, typographyVariants } from '../ui/typography';
 import { Button } from '../ui/button';
 import { Icon } from '../icons';
+// import { CloudflareTurnstileWidget } from '#/lib/cloudflare/turnstile/widget';
+// import { useTheme } from 'next-themes';
+import { useCurrentLocale } from '#/i18n/client';
+
 const dateFormat = 'dd-MM-yyyy';
 export interface FormRenderBlockProps {
   fields: FormFieldProps[];
@@ -61,6 +65,9 @@ const FormRenderBlock = forwardRef<
     ref,
   ) => {
     const formRef = useRef<HTMLFormElement | null>(null);
+    // const { theme } = useTheme();
+    // const [token, setToken] = useState<string>('');
+    // const currentLocale = useCurrentLocale();
 
     const { formSchema, defaultValues } = useDynamicFormSchema({ fields });
     const [isOpen, setIsOpen] = useState(false);
@@ -398,7 +405,7 @@ const FormRenderBlock = forwardRef<
                                 return (
                                   <FormItem
                                     key={key}
-                                    className="flex items-center space-x-2"
+                                    className="flex flex-wrap items-center space-x-2"
                                   >
                                     <FormControl>
                                       <Checkbox
@@ -639,15 +646,16 @@ const FormRenderBlock = forwardRef<
             </div>
           )}
           {/* {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
-          <CloudflareTurnstileWidget
-            siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY}
-            options={{
-              theme: theme !== 'system' ? (theme as 'light' | 'dark') : 'auto',
-              language: currentLocale,
-            }}
-            onSuccess={token => setToken(token)}
-          />
-        )} */}
+            <CloudflareTurnstileWidget
+              siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY}
+              options={{
+                theme:
+                  theme !== 'system' ? (theme as 'light' | 'dark') : 'auto',
+                language: currentLocale,
+              }}
+              onSuccess={token => setToken(token)}
+            />
+          )} */}
           {/* {submitButton?.label && (
           <div>
             <Button type="submit" disabled={processing}>

@@ -49,7 +49,7 @@ const BookingItem = ({
             )}
           </div>
         </div>
-        <div className="flex-1 px-4 py-5 lg:px-4">
+        <div className="flex-1 px-4 pt-5 lg:px-4">
           {(name || price) && (
             <div className="flex flex-row items-center justify-between gap-x-2">
               {name && (

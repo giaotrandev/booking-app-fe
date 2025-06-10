@@ -117,7 +117,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   return (
     <>
       {children}
-      <div className="fixed right-4 bottom-4 z-[1000] max-w-80 space-y-3">
+      <div className="fixed right-4 bottom-4 z-[99999] max-w-80 space-y-3">
         {toasts.map(toast => {
           const isClosing = closingToastIds.has(toast.id);
           return (

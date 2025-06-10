@@ -1,11 +1,10 @@
 'use client';
 import { cn } from '#/lib/utilities/cn';
-import { useState } from 'react';
-import { TabItemDetailDesktop } from './tab-detail-desktop';
-import { TabItemDetailMobile } from './tab-detail-mobile';
+import { TabItemDetail } from './tab-detail';
+import { useGlobalsStore } from '#/store/globals';
 
 const TabDetailList = () => {
-  const [tabActive, setTabActive] = useState<number>(1);
+  const tabActive = useGlobalsStore(state => state.tabBookingActive);
   return (
     <div className="relative flex flex-col items-center justify-center lg:flex-row lg:justify-between">
       {sampleTabItemDetail.map((item, index) => (
@@ -16,7 +15,7 @@ const TabDetailList = () => {
             tabActive === index + 1 ? 'block' : 'hidden',
           )}
         >
-          <TabItemDetailDesktop
+          <TabItemDetail
             title={item.title}
             countNumber={index + 1}
             active={tabActive === index + 1}
@@ -26,21 +25,6 @@ const TabDetailList = () => {
           )} */}
         </div>
       ))}
-      {/* {sampleTabItemDetail.map((item, index) => (
-        <div
-          key={index}
-          className={cn(
-            'lg:hidden',
-            tabActive === index + 1 ? 'block' : 'hidden',
-          )}
-        >
-          <TabItemDetailDesktop
-            title={item.title}
-            countNumber={index + 1}
-            active={tabActive === index + 1}
-          />
-        </div>
-      ))} */}
     </div>
   );
 };

@@ -58,6 +58,7 @@ const FilterList = ({ options, isMultiple, onChange }: FilterListProps) => {
         <RadioGroup
           value={selectedValues[0] || ''}
           onValueChange={val => handleClick(val)}
+          className="gap-2 lg:gap-4"
         >
           {options.map((item, index) => (
             <li key={index}>

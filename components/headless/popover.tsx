@@ -13,6 +13,12 @@ function PopoverTrigger({
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
+function PopoverArrow({
+  ...props
+}: ComponentProps<typeof PopoverPrimitive.Arrow>) {
+  return <PopoverPrimitive.Arrow data-slot="popover-arrow" {...props} />;
+}
+
 function PopoverPortal({
   ...props
 }: ComponentProps<typeof PopoverPrimitive.Portal>) {
@@ -67,4 +73,5 @@ export {
   PopoverContent,
   PopoverPortal,
   PopoverTrigger,
+  PopoverArrow,
 };

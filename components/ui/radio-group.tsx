@@ -11,7 +11,7 @@ const RadioGroup = ({ className, ...props }: RadioGroupProps) => {
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
-      className={cn('flex gap-x-12', className)}
+      className={cn('flex flex-wrap gap-x-12', className)}
       {...props}
     />
   );
@@ -36,12 +36,11 @@ const RadioGroupItem = ({
         id={id}
         data-slot="radio-group-item"
         className={cn(
-          'peer border-pj-grey size-4 rounded-[50%] border dark:border-white',
+          'peer border-pj-grey size-4 flex-none rounded-[50%] border dark:border-white',
           'data-[state=checked]:border-pj-grey [&[aria-invalid=true]]:border-pj-orange bg-white',
           'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
           // 'lg:hocus-visible:border-pj-input-focus',
           // 'transition-[border]',
-
           className,
         )}
         {...props}

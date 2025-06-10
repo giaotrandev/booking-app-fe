@@ -1,16 +1,12 @@
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utilities/cn';
 
-export interface TabItemDetailDesktopProps {
+export interface TabItemDetailProps {
   active?: boolean;
   countNumber: number;
   title: string;
 }
-const TabItemDetailDesktop = ({
-  active,
-  countNumber,
-  title,
-}: TabItemDetailDesktopProps) => {
+const TabItemDetail = ({ active, countNumber, title }: TabItemDetailProps) => {
   return (
     <div className="flex gap-x-2">
       <div
@@ -34,4 +30,4 @@ const TabItemDetailDesktop = ({
   );
 };
 
-export { TabItemDetailDesktop };
+export { TabItemDetail };

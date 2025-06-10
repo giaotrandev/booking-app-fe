@@ -16,6 +16,7 @@ import Eye from './eye';
 import { Hamburger } from './hamburger';
 import HidePassword from './hide-password';
 import Phone from './phone';
+import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
 import { Swap } from './swap';
 import Upload from './upload';
@@ -35,6 +36,7 @@ const icons = {
   'check-circle': CheckCircle,
   'exclamation-circle': ExclamationCircle,
   'x-circle': XCircle,
+  seat: Seat,
   hamburger: Hamburger,
   eye: Eye,
   date: Date,

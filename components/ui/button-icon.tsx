@@ -21,7 +21,7 @@ const ButtonIcon = ({
       data-slot="button-icon"
       className={cn(
         'group/button-icon box-border inline-flex size-8 shrink-0 grow-0 basis-8 cursor-pointer items-center justify-center rounded-full border border-black bg-black lg:size-10 lg:basis-10',
-        'lg:group-hocus-visible/button-icon:border-white lg:group-hocus-visible/button-icon:bg-white lg:hocus-visible:border-white lg:hocus-visible:bg-white lg:transition-[border,background-color] lg:duration-300',
+        'lg:group-hocus-visible/button-icon:border-black lg:group-hocus-visible/button-icon:bg-white lg:hocus-visible:border-black lg:hocus-visible:bg-white lg:transition-[border,background-color] lg:duration-300',
         // disabled
         'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
         className,
