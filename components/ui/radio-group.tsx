@@ -36,8 +36,8 @@ const RadioGroupItem = ({
         id={id}
         data-slot="radio-group-item"
         className={cn(
-          'peer border-pj-grey size-4 flex-none rounded-[50%] border dark:border-white',
-          'data-[state=checked]:border-pj-grey [&[aria-invalid=true]]:border-pj-orange bg-white',
+          'peer border-pj-grey size-4 flex-none rounded-[50%] border',
+          'data-[state=checked]:border-pj-grey [&[aria-invalid=true]]:border-pj-orange',
           'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
           // 'lg:hocus-visible:border-pj-input-focus',
           // 'transition-[border]',
@@ -49,7 +49,7 @@ const RadioGroupItem = ({
           data-slot="radio-group-indicator"
           className="flex items-center justify-center"
         >
-          <span className="bg-pj-grey block size-4 flex-none rounded-[50%] border-current dark:bg-white" />
+          <span className="bg-pj-grey block size-4 flex-none rounded-[50%] border-current" />
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
 

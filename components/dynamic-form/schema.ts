@@ -33,19 +33,19 @@ const useDynamicFormSchema = ({ fields }: DynamicFormSchemaProps) => {
 
       const message = {
         required: translate({
-          de: 'Dieses Feld ist erforderlich!',
+          vi: 'Dieses Feld ist erforderlich!',
           en: 'This field is required!',
         }),
         number: translate({
-          de: 'Bitte geben Sie eine gültige Nummer ein!',
+          vi: 'Bitte geben Sie eine gültige Nummer ein!',
           en: 'Please enter a valid number!',
         }),
         email: translate({
-          de: 'Bitte gib eine gültige E-Mail Adresse ein!',
+          vi: 'Bitte gib eine gültige E-Mail Adresse ein!',
           en: 'Please enter a valid email address!',
         }),
         maxFileSize: translate({
-          de: `Die Dateigröße sollte weniger als ${maxFileSizeMegabytes(maxFileSize)} MB betragen.`,
+          vi: `Die Dateigröße sollte weniger als ${maxFileSizeMegabytes(maxFileSize)} MB betragen.`,
           en: `File size should be less than ${maxFileSizeMegabytes(maxFileSize)} MB.`,
         }),
       };
@@ -110,13 +110,13 @@ const useDynamicFormSchema = ({ fields }: DynamicFormSchemaProps) => {
               .min(1, { message: message.required })
               .refine(val => val.length >= 7, {
                 message: translate({
-                  de: 'Das Passwort muss länger als 6 Zeichen sein!',
+                  vi: 'Das Passwort muss länger als 6 Zeichen sein!',
                   en: 'Password must be longer than 6 characters!',
                 }),
               })
               .refine(val => /[A-Z]/.test(val), {
                 message: translate({
-                  de: 'Das Passwort muss mindestens einen Großbuchstaben enthalten!',
+                  vi: 'Das Passwort muss mindestens einen Großbuchstaben enthalten!',
                   en: 'Password must contain at least one uppercase letter!',
                 }),
               });
@@ -126,13 +126,13 @@ const useDynamicFormSchema = ({ fields }: DynamicFormSchemaProps) => {
               .optional()
               .refine(val => !val || val.length > 6, {
                 message: translate({
-                  de: 'Das Passwort muss länger als 6 Zeichen sein!',
+                  vi: 'Das Passwort muss länger als 6 Zeichen sein!',
                   en: 'Password must be longer than 6 characters!',
                 }),
               })
               .refine(val => !val || /[A-Z]/.test(val), {
                 message: translate({
-                  de: 'Das Passwort muss mindestens einen Großbuchstaben enthalten!',
+                  vi: 'Das Passwort muss mindestens einen Großbuchstaben enthalten!',
                   en: 'Password must contain at least one uppercase letter!',
                 }),
               });
@@ -341,7 +341,7 @@ const useDynamicFormSchema = ({ fields }: DynamicFormSchemaProps) => {
     {
       path: ['confirmPassword'],
       message: translate({
-        de: 'Die Passwörter stimmen nicht überein!',
+        vi: 'Die Passwörter stimmen nicht überein!',
         en: 'Confirm password do not match with password!',
       }),
     },

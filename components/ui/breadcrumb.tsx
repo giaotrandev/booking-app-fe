@@ -28,7 +28,7 @@ const Breadcrumb = async ({ list, separator = '/' }: BreadcrumbProps) => {
         <HeadlessBreadcrumbItem>
           <HeadlessBreadcrumbLink asChild>
             <Link href="/">
-              {await translate({ de: 'Startseite', en: 'Home' })}
+              {await translate({ vi: 'Startseite', en: 'Home' })}
             </Link>
           </HeadlessBreadcrumbLink>
         </HeadlessBreadcrumbItem>

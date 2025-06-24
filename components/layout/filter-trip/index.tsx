@@ -1,7 +1,6 @@
-import {
-  NavigationBooking,
+import NavigationBooking, {
   NavigationBookingProps,
-} from '#/components/blocks/hero/navigation-booking/render';
+} from '#/components/layout/filter-trip/navigation-booking/render';
 export interface LayoutFilterTripProps extends NavigationBookingProps {}
 const LayoutFilterTrip = ({
   arrivalList,
@@ -15,11 +14,13 @@ const LayoutFilterTrip = ({
   )
     return null;
   return (
-    <div className="sticky top-1/2 left-0 z-1090 -translate-y-1/2">
-      <NavigationBooking
-        arrivalList={arrivalList}
-        destinationList={destinationList}
-      />
+    <div className="absolute inset-0 flex h-full w-full justify-center">
+      <div className="sticky -top-1/6 left-0 z-[1] flex h-screen w-full items-center justify-center px-5 lg:-top-1/4">
+        <NavigationBooking
+          arrivalList={arrivalList}
+          destinationList={destinationList}
+        />
+      </div>
     </div>
   );
 };

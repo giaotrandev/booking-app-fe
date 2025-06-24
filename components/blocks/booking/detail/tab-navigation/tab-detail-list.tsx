@@ -1,10 +1,9 @@
-'use client';
 import { cn } from '#/lib/utilities/cn';
 import { TabItemDetail } from './tab-detail';
-import { useGlobalsStore } from '#/store/globals';
-
-const TabDetailList = () => {
-  const tabActive = useGlobalsStore(state => state.tabBookingActive);
+export interface TabDetailListPros {
+  tabActive: number;
+}
+const TabDetailList = ({ tabActive }: TabDetailListPros) => {
   return (
     <div className="relative flex flex-col items-center justify-center lg:flex-row lg:justify-between">
       {sampleTabItemDetail.map((item, index) => (

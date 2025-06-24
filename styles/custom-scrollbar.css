@@ -1,0 +1,17 @@
+.custom-scrollbar {
+  /* width */
+  ::-webkit-scrollbar {
+    @apply w-[5px];
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply bg-pj-grey-lightest rounded-[100px];
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply bg-pj-blue rounded-[100px];
+  }
+}
+

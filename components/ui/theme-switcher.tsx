@@ -10,7 +10,7 @@ const ThemeSwitcher = () => {
       <div>
         <button type="button" onClick={() => setTheme('light')}>
           {translate({
-            de: 'Licht',
+            vi: 'Licht',
             en: 'Light',
           })}
         </button>
@@ -18,7 +18,7 @@ const ThemeSwitcher = () => {
       <div>
         <button type="button" onClick={() => setTheme('dark')}>
           {translate({
-            de: 'Dunkelheit',
+            vi: 'Dunkelheit',
             en: 'Dark',
           })}
         </button>
@@ -26,7 +26,7 @@ const ThemeSwitcher = () => {
       <div>
         <button type="button" onClick={() => setTheme('system')}>
           {translate({
-            de: 'System',
+            vi: 'System',
             en: 'System',
           })}
         </button>

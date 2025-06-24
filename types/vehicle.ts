@@ -1,24 +1,25 @@
-type Seat = {
-  number: string;
-  exists: boolean;
-  type: 'DRIVER' | 'PASSENGER' | string;
-  position: 'window' | 'aisle' | 'middle' | string;
-  x: number;
-  y: number;
-  status: 'AVAILABLE' | 'RESERVED';
-};
+export interface SeatProps {
+  number?: string;
+  exists?: boolean;
+  type?: 'DRIVER' | 'PASSENGER';
+  position?: 'window' | 'aisle' | 'middle';
+  x?: number;
+  y?: number;
+  status?: 'AVAILABLE' | 'RESERVED';
+  price?: string;
+}
 
-type Row = {
+export interface Row {
   rowId: string;
-  seats: Seat[];
-};
+  seats: SeatProps[];
+}
 
-type Deck = {
+export interface Deck {
   deckId: string;
   name: string;
   rows: Row[];
-};
+}
 
 export type SeatConfiguration = {
-  decks: Deck[];
+  decks?: Deck[];
 };

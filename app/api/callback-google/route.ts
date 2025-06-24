@@ -23,7 +23,6 @@ export async function GET(request: NextRequest) {
     }
 
     const backendData = await backendResponse.json();
-
     if (!backendData.success) {
       throw new Error(backendData.message || 'Authentication failed');
     }
@@ -33,13 +32,11 @@ export async function GET(request: NextRequest) {
         <head>
           <script>
             try {
-              console.log('do', window.opener)
               window.opener.postMessage({
                 success: true,
                 type: 'GOOGLE_AUTH_SUCCESS',
                 user: ${JSON.stringify(backendData.user)}
               }, 'http://localhost:3000');
-              console.log(window.opener)
               // setTimeout(() => {
               //   window.close();
               // }, 1000);
@@ -71,6 +68,7 @@ export async function GET(request: NextRequest) {
     }
 
     return response;
+    // return NextResponse.redirect('http://localhost:3000', 302);
   } catch (error) {
     console.error('Auth callback error:', error);
 

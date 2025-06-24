@@ -13,6 +13,8 @@ import React, { useEffect, useState } from 'react';
 import { useGlobalsStore } from '#/store/globals';
 import { useUserStore } from '#/store/user';
 import { useRouter } from 'next/navigation';
+import { useToast } from '#/components/ui/use-toast';
+import { verifyTokenAction } from '#/components/auth-layout/actions/verify-token';
 
 export interface LayoutHeaderProps {
   sidenav?: LayoutHeaderSidenavProps;
@@ -23,26 +25,67 @@ const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
   const { sidenavOpen } = useGlobalsStore();
   const { isLoggedIn, clearAuth } = useUserStore();
   const router = useRouter();
+  const { toast } = useToast();
 
-  const handleLogout = () => {
-    clearAuth();
-    router.push('/'); // hoặc dùng router.refresh() nếu bạn chỉ muốn reload lại trang hiện tại
+  const handleLogout = async () => {
+    try {
+      const res = await fetch('/api/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        toast({
+          title: 'Logout failed',
+          description: data.message || 'Unable to logout.',
+          variant: 'error',
+        });
+        return;
+      }
+
+      clearAuth();
+
+      toast({
+        title: 'Logged out',
+        description: data.message || 'You have been successfully logged out.',
+        variant: 'success',
+      });
+
+      router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+      toast({
+        title: 'Logout failed',
+        description: 'Something went wrong.',
+        variant: 'error',
+      });
+    }
+  };
+  const handleScroll = () => {
+    if (window.scrollY > 0) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
   };
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+    const checkToken = async () => {
+      const result = await verifyTokenAction();
+      if (!result.valid) {
+        clearAuth();
       }
     };
+    checkToken();
 
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   return (
     <>
       <header

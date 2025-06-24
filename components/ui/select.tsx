@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '../headless/popover';
 import { Icon } from '../icons';
 import { inputVariants } from './input';
+import { Typography } from './typography';
 
 export interface SelectOptionProps {
   label: string;
@@ -17,6 +18,7 @@ export interface SelectProps {
   options: SelectOptionProps[];
   multiple?: boolean;
   placeholder?: string;
+  subPlaceholder?: string;
   emptyMessage?: string;
   searchable?: boolean;
   searchPlaceholder?: string;
@@ -31,6 +33,7 @@ const Select = ({
   options,
   multiple,
   placeholder,
+  subPlaceholder,
   value,
   onChange,
   emptyMessage,
@@ -82,12 +85,32 @@ const Select = ({
           )}
           disabled={disabled}
         >
+          <Typography
+            asChild
+            variant="sub-label"
+            className={cn(
+              'absolute top-1 left-3 text-[10px] text-zinc-500 transition-opacity',
+              valueSelected.length > 0 ? 'opacity-100' : 'opacity-0',
+            )}
+          >
+            <span>{subPlaceholder}</span>
+          </Typography>
           {Array.isArray(valueSelected) && valueSelected.length > 0 ? (
-            <span className={cn('text-black', 'dark:text-white')}>
+            <span
+              className={cn(
+                'text-black',
+                // 'dark:text-white'
+              )}
+            >
               {valueSelected.map(item => item.label).join(', ')}
             </span>
           ) : (
-            <span className={cn('text-zinc-500', 'dark:text-zinc-500')}>
+            <span
+              className={cn(
+                'text-zinc-500',
+                //  'dark:text-zinc-500'
+              )}
+            >
               {placeholder}
             </span>
           )}
@@ -97,7 +120,7 @@ const Select = ({
               className={cn(
                 'size-4',
                 'fill-black stroke-black',
-                'dark:fill-white dark:stroke-white',
+                // 'dark:fill-white dark:stroke-white',
                 open && '-scale-y-100',
               )}
             />
@@ -105,7 +128,9 @@ const Select = ({
         </button>
       </PopoverTrigger>
       <PopoverContent
-        className="relative z-[12] w-[var(--radix-popover-trigger-width)]"
+        className={cn(
+          'relative top-2 z-[12] w-[var(--radix-popover-trigger-width)]',
+        )}
         onOpenAutoFocus={() => {
           if (ref && ref.current) {
             ref.current.focus();
@@ -114,15 +139,15 @@ const Select = ({
       >
         <div
           className={cn(
-            'border',
+            'rounded-xl border px-2 py-4',
             'border-black bg-white text-black',
-            'dark:border-white dark:bg-black dark:text-white',
+            // 'dark:border-white dark:bg-black dark:text-white',
           )}
         >
           <CommandPrimitive
             data-slot="command"
             ref={ref}
-            className="overflow-hidden outline-hidden"
+            className="custom-scrollbar overflow-hidden outline-hidden"
           >
             {searchable && (
               <>
@@ -130,17 +155,17 @@ const Select = ({
                   data-slot="command-input"
                   placeholder={
                     searchPlaceholder ??
-                    translate({ de: 'Suche...', en: 'Search...' })
+                    translate({ vi: 'Suche...', en: 'Search...' })
                   }
                   className={cn(
                     'w-full border-b bg-transparent outline-hidden',
                     'border-black bg-white text-black placeholder:text-zinc-500',
-                    'dark:border-white dark:bg-black dark:text-white dark:placeholder:text-zinc-500',
+                    // 'dark:border-white dark:bg-black dark:text-white dark:placeholder:text-zinc-500',
                   )}
                 />
                 <CommandPrimitive.Empty data-slot="command-empty">
                   {emptyMessage ??
-                    translate({ de: 'Keine Optionen', en: 'No options' })}
+                    translate({ vi: 'Keine Optionen', en: 'No options' })}
                 </CommandPrimitive.Empty>
               </>
             )}
@@ -149,34 +174,36 @@ const Select = ({
               className="max-h-[300px] overflow-x-hidden overflow-y-auto"
             >
               <CommandPrimitive.Group data-slot="command-group">
-                {options.map((item, key) => {
-                  const isSelected = handleIsSelected(item);
-                  return (
-                    <CommandPrimitive.Item
-                      data-slot="command-item"
-                      key={key}
-                      value={item.value}
-                      onSelect={() => handleSelect(item)}
-                      className={cn(
-                        'w-full cursor-pointer outline-hidden',
-                        isSelected
-                          ? [
-                              'bg-black text-white',
-                              'dark:bg-white dark:text-black',
-                            ]
-                          : [
-                              'hover:bg-zinc-300 data-[selected=true]:bg-zinc-300',
-                              'dark:hover:bg-zinc-700 dark:data-[selected=true]:bg-zinc-700',
-                            ],
-                        // disabled
-                        'disabled:pointer-events-none disabled:opacity-50',
-                      )}
-                      disabled={item.disabled}
-                    >
-                      {item.label}
-                    </CommandPrimitive.Item>
-                  );
-                })}
+                <div className="flex flex-col gap-y-1.5">
+                  {options.map((item, key) => {
+                    const isSelected = handleIsSelected(item);
+                    return (
+                      <CommandPrimitive.Item
+                        data-slot="command-item"
+                        key={key}
+                        value={item.value}
+                        onSelect={() => handleSelect(item)}
+                        className={cn(
+                          'w-full cursor-pointer rounded-xl p-1.5 outline-hidden',
+                          isSelected
+                            ? [
+                                'bg-pj-blue text-white',
+                                // 'dark:bg-white dark:text-black',
+                              ]
+                            : [
+                                'hocus:bg-pj-blue/70 hocus:text-white data-[selected=true]:bg-pj-blue/70 data-[selected=true]:text-white',
+                                // 'dark:hover:bg-zinc-700 dark:data-[selected=true]:bg-zinc-700',
+                              ],
+                          // disabled
+                          'disabled:pointer-events-none disabled:opacity-50',
+                        )}
+                        disabled={item.disabled}
+                      >
+                        {item.label}
+                      </CommandPrimitive.Item>
+                    );
+                  })}
+                </div>
               </CommandPrimitive.Group>
             </CommandPrimitive.List>
           </CommandPrimitive>

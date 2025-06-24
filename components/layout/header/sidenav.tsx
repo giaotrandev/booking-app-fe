@@ -39,7 +39,7 @@ const LayoutHeaderSidenav = ({ list }: LayoutHeaderSidenavProps) => {
         <button type="button" className="inline-flex cursor-pointer">
           <span className="sr-only">
             {translate({
-              de: 'Sidenav öffnen',
+              vi: 'Sidenav öffnen',
               en: 'Open sidenav',
             })}
           </span>

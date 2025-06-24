@@ -256,7 +256,7 @@ const MediaBlockRender = ({
                 {isRendered && !isLoaded && isPlaying && (
                   <div className="absolute inset-0 z-2 flex size-full cursor-pointer items-center justify-center">
                     {translate({
-                      de: 'Laden',
+                      vi: 'Laden',
                       en: 'Loading',
                     })}
                   </div>
@@ -272,7 +272,7 @@ const MediaBlockRender = ({
                   {!isPlaying && (
                     <span className="bg-black text-white dark:bg-white dark:text-black">
                       {translate({
-                        de: 'Spielen',
+                        vi: 'Spielen',
                         en: 'Play',
                       })}
                     </span>
@@ -285,7 +285,7 @@ const MediaBlockRender = ({
                       )}
                     >
                       {translate({
-                        de: 'Pause',
+                        vi: 'Pause',
                         en: 'Pause',
                       })}
                     </span>
@@ -306,7 +306,7 @@ const MediaBlockRender = ({
                     >
                       <span className="bg-black text-white dark:bg-white dark:text-black">
                         {translate({
-                          de: 'Fullscreen',
+                          vi: 'Fullscreen',
                           en: 'Fullscreen',
                         })}
                       </span>
@@ -324,11 +324,11 @@ const MediaBlockRender = ({
                     <span className="bg-black text-white dark:bg-white dark:text-black">
                       {muted
                         ? translate({
-                            de: 'Aufheben der Stummschaltung',
+                            vi: 'Aufheben der Stummschaltung',
                             en: 'Unmute',
                           })
                         : translate({
-                            de: 'Stummschalten',
+                            vi: 'Stummschalten',
                             en: 'Mute',
                           })}
                     </span>

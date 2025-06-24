@@ -3,6 +3,7 @@ import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { ComponentProps } from 'react';
 import { typographyVariants } from './typography';
+import { ButtonContent } from './button-content';
 
 const buttonVariants = cva(
   [
@@ -25,7 +26,7 @@ const buttonVariants = cva(
       colors: {
         none: '',
         red: 'bg-pj-red',
-        black: 'bg-pj-black',
+        black: 'bg-black',
         grey: 'bg-pj-grey',
       },
       shape: {
@@ -69,17 +70,8 @@ const Button = ({
       )}
       {...props}
     >
-      <Slottable>{children}</Slottable>
-      {text && (
-        <span className="relative flex items-center overflow-hidden">
-          <span className="group-hocus-visible/button:-translate-y-full inline-block transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
-            {text}
-          </span>
-          <span className="group-hocus-visible/button:translate-y-0 absolute inset-0 flex translate-y-full items-center justify-center transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
-            {text}
-          </span>
-        </span>
-      )}
+      {children && <Slottable>{children}</Slottable>}
+      {text && <ButtonContent text={text} />}
     </Comp>
   );
 };

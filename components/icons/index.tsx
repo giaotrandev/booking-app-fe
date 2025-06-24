@@ -18,6 +18,7 @@ import HidePassword from './hide-password';
 import Phone from './phone';
 import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
+import { SteeringWheel } from './steering-wheel';
 import { Swap } from './swap';
 import Upload from './upload';
 import XCircle from './x-circle';
@@ -36,6 +37,7 @@ const icons = {
   'check-circle': CheckCircle,
   'exclamation-circle': ExclamationCircle,
   'x-circle': XCircle,
+  'steering-wheel': SteeringWheel,
   seat: Seat,
   hamburger: Hamburger,
   eye: Eye,

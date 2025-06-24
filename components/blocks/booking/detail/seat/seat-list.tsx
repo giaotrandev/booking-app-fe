@@ -4,15 +4,15 @@ import { Row } from '#/components/ui/row';
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utilities/cn';
 import { SeatConfiguration } from '#/types/vehicle';
-import { SeatItem } from './seat-item';
+import { SeatLayout } from './seat-layout';
 
-export interface SeatListProps {}
-const SeatList = () => {
+export interface SeatListProps extends SeatConfiguration {}
+const SeatList = ({ decks }: SeatListProps) => {
   return (
     <div>
       <Row>
-        <Col className="col-span-full lg:col-span-4">
-          <div className="flex flex-col gap-y-2">
+        <Col className="col-span-full mt-4 lg:col-span-4 lg:mt-0">
+          <div className="flex flex-col gap-y-4 lg:gap-y-2">
             <Typography asChild variant="h6" className="font-medium">
               <p>Please select your desired seat</p>
             </Typography>
@@ -37,9 +37,18 @@ const SeatList = () => {
             ))}
           </ul>
         </Col>
-        <Col className="col-span-full lg:col-span-6 lg:col-start-7">
-          <SeatItem decks={mockDoubleSeatConfiguration.decks} />
-        </Col>
+        {Array.isArray(decks) && decks.length > 0 && (
+          <Col
+            className={cn(
+              'col-span-full mt-4 lg:mt-0',
+              decks.length === 1
+                ? 'lg:col-span-5 lg:col-start-8'
+                : 'lg:col-span-6 lg:col-start-7',
+            )}
+          >
+            <SeatLayout decks={decks} />
+          </Col>
+        )}
       </Row>
     </div>
   );
@@ -51,248 +60,25 @@ const sampleSeatItemCategoryList = [
   'Available Seat',
   'Your Selecting Seat',
 ];
-const mockDoubleSeatConfiguration: SeatConfiguration = {
-  decks: [
-    {
-      deckId: 'lower',
-      name: 'Lower Deck',
-      rows: [
-        {
-          rowId: 'A',
-          seats: [
-            {
-              number: 'A1',
-              exists: true,
-              type: 'DRIVER',
-              position: 'window',
-              status: 'AVAILABLE',
-              x: 0,
-              y: 0,
-            },
-            {
-              number: 'A2',
-              exists: true,
-              type: 'PASSENGER',
-              position: 'aisle',
-              status: 'AVAILABLE',
-              x: 1,
-              y: 0,
-            },
-          ],
-        },
-        {
-          rowId: 'B',
-          seats: [
-            {
-              number: 'B1',
-              exists: true,
-              type: 'PASSENGER',
-              position: 'window',
-              status: 'AVAILABLE',
-              x: 0,
-              y: 1,
-            },
-            {
-              number: 'B2',
-              exists: false,
-              type: 'PASSENGER',
-              position: 'middle',
-              status: 'AVAILABLE',
-              x: 1,
-              y: 1,
-            },
-          ],
-        },
-      ],
-    },
-    {
-      deckId: 'upper',
-      name: 'Upper Deck',
-      rows: [
-        {
-          rowId: 'C',
-          seats: [
-            {
-              number: 'C1',
-              exists: true,
-              type: 'PASSENGER',
-              position: 'window',
-              status: 'AVAILABLE',
-              x: 0,
-              y: 0,
-            },
-            {
-              number: 'C2',
-              exists: true,
-              type: 'PASSENGER',
-              position: 'aisle',
-              status: 'AVAILABLE',
-              x: 1,
-              y: 0,
-            },
-            {
-              number: 'C3',
-              exists: true,
-              type: 'PASSENGER',
-              position: 'aisle',
-              status: 'AVAILABLE',
-              x: 1,
-              y: 0,
-            },
-            {
-              number: 'C4',
-              exists: true,
-              type: 'PASSENGER',
-              status: 'AVAILABLE',
-              position: 'aisle',
-              x: 1,
-              y: 0,
-            },
-          ],
-        },
-        {
-          rowId: 'D',
-          seats: [
-            {
-              number: 'D1',
-              exists: true,
-              type: 'PASSENGER',
-              status: 'AVAILABLE',
-              position: 'aisle',
-              x: 0,
-              y: 1,
-            },
-            {
-              number: 'D2',
-              exists: true,
-              type: 'PASSENGER',
-              status: 'AVAILABLE',
-              position: 'window',
-              x: 1,
-              y: 1,
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
-const tripId = '6822e17be29951b9424a63b2';
 
-const seats = [
-  {
-    id: '1',
-    tripId,
-    seatNumber: 'A1',
-    seatType: 'DRIVER',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '2',
-    tripId,
-    seatNumber: 'A2',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '3',
-    tripId,
-    seatNumber: 'B1',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '4',
-    tripId,
-    seatNumber: 'C1',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '5',
-    tripId,
-    seatNumber: 'C2',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '6',
-    tripId,
-    seatNumber: 'C3',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '7',
-    tripId,
-    seatNumber: 'C4',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '8',
-    tripId,
-    seatNumber: 'D1',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-  {
-    id: '9',
-    tripId,
-    seatNumber: 'D2',
-    seatType: 'PREMIUM',
-    status: 'AVAILABLE',
-    isDeleted: false,
-    bookingTripId: null,
-    createdAt: '2025-05-13T06:06:52.768Z',
-    updatedAt: '2025-05-13T06:06:52.768Z',
-    deletedAt: null,
-  },
-];
-// const sampleSeats = [
+// const tripId = '6822e17be29951b9424a63b2';
+
+// const seats = [
 //   {
-//     id: '6822e17ce29951b9424a63b3',
-//     tripId: '6822e17be29951b9424a63b2',
+//     id: '1',
+//     tripId,
+//     seatNumber: 'A1',
+//     seatType: 'DRIVER',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '2',
+//     tripId,
 //     seatNumber: 'A2',
 //     seatType: 'PREMIUM',
 //     status: 'AVAILABLE',
@@ -303,9 +89,81 @@ const seats = [
 //     deletedAt: null,
 //   },
 //   {
-//     id: '6822e17ce29951b9424a63b4',
-//     tripId: '6822e17be29951b9424a63b2',
-//     seatNumber: 'A3',
+//     id: '3',
+//     tripId,
+//     seatNumber: 'B1',
+//     seatType: 'PREMIUM',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '4',
+//     tripId,
+//     seatNumber: 'C1',
+//     seatType: 'PREMIUM',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '5',
+//     tripId,
+//     seatNumber: 'C2',
+//     seatType: 'PREMIUM',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '6',
+//     tripId,
+//     seatNumber: 'C3',
+//     seatType: 'PREMIUM',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '7',
+//     tripId,
+//     seatNumber: 'C4',
+//     seatType: 'PREMIUM',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '8',
+//     tripId,
+//     seatNumber: 'D1',
+//     seatType: 'PREMIUM',
+//     status: 'AVAILABLE',
+//     isDeleted: false,
+//     bookingTripId: null,
+//     createdAt: '2025-05-13T06:06:52.768Z',
+//     updatedAt: '2025-05-13T06:06:52.768Z',
+//     deletedAt: null,
+//   },
+//   {
+//     id: '9',
+//     tripId,
+//     seatNumber: 'D2',
 //     seatType: 'PREMIUM',
 //     status: 'AVAILABLE',
 //     isDeleted: false,
@@ -315,56 +173,3 @@ const seats = [
 //     deletedAt: null,
 //   },
 // ];
-
-// const mockSingleDeckConfiguration: SeatConfiguration = {
-//   decks: [
-//     {
-//       deckId: 'lower',
-//       name: 'Lower Deck',
-//       rows: [
-//         {
-//           rowId: 'A',
-//           seats: [
-//             {
-//               number: 'A1',
-//               exists: true,
-//               type: 'DRIVER',
-//               position: 'window',
-//               x: 0,
-//               y: 0,
-//             },
-//             {
-//               number: 'A1',
-//               exists: true,
-//               type: 'PASSENGER',
-//               position: 'aisle',
-//               x: 1,
-//               y: 0,
-//             },
-//           ],
-//         },
-//         {
-//           rowId: 'B',
-//           seats: [
-//             {
-//               number: 'B1',
-//               exists: true,
-//               type: 'PASSENGER',
-//               position: 'window',
-//               x: 0,
-//               y: 1,
-//             },
-//             {
-//               number: 'B2',
-//               exists: false,
-//               type: 'PASSENGER',
-//               position: 'middle',
-//               x: 1,
-//               y: 1,
-//             },
-//           ],
-//         },
-//       ],
-//     },
-//   ],
-// };

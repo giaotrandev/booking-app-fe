@@ -1,3 +1,4 @@
+import AuthLayout from '#/components/auth-layout';
 import BookingBlock from '#/components/blocks/booking';
 import { BookingRenderBlock } from '#/components/blocks/booking/render';
 import FilterAccordion from '#/components/common/filter-accordion';
@@ -21,9 +22,9 @@ const BookingPage = async ({ params }: PageProps) => {
   };
 
   return (
-    <Layout>
-      <BookingBlock />
-    </Layout>
+    // <AuthLayout>
+    <BookingBlock />
+    // </AuthLayout>
   );
 };
 

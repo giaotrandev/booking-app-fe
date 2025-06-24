@@ -18,6 +18,7 @@ import { Input, inputVariants } from '../ui/input';
 import {
   CSSProperties,
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState,
@@ -35,6 +36,7 @@ import { Icon } from '../icons';
 // import { CloudflareTurnstileWidget } from '#/lib/cloudflare/turnstile/widget';
 // import { useTheme } from 'next-themes';
 import { useCurrentLocale } from '#/i18n/client';
+import { useBookingSelection } from '#/context/booking/booking-selection-context';
 
 const dateFormat = 'dd-MM-yyyy';
 export interface FormRenderBlockProps {
@@ -45,8 +47,11 @@ export interface FormRenderBlockProps {
   containerClassName?: string;
   className?: string;
   isLoginLayout?: boolean;
-  onSubmit: (data: any) => void;
+  onSubmit?: (data: any) => void;
   processing?: boolean;
+  // those below type for booking form
+  setIsSubmit?: (value: boolean) => void;
+  isSubmit?: boolean;
 }
 const FormRenderBlock = forwardRef<
   { handleReset: () => void },
@@ -59,8 +64,10 @@ const FormRenderBlock = forwardRef<
       className,
       isLoginLayout,
       submitButton,
-      onSubmit,
       processing,
+      isSubmit,
+      onSubmit,
+      setIsSubmit,
     },
     ref,
   ) => {
@@ -75,6 +82,7 @@ const FormRenderBlock = forwardRef<
       resolver: zodResolver(formSchema),
       defaultValues,
     });
+
     const handleReset = () => {
       if (formRef && formRef.current) {
         formRef.current.reset();
@@ -85,6 +93,14 @@ const FormRenderBlock = forwardRef<
     useImperativeHandle(ref, () => ({
       handleReset,
     }));
+    useEffect(() => {
+      if (isSubmit) {
+        form.handleSubmit(data => {
+          onSubmit?.(data);
+        })();
+        setIsSubmit?.(false);
+      }
+    }, [isSubmit]);
 
     const _rowClassNameErrorMessage = 'absolute left-0 top-full w-full';
     return (
@@ -93,7 +109,7 @@ const FormRenderBlock = forwardRef<
           noValidate
           ref={formRef}
           // onSubmit={form.handleSubmit(onSubmit)}
-          onSubmit={form.handleSubmit(data => onSubmit(data))}
+          onSubmit={form.handleSubmit(data => onSubmit?.(data))}
           className="space-y-6 lg:space-y-10"
         >
           <div className={cn('flex flex-wrap', containerClassName)}>
@@ -450,7 +466,7 @@ const FormRenderBlock = forwardRef<
                           <div className="ml-5 flex gap-x-10">
                             <div>
                               <Typography asChild variant="small-label">
-                                <span className="text-pj-black bg-white">
+                                <span className="bg-white text-black">
                                   {placeholder ?? label ?? ''}
                                   {item.required && (
                                     <span className="text-pj-red"> *</span>
@@ -570,7 +586,7 @@ const FormRenderBlock = forwardRef<
                                       </div>
                                     )}
                                     <Typography asChild variant="small-label">
-                                      <span className="text-pj-black absolute -top-3 left-4 bg-white px-1">
+                                      <span className="absolute -top-3 left-4 bg-white px-1 text-black">
                                         {placeholder ?? label ?? ''}
                                         {item.required && (
                                           <span className="text-pj-red">
@@ -591,37 +607,29 @@ const FormRenderBlock = forwardRef<
                               </FormControl>
                             </PopoverTrigger>
                             <PopoverContent
-                              className="w-auto p-0"
+                              className="w-[var(--radix-popover-trigger-width)] p-0"
                               align="start"
                             >
                               <Calendar
                                 mode="single"
+                                timeZone="UTC"
+                                defaultMonth={field.value}
+                                selected={field.value}
+                                onSelect={field.onChange}
+                              />
+
+                              {/* <Calendar
+                                mode="single"
                                 captionLayout="dropdown"
                                 selected={field.value}
-                                // onSelect={selectedDate => {
-                                //   const [hours, minutes] = time.split(':')!;
-                                //   selectedDate?.setHours(
-                                //     parseInt(hours),
-                                //     parseInt(minutes),
-                                //   );
-                                //   setDate(selectedDate!);
-                                //   field.onChange(selectedDate);
-                                // }}
-
                                 onSelect={field.onChange}
                                 onDayClick={() => setIsOpen(false)}
                                 startMonth={
                                   new Date(new Date().getFullYear() - 100, 0)
                                 }
                                 endMonth={new Date()}
-                                // disabled={date =>
-                                //   Number(date) <
-                                //     Date.now() - 1000 * 60 * 60 * 24 ||
-                                //   Number(date) >
-                                //     Date.now() + 1000 * 60 * 60 * 24 * 30
-                                // }
                                 defaultMonth={field.value}
-                              />
+                              /> */}
                             </PopoverContent>
                           </Popover>
                           <FormMessage
@@ -645,7 +653,16 @@ const FormRenderBlock = forwardRef<
               />
             </div>
           )}
-          {/* {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
+        </form>
+      </Form>
+    );
+  },
+);
+
+FormRenderBlock.displayName = 'FormRenderBlock';
+export { FormRenderBlock };
+{
+  /* {process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY && (
             <CloudflareTurnstileWidget
               siteKey={process.env.NEXT_PUBLIC_CLOUDFLARE_TURNSTILE_SITE_KEY}
               options={{
@@ -655,8 +672,10 @@ const FormRenderBlock = forwardRef<
               }}
               onSuccess={token => setToken(token)}
             />
-          )} */}
-          {/* {submitButton?.label && (
+          )} */
+}
+{
+  /* {submitButton?.label && (
           <div>
             <Button type="submit" disabled={processing}>
               {submitButton.label}
@@ -667,12 +686,5 @@ const FormRenderBlock = forwardRef<
           ? success
             ? response?.success
             : response?.error
-          : null} */}
-        </form>
-      </Form>
-    );
-  },
-);
-
-FormRenderBlock.displayName = 'FormRenderBlock';
-export { FormRenderBlock };
+          : null} */
+}

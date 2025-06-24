@@ -22,7 +22,7 @@ const TabItemDetail = ({ active, countNumber, title }: TabItemDetailProps) => {
       <Typography
         asChild
         variant="small-number"
-        className={cn(active ? 'text-pj-black' : 'text-pj-grey-light')}
+        className={cn(active ? 'text-black' : 'text-pj-grey-light')}
       >
         <span>{title}</span>
       </Typography>

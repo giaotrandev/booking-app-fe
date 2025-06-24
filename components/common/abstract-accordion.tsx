@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { ReactNode, useState } from 'react';
 import {
   AccordionContent,

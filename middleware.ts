@@ -8,9 +8,25 @@ const intlMiddleware = createMiddleware(routing);
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const locale = pathname.split('/')[1];
+  const accessToken = request.cookies.get('at')?.value;
 
-  // Nếu người dùng truy cập /de hoặc /en (không có path thêm), redirect về /
-  if ((pathname === '/de' || pathname === '/en')) {
+  const protectedRoutes = [
+    '/login',
+    '/register',
+    '/forgot-password',
+    '/verify-email',
+  ];
+
+  // Xử lý route bắt đầu bằng locale (bỏ /en hoặc /vi để so sánh)
+  const basePath = pathname.replace(/^\/(en|vi)/, '');
+
+  // Redirect người đã đăng nhập tránh truy cập các route /login, /register...
+  if (protectedRoutes.includes(basePath) && !!accessToken) {
+    return NextResponse.redirect(new URL('/', request.url));
+  }
+
+  // Nếu truy cập trực tiếp vào /en hoặc /vi (không path cụ thể), chuyển về /
+  if (pathname === '/en' || pathname === '/vi') {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
@@ -18,9 +34,5 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    '/',
-    '/(de|en)/:path*',
-    '/((?!api|_next|_vercel|next|.*\\..*).*)',
-  ],
+  matcher: ['/', '/(en|vi)/:path*', '/((?!api|_next|_vercel|next|.*\\..*).*)'],
 };

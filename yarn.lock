@@ -1159,6 +1159,18 @@
     postcss "^8.4.41"
     tailwindcss "4.1.3"
 
+"@tanstack/react-virtual@^3.13.10":
+  version "3.13.10"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-virtual/-/react-virtual-3.13.10.tgz#6eec305f01769e1778af98046973b128437c53d5"
+  integrity sha512-nvrzk4E9mWB4124YdJ7/yzwou7IfHxlSef6ugCFcBfRmsnsma3heciiiV97sBNxyc3VuwtZvmwXd0aB5BpucVw==
+  dependencies:
+    "@tanstack/virtual-core" "3.13.10"
+
+"@tanstack/virtual-core@3.13.10":
+  version "3.13.10"
+  resolved "https://registry.yarnpkg.com/@tanstack/virtual-core/-/virtual-core-3.13.10.tgz#141c4da589eda797ee25d14f6aa400dfebac606c"
+  integrity sha512-sPEDhXREou5HyZYqSWIqdU580rsF6FGeN7vpzijmP3KTiOGjOMZASz4Y6+QKjiFQwhWrR58OP8izYaNGVxvViA==
+
 "@tybys/wasm-util@^0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@tybys/wasm-util/-/wasm-util-0.9.0.tgz#3e75eb00604c8d6db470bf18c37b7d984a0e3355"
@@ -2833,6 +2845,11 @@ loose-envify@^1.4.0:
   integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
   dependencies:
     js-tokens "^3.0.0 || ^4.0.0"
+
+lucide-react@^0.522.0:
+  version "0.522.0"
+  resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.522.0.tgz#c0951dd32936b6a7bcc474a829a251fede0bdfbd"
+  integrity sha512-jnJbw974yZ7rQHHEFKJOlWAefG3ATSCZHANZxIdx8Rk/16siuwjgA4fBULpXEAWx/RlTs3FzmKW/udWUuO0aRw==
 
 math-intrinsics@^1.1.0:
   version "1.1.0"

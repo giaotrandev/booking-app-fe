@@ -4,9 +4,9 @@ import { ComponentProps } from 'react';
 import { Typography } from './typography';
 
 const inputVariants = cva([
-  'flex w-full h-10 lg:h-14 border bg-transparent rounded-[4px] p-3',
-  'border-black placeholder:text-transparent',
-  'dark:border-white dark:placeholder:text-zinc-500',
+  'flex w-full h-10 outline-none lg:h-14 border bg-transparent rounded-[4px] p-3',
+  'border-black placeholder:text-zinc-500',
+  // 'dark:border-white dark:placeholder:text-zinc-500',
   '[&[aria-invalid=true]]:border-pj-red',
   'file:cursor-pointer file:border-0 file:bg-transparent file:text-[14px]',
   // disabled
@@ -28,7 +28,7 @@ const Input = ({ className, type, ...props }: InputProps) => {
         {...props}
       />
       <div className="absolute -top-3 left-4 bg-white px-1">
-        <Typography asChild variant="small-label" className="text-pj-black">
+        <Typography asChild variant="small-label" className="text-black">
           <span>
             {props.placeholder}
             {props.required && <span className="text-pj-red"> *</span>}

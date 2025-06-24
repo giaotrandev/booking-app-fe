@@ -1,16 +1,21 @@
-import { LocaleProps } from "#/i18n/config";
-import { AnchorHTMLAttributes, DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS, HTMLAttributeAnchorTarget, SVGProps } from 'react';
+import { LocaleProps } from '#/i18n/config';
+import {
+  AnchorHTMLAttributes,
+  DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS,
+  HTMLAttributeAnchorTarget,
+  SVGProps,
+} from 'react';
 
 export interface PageProps {
-    params: Promise<{
-      locale?: LocaleProps;
-      all?: string[];
-      uri?: string;
-      slug?: string;
-      id?: string;
-      token?: string;
-    }>;
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{
+    locale?: LocaleProps;
+    all?: string[];
+    uri?: string;
+    slug?: string;
+    id?: string;
+    token?: string;
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 export interface StaticParamsProps extends Pick<PageProps, 'params'> {}
@@ -33,7 +38,6 @@ export interface CustomButtonHTMLAttributes {
   type?: 'submit' | 'reset' | 'button' | undefined | string; // string is for Anchor
   value?: string | readonly string[] | number | undefined;
 }
-
 
 export interface AnchorOrButtonProps
   extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'type'>,

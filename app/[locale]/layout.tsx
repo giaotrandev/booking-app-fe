@@ -44,17 +44,17 @@ const LocaleLayout = async (props: LocaleLayoutProps) => {
           fontMontserrat.variable,
           fontRoboto.variable,
           'relative font-sans antialiased',
-          'text-ts-grey-darkest bg-white',
+          'bg-white text-black',
           typographyVariants({ variant: 'body' }),
         )}
       >
-        {process.env.COOKIE_SCRIPT_URL && (
+        {/* {process.env.COOKIE_SCRIPT_URL && (
           <Script
             suppressHydrationWarning
             src={process.env.COOKIE_SCRIPT_URL}
             strategy="beforeInteractive"
           />
-        )}
+        )} */}
         <NextIntlClientProvider messages={messages}>
           <Providers>{props.children}</Providers>
         </NextIntlClientProvider>

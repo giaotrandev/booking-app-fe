@@ -1,7 +1,7 @@
 @import './react-google-recaptcha-v3.css' layer(base);
 
 @import 'tailwindcss';
-
+@import './custom-scrollbar.css';
 @plugin "../tailwind-plugins/hocus";
 @plugin "tailwindcss-animate";
 
@@ -34,7 +34,7 @@
   --color-pj-blue: #1D7ED8;
   --color-pj-blue-medium: #393F4E;
   --color-pj-green: #4CAF50;
-  --color-pj-black: #000000;
+  --color-black: #000000;
   --color-pj-brown: #434141;
   --color-pj-orange: #F07272;
   --color-pj-blue-dark: #052863;
