@@ -1,6 +1,6 @@
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utilities/cn';
-import { formatTime } from '#/lib/utilities/format-time';
+import { formatUtcTime } from '#/lib/utilities/format-time';
 
 export interface TimeItemProps {
   time?: string;
@@ -17,7 +17,7 @@ const TimeItem = ({ destination, time, className }: TimeItemProps) => {
     >
       {time && (
         <Typography asChild variant="h3" className="min-w-20 text-[16px]">
-          <p>{formatTime(time)}</p>
+          <p>{formatUtcTime(time)}</p>
         </Typography>
       )}
       <div className="bg-pj-grey-light hidden h-px w-10 flex-none lg:block" />

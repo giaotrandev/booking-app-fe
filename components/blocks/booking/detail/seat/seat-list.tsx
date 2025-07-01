@@ -3,9 +3,8 @@ import { Col } from '#/components/ui/col';
 import { Row } from '#/components/ui/row';
 import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utilities/cn';
-import { SeatConfiguration } from '#/types/vehicle';
+import { SeatConfiguration } from '#/services/trip/trips-request';
 import { SeatLayout } from './seat-layout';
-
 export interface SeatListProps extends SeatConfiguration {}
 const SeatList = ({ decks }: SeatListProps) => {
   return (

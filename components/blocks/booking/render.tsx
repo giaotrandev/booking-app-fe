@@ -5,10 +5,10 @@ import NavigationBooking, {
   NavigationBookingProps,
 } from '../../layout/filter-trip/navigation-booking/render';
 // import { BookingItemProps } from './item';
-import { BookingItemProps, BookingList } from './list';
+import { BookingList, BookingListProps } from './list';
 
 export interface BookingRenderBlockProps extends NavigationBookingProps {
-  bookingList?: BookingItemProps[];
+  bookingList?: BookingListProps['list'];
 }
 const BookingRenderBlock = ({
   arrivalList,

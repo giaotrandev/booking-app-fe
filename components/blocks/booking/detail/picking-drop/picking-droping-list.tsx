@@ -52,7 +52,6 @@ const PickingAndDropingList = ({
             defaultValue={dropingList[0].id}
             onChange={val => {
               setSelectedDropingId(val);
-              // console.log('✅ Drop selected:', val);
             }}
           />
         </Col>

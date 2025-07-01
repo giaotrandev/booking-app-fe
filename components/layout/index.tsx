@@ -3,12 +3,11 @@ import { PropsWithChildren } from 'react';
 import { LayoutFooter, LayoutFooterProps } from './footer/footer';
 import { LayoutHeader, LayoutHeaderProps } from './header';
 import { LayoutMain } from './main';
-import { FilterItemProps } from './filter-trip/navigation-booking/render';
 import { LayoutFilterTrip } from './filter-trip';
-import { cookies } from 'next/headers';
 import { fetchProvincesWithCookie } from '#/lib/service/fetch-provinces';
 import { convertProvinceList } from '#/services/global-settings/province-list';
 import { ProvincesRequestProps } from '#/services/global-settings/provinces-request';
+import { convertToSelectOptions } from '#/lib/utilities/convert-to-select-options';
 interface LayoutProps extends PropsWithChildren {}
 
 const Layout = async ({ children }: LayoutProps) => {
@@ -24,13 +23,7 @@ const Layout = async ({ children }: LayoutProps) => {
   );
   const header: LayoutHeaderProps = {};
   const footer: LayoutFooterProps = {};
-  const convertToSelectOptions = (list: ProvincesRequestProps[]) =>
-    list.map(item => ({ label: item.name ?? '', value: item.id }));
 
-  // const arrivalListSample: FilterItemProps[] =
-  //   convertToSelectOptions(arrivalList);
-  // const destinationListSample: FilterItemProps[] =
-  //   convertToSelectOptions(destinationList);
   return (
     <>
       <LayoutHeader {...header} />
@@ -45,18 +38,3 @@ const Layout = async ({ children }: LayoutProps) => {
 };
 
 export { Layout };
-const arrivalList: string[] = [
-  'Hanoi',
-  'Ho Chi Minh City',
-  'Da Nang',
-  'Hue',
-  'Nha Trang',
-];
-
-const destinationList: string[] = [
-  'Sapa',
-  'Ha Long Bay',
-  'Phu Quoc',
-  'Da Lat',
-  'Can Tho',
-];

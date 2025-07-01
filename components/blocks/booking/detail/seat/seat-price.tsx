@@ -6,7 +6,7 @@ export interface SeatPriceProps {
   price?: string;
 }
 const SeatPrice = ({ seatNunber, price }: SeatPriceProps) => {
-  if (!(seatNunber && price)) return null;
+  if (!(seatNunber || price)) return null;
   return (
     <div className="flex">
       {seatNunber && (

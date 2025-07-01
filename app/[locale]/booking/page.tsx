@@ -13,8 +13,9 @@ export const metadata: Metadata = {
   description: 'This is a sample page, please remove this page after tested',
 };
 
-const BookingPage = async ({ params }: PageProps) => {
+const BookingPage = async ({ params, searchParams }: PageProps) => {
   const { locale } = await params;
+  const _searchParams = await searchParams;
   setStaticParamsLocale(locale);
 
   const template: TemplateProps = {
@@ -22,9 +23,9 @@ const BookingPage = async ({ params }: PageProps) => {
   };
 
   return (
-    // <AuthLayout>
-    <BookingBlock />
-    // </AuthLayout>
+    <AuthLayout>
+      <BookingBlock searchParams={_searchParams} />
+    </AuthLayout>
   );
 };
 

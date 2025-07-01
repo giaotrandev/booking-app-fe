@@ -1,9 +1,5 @@
-import { format, parse } from 'date-fns';
-
-const formatTime = (time: string | Date) => {
-  const date = typeof time === 'string'
-    ? parse(time, 'HH:mm', new Date())
-    : time;
-  return format(date, 'HH:mm');
+export const formatUtcTime = (isoString: string) => {
+  const timePart = isoString.split('T')[1]; // "05:00:00.000Z"
+  const [hour, minute] = timePart.split(':');
+  return `${parseInt(hour)}:${minute}`;
 };
-export {formatTime}

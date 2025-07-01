@@ -1,5 +1,5 @@
+'use server';
 // lib/api/fetchProvinces.ts
-import { ProvincesRequestListProps } from '#/services/global-settings/provinces-request';
 import { cookies } from 'next/headers';
 
 export const fetchProvincesWithCookie = async (): Promise<any> => {

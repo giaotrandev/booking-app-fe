@@ -1,9 +1,11 @@
-import { differenceInMinutes, parse } from 'date-fns';
+import { differenceInMinutes } from 'date-fns';
 
 const getTimeDifference = (arrivalTime: string, departureTime: string) => {
-  const arrival = parse(arrivalTime, 'HH:mm', new Date());
-  const departure = parse(departureTime, 'HH:mm', new Date());
+  const arrival = new Date(arrivalTime); // ISO string → Date
+  const departure = new Date(departureTime);
 
-  return (differenceInMinutes(departure, arrival) /60); // kết quả là số phút
+  const minutesDiff = differenceInMinutes(arrival, departure);
+  return minutesDiff / 60; // chuyển sang giờ
 };
-export {getTimeDifference}
+
+export { getTimeDifference };

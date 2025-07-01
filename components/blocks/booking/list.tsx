@@ -14,31 +14,54 @@ import { Typography } from '#/components/ui/typography';
 import TimeItem from './time-item';
 import { getTimeDifference } from '#/lib/utilities/get-time-difference';
 import { BookingDetailWrapper } from './detail/booking-detail-wrapper';
-import { Button, buttonVariants } from '#/components/ui/button';
-import { ImageProps } from '#/types/global';
-import { BookingDetailContentProps } from './detail/booking-detail-content';
+import { buttonVariants } from '#/components/ui/button';
 import { ButtonContent } from '#/components/ui/button-content';
 import { cn } from '#/lib/utilities/cn';
-export interface BookingItemProps
-  extends Omit<BookingDetailContentProps, 'seatsLeft'> {
-  name?: string;
-  arrivalTime?: string;
-  departureTime?: string;
-  price?: string;
-  numberOfSeats?: number;
-  arrivalDestination?: string;
-  departureDestination?: string;
-  image?: ImageProps;
-  description?: string;
-  seatsLeft?: number;
-}
+import { TripsRequestProps } from '#/services/trip/trips-request';
+import { getTripDetailAction } from '#/lib/service/fetch-trip-details';
 
 export interface BookingListProps {
-  list?: BookingItemProps[];
+  list?: TripsRequestProps[];
 }
 const BookingList = ({ list }: BookingListProps) => {
   if (!(Array.isArray(list) && list.length > 0)) return null;
   const [accordionValue, setAccordionValue] = useState<string>('');
+  const [tripDetails, setTripDetails] = useState<TripsRequestProps>();
+  const handleTripDetails = async (tripId: string) => {
+    const res = await getTripDetailAction(tripId);
+    if (
+      !res.error &&
+      res.data &&
+      res.data.id &&
+      Array.isArray(res.data?.decks) &&
+      res.data?.decks.length > 0
+    ) {
+      const trip = res.data;
+      const seatStatusMap = new Map();
+      trip.seats?.forEach(seat => {
+        seatStatusMap.set(seat.seatNumber, seat.status);
+      });
+
+      const updatedDecks = trip.decks?.map(deck => ({
+        ...deck,
+        rows: deck.rows?.map(row => ({
+          ...row,
+          seats: row.seats?.map(seat => ({
+            ...seat,
+            price: trip.price,
+            status: seat.number ? seatStatusMap.get(seat.number) : undefined,
+          })),
+        })),
+      }));
+
+      setTripDetails({
+        ...trip,
+        decks: updatedDecks,
+      });
+    } else {
+      console.error(res.message);
+    }
+  };
   return (
     <Accordion
       type="single"
@@ -49,7 +72,7 @@ const BookingList = ({ list }: BookingListProps) => {
     >
       {list.some(
         item =>
-          item.image?.src ||
+          item.image ||
           item.name ||
           item.price ||
           item.description ||
@@ -70,10 +93,10 @@ const BookingList = ({ list }: BookingListProps) => {
                 <div className="flex flex-col lg:flex-row">
                   <div className="w-full lg:max-w-[229px]">
                     <div className="relative pt-[78%] lg:h-full lg:pt-[100%]">
-                      {item.image && item.image.src && (
+                      {item.image && (
                         <Image
-                          src={item.image.src}
-                          alt={item.image.alt ?? ''}
+                          src={item.image}
+                          alt={''}
                           fill
                           className="object-cover"
                           placeholder="blur"
@@ -125,13 +148,14 @@ const BookingList = ({ list }: BookingListProps) => {
                             item.arrivalDestination ||
                             item.departureDestination) && (
                             <div className="w-full lg:max-w-66.75">
-                              {(item.arrivalTime ||
-                                item.arrivalDestination) && (
+                              {(item.departureTime ||
+                                item.departureDestination) && (
                                 <TimeItem
-                                  time={item.arrivalTime}
-                                  destination={item.arrivalDestination}
+                                  time={item.departureTime}
+                                  destination={item.departureDestination}
                                 />
                               )}
+
                               {item.arrivalTime && item.departureTime && (
                                 <div className="my-2 flex items-center gap-x-2 pl-1 lg:my-0">
                                   <div className="bg-pj-grey-light h-4 w-px lg:h-10" />
@@ -150,11 +174,11 @@ const BookingList = ({ list }: BookingListProps) => {
                                   </Typography>
                                 </div>
                               )}
-                              {(item.departureTime ||
-                                item.departureDestination) && (
+                              {(item.arrivalTime ||
+                                item.arrivalDestination) && (
                                 <TimeItem
-                                  time={item.departureTime}
-                                  destination={item.departureDestination}
+                                  time={item.arrivalTime}
+                                  destination={item.arrivalDestination}
                                 />
                               )}
                             </div>
@@ -167,32 +191,33 @@ const BookingList = ({ list }: BookingListProps) => {
                             <p>{item.seatsLeft} seats left</p>
                           </Typography>
                         )}
-                        <AccordionTrigger>
-                          <div
-                            className={cn(
-                              buttonVariants({
-                                variant: 'small',
-                                colors: 'red',
-                                shape: 'default',
-                              }),
-                              'group/button',
-                            )}
-                          >
-                            <ButtonContent text="Book" />
-                          </div>
+                        <AccordionTrigger
+                          onClick={() => handleTripDetails(item.id)}
+                          className={cn(
+                            buttonVariants({
+                              variant: 'small',
+                              colors: 'red',
+                              shape: 'default',
+                            }),
+                            'group/button',
+                          )}
+                        >
+                          <ButtonContent text="Book" />
                         </AccordionTrigger>
                       </div>
                     </div>
                   </div>
                 </div>
-                <AccordionContent className="pt-3">
-                  <BookingDetailWrapper
-                    seatsLeft={item.seatsLeft}
-                    decks={item.decks}
-                    dropingList={item.dropingList}
-                    pickingList={item.pickingList}
-                  />
-                </AccordionContent>
+                {tripDetails && (
+                  <AccordionContent className="pt-3">
+                    <BookingDetailWrapper
+                      seatsLeft={tripDetails.seatsLeft}
+                      decks={tripDetails.decks}
+                      dropingList={tripDetails.dropingList}
+                      pickingList={tripDetails.pickingList}
+                    />
+                  </AccordionContent>
+                )}
               </AccordionItem>
             );
           })

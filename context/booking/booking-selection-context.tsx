@@ -1,10 +1,16 @@
 // contexts/booking-selection-context.tsx
 'use client';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useMemo,
+} from 'react';
 
 export interface SelectedSeat {
   number: string;
-  price?: string;
+  price?: number;
   deckId: string;
   rowId: string;
 }
@@ -14,6 +20,8 @@ interface BookingSelectionContextType {
   selectedPickingId: string | null;
   selectedDropingId: string | null;
   isSubmit: boolean;
+  totalPrice: number;
+  savedTotalPrice: number | null;
   setIsSubmit: (value: boolean) => void;
   selectSeat: (seat: SelectedSeat) => void;
   deselectSeat: (seatNumber: string) => void;
@@ -21,6 +29,7 @@ interface BookingSelectionContextType {
   clearSelectedSeats: () => void;
   setSelectedPickingId: (id: string) => void;
   setSelectedDropingId: (id: string) => void;
+  saveTotalPrice: () => void;
 }
 
 const BookingSelectionContext = createContext<
@@ -49,6 +58,15 @@ export const BookingSelectionProvider = ({
   const [selectedDropingId, setSelectedDropingId] = useState<string | null>(
     null,
   );
+  const [savedTotalPrice, setSavedTotalPrice] = useState<number | null>(null);
+  const totalPrice = useMemo(() => {
+    return selectedSeats.reduce((total, seat) => {
+      if (seat && seat.price) {
+        return total + seat.price;
+      }
+      return 0;
+    }, 0);
+  }, [selectedSeats]);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const selectSeat = (seat: SelectedSeat) => {
     setSelectedSeats(prev => {
@@ -66,11 +84,17 @@ export const BookingSelectionProvider = ({
   const isSeatSelected = (seatNumber: string) =>
     selectedSeats.some(seat => seat.number === seatNumber);
 
+  const saveTotalPrice = () => {
+    setSavedTotalPrice(totalPrice);
+  };
+
   const clearSelectedSeats = () => setSelectedSeats([]);
 
   return (
     <BookingSelectionContext.Provider
       value={{
+        totalPrice,
+        savedTotalPrice,
         selectedSeats,
         selectedPickingId,
         selectedDropingId,
@@ -82,6 +106,7 @@ export const BookingSelectionProvider = ({
         clearSelectedSeats,
         setSelectedPickingId,
         setSelectedDropingId,
+        saveTotalPrice,
       }}
     >
       {children}

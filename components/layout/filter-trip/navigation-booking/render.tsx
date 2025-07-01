@@ -6,7 +6,7 @@ import {
   PopoverTrigger,
 } from '#/components/headless/popover';
 import { Button } from '#/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import { ButtonIcon } from '#/components/ui/button-icon';
 import { cn } from '#/lib/utilities/cn';
@@ -15,6 +15,8 @@ import { CustomCalendar } from '#/components/ui/custom-calendar';
 import { Icon } from '#/components/icons';
 import { DateRange } from 'react-day-picker';
 import { Typography } from '#/components/ui/typography';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { parseISO } from 'date-fns';
 
 const dateFormat = 'dd-MM-yyyy';
 
@@ -36,6 +38,12 @@ const NavigationBooking = ({
   className,
   dateContainerClassName,
 }: NavigationBookingProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const sourceProvinceId = searchParams.get('sourceProvinceId');
+  const destinationProvinceId = searchParams.get('destinationProvinceId');
+  const departureDate = searchParams.get('departureDate');
+  const returnDate = searchParams.get('returnDate');
   const [processing, setProcessing] = useState(false);
   const [selectedArrival, setSelectedArrival] = useState<FilterItemProps>();
   const [selectedDestination, setSelectedDestination] =
@@ -71,8 +79,58 @@ const NavigationBooking = ({
     setDateRange(range);
   };
 
-  const handleSearchTrip = () => {};
+  const handleSearchTrip = () => {
+    const params = new URLSearchParams();
 
+    if (selectedArrival) {
+      params.append('sourceProvinceId', selectedArrival.value);
+    }
+    if (selectedDestination) {
+      params.append('destinationProvinceId', selectedDestination.value);
+    }
+    if (dateRange?.from) {
+      params.append('departureDate', format(dateRange.from, 'yyyy-MM-dd'));
+    }
+    if (dateRange?.to) {
+      params.append('returnDate', format(dateRange.to, 'yyyy-MM-dd'));
+    }
+    const queryString = params.toString();
+    const bookingUrl = queryString ? `/booking?${queryString}` : '/booking';
+    router.push(bookingUrl);
+  };
+  useEffect(() => {
+    if (sourceProvinceId && !selectedArrival) {
+      const foundArrival = arrivalList.find(
+        arrivalItem => arrivalItem.value === sourceProvinceId,
+      );
+      if (foundArrival) {
+        setSelectedArrival(foundArrival);
+      }
+    }
+
+    if (destinationProvinceId && !selectedDestination) {
+      const foundDestination = destinationList.find(
+        destinationItem => destinationItem.value === destinationProvinceId,
+      );
+      if (foundDestination) {
+        setSelectedDestination(foundDestination);
+      }
+    }
+
+    if ((departureDate || returnDate) && !dateRange?.from && !dateRange?.to) {
+      setDateRange({
+        from: departureDate ? parseISO(departureDate) : undefined,
+        to: returnDate ? parseISO(returnDate) : undefined,
+      });
+    }
+  }, [
+    sourceProvinceId,
+    destinationProvinceId,
+    departureDate,
+    returnDate,
+    arrivalList,
+    destinationList,
+  ]);
   return (
     <div
       className={cn(
@@ -99,7 +157,6 @@ const NavigationBooking = ({
             />
           </div>
         )}
-
         <div>
           <ButtonIcon
             icon={{ name: 'swap' }}
@@ -169,7 +226,7 @@ const NavigationBooking = ({
           <PopoverContent className="relative z-[1091] mt-4 w-auto p-0">
             <CustomCalendar
               mode="range"
-              timeZone="UTC"
+              // timeZone="UTC"
               numberOfMonths={1}
               className="lg:hidden"
               defaultMonth={dateRange?.from || new Date()}
@@ -183,7 +240,7 @@ const NavigationBooking = ({
             />
             <CustomCalendar
               mode="range"
-              timeZone="UTC"
+              // timeZone="UTC"
               numberOfMonths={2}
               className="hidden lg:block"
               defaultMonth={dateRange?.from || new Date()}
@@ -200,7 +257,16 @@ const NavigationBooking = ({
       </div>
 
       <div className="ml-4.5">
-        <Button text="search" onClick={handleSearchTrip} />
+        <Button
+          text="search"
+          disabled={
+            !selectedArrival ||
+            !selectedDestination ||
+            !dateRange?.from ||
+            !dateRange?.to
+          }
+          onClick={handleSearchTrip}
+        />
       </div>
     </div>
   );
