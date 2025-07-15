@@ -48,7 +48,7 @@ const LayoutHeaderSidenav = ({ list }: LayoutHeaderSidenavProps) => {
       </SheetTrigger>
       <SheetContent
         onInteractOutside={event => event.preventDefault()}
-        className="pointer-events-none z-1050 h-full w-full overflow-x-hidden overflow-y-auto outline-hidden data-[state=closed]:duration-300 data-[state=open]:duration-300"
+        className="pointer-events-none z-1091 h-full w-full overflow-x-hidden overflow-y-auto outline-hidden data-[state=closed]:duration-300 data-[state=open]:duration-300"
         overlay={{ className: 'z-1040' }}
       >
         <SheetHeader>

@@ -1,12 +1,17 @@
 import {
   DeckRequest,
+  OptionItemProps,
+  PickUpPointRequestProps,
   RowRequest,
   SeatRequestProps,
   SeatStatus,
   SeatType,
+  TripsRequestProps,
 } from './trips-request';
 import {
   DeckResponse,
+  PickUpPointResponseProps,
+  RouteStopProps,
   RowResponse,
   SeatResponse,
   TripResponseProps,
@@ -66,21 +71,83 @@ export const convertDecks = async (decks: DeckResponse[]) => {
   }
   return _decks;
 };
+// export const convertBusStopPoint = async (
+//   pickUpPoint: PickUpPointResponseProps,
+// ): Promise<PickUpPointRequestProps> => {
+//   return {
+//     busStopId: pickUpPoint.busStopId ?? undefined,
+//     districtName: pickUpPoint.districtName ?? undefined,
+//     name: pickUpPoint.name ?? undefined,
+//     provinceId: pickUpPoint.provinceId ?? undefined,
+//     provinceName: pickUpPoint.provinceName ?? undefined,
+//     stopOrder: pickUpPoint.stopOrder ?? undefined,
+//     wardName: pickUpPoint.wardName ?? undefined,
+//   };
+// };
 
-export const convertTripItem = async (trip: TripResponseProps) => {
+// export const convertPickUpPoints = async (
+//   pickUpPoints: PickUpPointResponseProps[],
+// ) => {
+//   const _pickUpPoints: PickUpPointRequestProps[] = [];
+//   for (const pickupPoint of pickUpPoints ?? []) {
+//     if (!pickupPoint) continue;
+//     _pickUpPoints.push(await convertBusStopPoint(pickupPoint));
+//   }
+//   return _pickUpPoints;
+// };
+// const convertBusStopItem = async (
+//   pickUpPoint: PickUpPointResponseProps,
+// ): Promise<OptionItemProps> => {
+//   const addressParts = [
+//     pickUpPoint.streetName,
+//     pickUpPoint.wardName,
+//     pickUpPoint.districtName,
+//     pickUpPoint.provinceName,
+//   ].filter(Boolean);
+
+//   return {
+//     id: pickUpPoint.busStopId ?? '',
+//     locationName: pickUpPoint.name ?? undefined,
+//     address: addressParts.join(', ') ?? undefined,
+//     time: pickUpPoint.time ?? undefined,
+//   };
+// };
+
+const convertBusStopList = async (
+  pickUpPointList: PickUpPointResponseProps[],
+) => {
+  const _busStopList: OptionItemProps[] = [];
+  for (const point of pickUpPointList ?? []) {
+    if (!point) continue;
+    const addressParts = [
+      point.address,
+      point.wardName,
+      point.districtName,
+      point.provinceName,
+    ].filter(Boolean);
+    _busStopList.push({
+      id: point.busStopId ?? '',
+      locationName: point.name ?? undefined,
+      address: addressParts.join(', ') ?? undefined,
+      time: point.estimatedTime ?? undefined,
+    });
+  }
+  return _busStopList;
+};
+export const convertTripItem = async (
+  trip: TripResponseProps,
+): Promise<TripsRequestProps> => {
   return {
     id: trip.id,
     name: trip.vehicle?.vehicleType?.name ?? undefined,
     arrivalTime: trip.arrivalTime ?? undefined,
     departureTime: trip.departureTime ?? undefined,
-    // price: trip.basePrice?.toString() ?? undefined,
     price: trip.basePrice ?? undefined,
     numberOfSeats: trip.availableSeats ?? undefined,
     arrivalDestination: trip.route?.sourceProvince?.name ?? undefined,
     departureDestination: trip.route?.destinationProvince?.name ?? undefined,
     image: trip.imageUrl ?? undefined,
     description: trip.vehicle?.vehicleType?.description ?? undefined,
-    //  TODO: fix seatsLeft
     totalSeats: trip._count?.seats ?? undefined,
     seatsLeft: trip.availableSeats ?? undefined,
     decks:
@@ -88,5 +155,11 @@ export const convertTripItem = async (trip: TripResponseProps) => {
         trip.vehicle?.vehicleType?.seatConfiguration?.decks ?? [],
       )) ?? undefined,
     seats: (await convertSeats(trip.seats ?? [])) ?? [],
+    dropingList: await convertBusStopList(
+      trip.route?.routeStops?.dropoffPoints ?? [],
+    ),
+    pickingList: await convertBusStopList(
+      trip.route?.routeStops?.pickupPoints ?? [],
+    ),
   };
 };

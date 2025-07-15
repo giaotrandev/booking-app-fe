@@ -1,5 +1,4 @@
 'use client';
-
 import {
   Popover,
   PopoverContent,
@@ -17,6 +16,7 @@ import { DateRange } from 'react-day-picker';
 import { Typography } from '#/components/ui/typography';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { parseISO } from 'date-fns';
+import { useGlobalsStore } from '#/store/globals';
 
 const dateFormat = 'dd-MM-yyyy';
 
@@ -30,6 +30,8 @@ export interface NavigationBookingProps {
   destinationList?: FilterItemProps[];
   className?: string;
   dateContainerClassName?: string;
+  buttonContainerClassName?: string;
+  isInSpeacialLayout?: boolean;
 }
 
 const NavigationBooking = ({
@@ -37,13 +39,16 @@ const NavigationBooking = ({
   destinationList = [],
   className,
   dateContainerClassName,
+  buttonContainerClassName,
+  isInSpeacialLayout,
 }: NavigationBookingProps) => {
+  const { setFilterOpen } = useGlobalsStore();
   const router = useRouter();
   const searchParams = useSearchParams();
   const sourceProvinceId = searchParams.get('sourceProvinceId');
   const destinationProvinceId = searchParams.get('destinationProvinceId');
   const departureDate = searchParams.get('departureDate');
-  const returnDate = searchParams.get('returnDate');
+  const arrivalDate = searchParams.get('arrivalDate');
   const [processing, setProcessing] = useState(false);
   const [selectedArrival, setSelectedArrival] = useState<FilterItemProps>();
   const [selectedDestination, setSelectedDestination] =
@@ -80,6 +85,7 @@ const NavigationBooking = ({
   };
 
   const handleSearchTrip = () => {
+    setProcessing(true);
     const params = new URLSearchParams();
 
     if (selectedArrival) {
@@ -92,7 +98,7 @@ const NavigationBooking = ({
       params.append('departureDate', format(dateRange.from, 'yyyy-MM-dd'));
     }
     if (dateRange?.to) {
-      params.append('returnDate', format(dateRange.to, 'yyyy-MM-dd'));
+      params.append('arrivalDate', format(dateRange.to, 'yyyy-MM-dd'));
     }
     const queryString = params.toString();
     const bookingUrl = queryString ? `/booking?${queryString}` : '/booking';
@@ -117,30 +123,41 @@ const NavigationBooking = ({
       }
     }
 
-    if ((departureDate || returnDate) && !dateRange?.from && !dateRange?.to) {
+    if ((departureDate || arrivalDate) && !dateRange?.from && !dateRange?.to) {
       setDateRange({
         from: departureDate ? parseISO(departureDate) : undefined,
-        to: returnDate ? parseISO(returnDate) : undefined,
+        to: arrivalDate ? parseISO(arrivalDate) : undefined,
       });
     }
   }, [
     sourceProvinceId,
     destinationProvinceId,
     departureDate,
-    returnDate,
+    arrivalDate,
     arrivalList,
     destinationList,
   ]);
+  useEffect(() => {
+    setProcessing(false);
+  }, [sourceProvinceId, destinationProvinceId, departureDate, arrivalDate]);
   return (
     <div
       className={cn(
-        'flex w-full flex-col items-center space-y-6 rounded-[20px] bg-white p-4 lg:max-w-280 lg:flex-row lg:space-y-0 lg:p-7',
+        'pointer-events-auto relative flex w-full flex-col items-center gap-y-6 rounded-[20px] bg-white px-4 pt-15 pb-8 lg:max-w-232 lg:flex-row lg:space-y-0 lg:gap-x-3 lg:px-3 lg:py-5',
         className,
       )}
     >
-      <div className="flex w-full flex-col items-center gap-y-6 lg:flex-row lg:space-x-8 lg:gap-y-0">
+      {!isInSpeacialLayout && (
+        <button
+          className="absolute top-4 right-3 lg:hidden"
+          onClick={() => setFilterOpen(false)}
+        >
+          <Icon className="h-6 w-6 stroke-black" name="x-mark" />
+        </button>
+      )}
+      <div className="flex w-full flex-col items-center justify-between gap-x-2 gap-y-2 md:flex-row md:gap-y-0 lg:w-1/2">
         {arrivalOptions.length > 0 && (
-          <div className="w-full min-w-[263px]">
+          <div className="w-full">
             <CustomProvincesSelect
               searchable
               disabled={processing}
@@ -166,7 +183,7 @@ const NavigationBooking = ({
         </div>
 
         {destinationOptions.length > 0 && (
-          <div className="w-full min-w-[263px]">
+          <div className="w-full">
             <CustomProvincesSelect
               searchable
               disabled={processing}
@@ -185,88 +202,91 @@ const NavigationBooking = ({
         )}
       </div>
 
-      {/* Date Range Input */}
-      <div
-        className={cn(
-          'relative z-[1091] w-full lg:ml-4.5 lg:min-w-[250px]',
-          dateContainerClassName,
-        )}
-      >
-        <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
-          <PopoverTrigger asChild>
-            <button
-              type="button"
-              className={cn(
-                'relative w-full rounded-md border px-4 py-3 text-left',
-              )}
-              onClick={() => setIsDatePickerOpen(true)}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex flex-1 items-center space-x-2">
-                  <Typography asChild variant="sub-body">
-                    <span>
-                      {dateRange?.from
-                        ? format(dateRange.from, dateFormat)
-                        : 'Arrival date'}
-                    </span>
-                  </Typography>
-                  <span className="text-gray-400">|</span>
-                  <Typography asChild variant="sub-body">
-                    <span>
-                      {dateRange?.to
-                        ? format(dateRange.to, dateFormat)
-                        : 'Departure date'}
-                    </span>
-                  </Typography>
+      <div className="flex w-full flex-col gap-y-6 lg:w-1/2 lg:flex-row lg:gap-x-3 lg:gap-y-0">
+        <div
+          className={cn(
+            'relative z-[1000] w-full flex-1',
+            dateContainerClassName,
+          )}
+        >
+          <Popover open={isDatePickerOpen} onOpenChange={setIsDatePickerOpen}>
+            <PopoverTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  'relative h-14 w-full rounded-xl border px-4 py-3 text-left lg:h-12',
+                )}
+                onClick={() => setIsDatePickerOpen(true)}
+              >
+                <div className="flex items-center justify-between gap-x-2">
+                  <div className="flex flex-1 items-center gap-x-2">
+                    <Typography asChild className="text-nowrap">
+                      <span>
+                        {dateRange?.from
+                          ? format(dateRange.from, dateFormat)
+                          : 'Departure date'}
+                      </span>
+                    </Typography>
+                    <span className="text-gray-400">|</span>
+                    <Typography asChild className="text-nowrap">
+                      <span>
+                        {dateRange?.to
+                          ? format(dateRange.to, dateFormat)
+                          : 'Departure date'}
+                      </span>
+                    </Typography>
+                  </div>
+                  <Icon name="date" className="fill-pj-grey-light h-4 w-4" />
                 </div>
-                <Icon name="date" className="fill-pj-grey-light h-4 w-4" />
-              </div>
-            </button>
-          </PopoverTrigger>
-          <PopoverContent className="relative z-[1091] mt-4 w-auto p-0">
-            <CustomCalendar
-              mode="range"
-              // timeZone="UTC"
-              numberOfMonths={1}
-              className="lg:hidden"
-              defaultMonth={dateRange?.from || new Date()}
-              selected={dateRange}
-              onSelect={handleDateRangeSelect}
-              disabled={date =>
-                date < new Date(new Date().setHours(0, 0, 0, 0))
-              }
-              startMonth={new Date()}
-              endMonth={new Date(new Date().getFullYear() + 5, 11)}
-            />
-            <CustomCalendar
-              mode="range"
-              // timeZone="UTC"
-              numberOfMonths={2}
-              className="hidden lg:block"
-              defaultMonth={dateRange?.from || new Date()}
-              selected={dateRange}
-              onSelect={handleDateRangeSelect}
-              disabled={date =>
-                date < new Date(new Date().setHours(0, 0, 0, 0))
-              }
-              startMonth={new Date()}
-              endMonth={new Date(new Date().getFullYear() + 5, 11)}
-            />
-          </PopoverContent>
-        </Popover>
-      </div>
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="pointer-events-auto relative z-[1094] mt-4 w-[var(--radix-popover-trigger-width)] p-0 lg:w-auto">
+              <CustomCalendar
+                mode="range"
+                // timeZone="UTC"
+                numberOfMonths={1}
+                className="lg:hidden"
+                defaultMonth={dateRange?.from || new Date()}
+                selected={dateRange}
+                onSelect={handleDateRangeSelect}
+                disabled={date =>
+                  date < new Date(new Date().setHours(0, 0, 0, 0))
+                }
+                startMonth={new Date()}
+                endMonth={new Date(new Date().getFullYear() + 5, 11)}
+              />
+              <CustomCalendar
+                mode="range"
+                // timeZone="UTC"
+                numberOfMonths={2}
+                className="hidden lg:block"
+                defaultMonth={dateRange?.from || new Date()}
+                selected={dateRange}
+                onSelect={handleDateRangeSelect}
+                disabled={date =>
+                  date < new Date(new Date().setHours(0, 0, 0, 0))
+                }
+                startMonth={new Date()}
+                endMonth={new Date(new Date().getFullYear() + 5, 11)}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
 
-      <div className="ml-4.5">
-        <Button
-          text="search"
-          disabled={
-            !selectedArrival ||
-            !selectedDestination ||
-            !dateRange?.from ||
-            !dateRange?.to
-          }
-          onClick={handleSearchTrip}
-        />
+        <div className="w-full lg:w-auto">
+          <Button
+            text={processing ? 'Searching…' : 'Search'}
+            className="w-full lg:min-h-12 lg:w-auto"
+            disabled={
+              processing ||
+              !selectedArrival ||
+              !selectedDestination ||
+              !dateRange?.from ||
+              !dateRange?.to
+            }
+            onClick={handleSearchTrip}
+          />
+        </div>
       </div>
     </div>
   );

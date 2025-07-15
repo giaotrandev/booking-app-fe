@@ -12,9 +12,9 @@ import { StretchedLink } from '#/components/common/stretched-link';
 import React, { useEffect, useState } from 'react';
 import { useGlobalsStore } from '#/store/globals';
 import { useUserStore } from '#/store/user';
-import { useRouter } from 'next/navigation';
 import { useToast } from '#/components/ui/use-toast';
 import { verifyTokenAction } from '#/components/auth-layout/actions/verify-token';
+import { useLogout } from '#/lib/hooks/use-handle-logout';
 
 export interface LayoutHeaderProps {
   sidenav?: LayoutHeaderSidenavProps;
@@ -22,48 +22,47 @@ export interface LayoutHeaderProps {
 
 const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const { sidenavOpen } = useGlobalsStore();
+  const { sidenavOpen, sideFilterOpen } = useGlobalsStore();
   const { isLoggedIn, clearAuth } = useUserStore();
-  const router = useRouter();
   const { toast } = useToast();
+  const { handleLogout } = useLogout();
+  // const handleLogout = async () => {
+  //   try {
+  //     const res = await fetch('/api/logout', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
 
-  const handleLogout = async () => {
-    try {
-      const res = await fetch('/api/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  //     const data = await res.json();
+  //     if (!res.ok) {
+  //       toast({
+  //         title: 'Logout failed',
+  //         description: data.message || 'Unable to logout.',
+  //         variant: 'error',
+  //       });
+  //       return;
+  //     }
 
-      const data = await res.json();
-      if (!res.ok) {
-        toast({
-          title: 'Logout failed',
-          description: data.message || 'Unable to logout.',
-          variant: 'error',
-        });
-        return;
-      }
+  //     clearAuth();
 
-      clearAuth();
+  //     toast({
+  //       title: 'Logged out',
+  //       description: data.message || 'You have been successfully logged out.',
+  //       variant: 'success',
+  //     });
 
-      toast({
-        title: 'Logged out',
-        description: data.message || 'You have been successfully logged out.',
-        variant: 'success',
-      });
-
-      router.push('/');
-    } catch (error) {
-      console.error('Logout error:', error);
-      toast({
-        title: 'Logout failed',
-        description: 'Something went wrong.',
-        variant: 'error',
-      });
-    }
-  };
+  //     router.push('/');
+  //   } catch (error) {
+  //     console.error('Logout error:', error);
+  //     toast({
+  //       title: 'Logout failed',
+  //       description: 'Something went wrong.',
+  //       variant: 'error',
+  //     });
+  //   }
+  // };
   const handleScroll = () => {
     if (window.scrollY > 0) {
       setIsScrolled(true);
@@ -91,18 +90,19 @@ const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
       <header
         id="site-header"
         className={cn(
-          'pointer-events-auto fixed top-0 left-0 z-1090 flex h-16 w-full items-center justify-center py-3 transition-[background-color] lg:h-23.75 lg:py-5',
+          'pointer-events-auto fixed top-0 left-0 z-1093 flex h-16 w-full items-center justify-center py-3 transition-[background-color] lg:h-23.75 lg:py-5',
           sidenavOpen && 'bg-white',
+          sideFilterOpen && 'bg-transparent',
         )}
       >
         <div
           className={cn(
-            'absolute inset-0 -z-10 -translate-y-1.5 bg-[#fff3] opacity-0 backdrop-blur-md transition-opacity duration-500 lg:-translate-y-3',
-            isScrolled && 'opacity-100',
-            sidenavOpen && 'opacity-0',
+            'absolute inset-0 -z-10 h-16 bg-[#fff3] opacity-100 backdrop-blur-xs transition-opacity duration-500 lg:h-23.75',
+            isScrolled && 'bg-white',
+            (sidenavOpen || sideFilterOpen) && 'opacity-0',
           )}
         ></div>
-        <div className="flex w-full justify-between px-4 lg:pr-18.5 lg:pl-14">
+        <div className="flex w-full items-center justify-between px-5 lg:px-20">
           <div>
             <Link href="/">
               <Image
@@ -158,10 +158,10 @@ const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
             <LayoutHeaderSidenav {...sidenav} list={menu.slice(0, -2)} />
           </div>
         </div>
-        {/* <LanguageSwi  tcher /> */}
+        {/* <LanguageSwitcher /> */}
         {/* <ThemeSwitcher /> */}
       </header>
-      <div className="h-16 lg:h-23.75" />
+      {/* <div className="h-16 lg:h-23.75" /> */}
     </>
   );
 };

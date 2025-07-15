@@ -147,7 +147,7 @@ const Select = ({
           <CommandPrimitive
             data-slot="command"
             ref={ref}
-            className="custom-scrollbar overflow-hidden outline-hidden"
+            className="custom-select-scrollbar overflow-hidden outline-hidden"
           >
             {searchable && (
               <>

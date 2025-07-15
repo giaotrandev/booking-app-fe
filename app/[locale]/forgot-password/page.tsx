@@ -5,7 +5,11 @@ import { FormFieldProps } from '#/components/dynamic-form/type';
 import { Layout } from '#/components/layout';
 import { TemplateProps } from '#/components/templates';
 import { Link } from '#/i18n/routing';
-import { getTranslate, setStaticParamsLocale } from '#/i18n/server';
+import {
+  getStaticParams,
+  getTranslate,
+  setStaticParamsLocale,
+} from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 
@@ -13,6 +17,8 @@ export const metadata: Metadata = {
   title: 'Sample',
   description: 'This is a sample page, please remove this page after tested',
 };
+// Thêm dòng này
+export const generateStaticParams = getStaticParams;
 
 const LoginPage = async ({ params }: PageProps) => {
   const { locale } = await params;

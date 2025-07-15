@@ -1,6 +1,10 @@
 import RegisterRenderBlock from '#/components/blocks/register/render';
 import { FormFieldProps } from '#/components/dynamic-form/type';
-import { getTranslate, setStaticParamsLocale } from '#/i18n/server';
+import {
+  getStaticParams,
+  getTranslate,
+  setStaticParamsLocale,
+} from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 
@@ -8,7 +12,8 @@ export const metadata: Metadata = {
   title: 'Sample',
   description: 'This is a sample page, please remove this page after tested',
 };
-
+// Thêm dòng này
+export const generateStaticParams = getStaticParams;
 const RegisterPage = async ({ params }: PageProps) => {
   const { locale } = await params;
   setStaticParamsLocale(locale);

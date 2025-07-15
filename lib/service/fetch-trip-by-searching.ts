@@ -1,17 +1,18 @@
 'use server';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 export interface SearchingItemProps {
   sourceProvinceId: string;
   destinationProvinceId: string;
   departureDate: string;
-  returnDate: string;
+  arrivalDate: string;
+  page?: string;
 }
 export const fetchTripsBySearching = async (
   searchParams: SearchingItemProps,
 ) => {
   const isDev = process.env.NODE_ENV === 'development';
   const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_BASE_URL;
-  const cookieStore = await cookies();
+  // const cookieStore = await cookies();
 
   try {
     // Tạo query parameters từ searchParams
@@ -19,8 +20,12 @@ export const fetchTripsBySearching = async (
       sourceProvinceId: searchParams.sourceProvinceId,
       destinationProvinceId: searchParams.destinationProvinceId,
       departureDate: searchParams.departureDate,
-      returnDate: searchParams.returnDate,
+      arrivalDate: searchParams.arrivalDate,
     });
+    // MOI THEM VO
+    if (searchParams.page) {
+      queryParams.set('page', searchParams.page.toString());
+    }
 
     const res = await fetch(
       `${baseURL}/api/search-trip?${queryParams.toString()}`,
@@ -28,12 +33,11 @@ export const fetchTripsBySearching = async (
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Cookie: cookieStore.toString(),
+          // Cookie: cookieStore.toString(),
         },
-        cache: 'no-store',
+        next: { revalidate: 300 },
       },
     );
-
     if (res.ok) {
       const data = await res.json();
       return data;

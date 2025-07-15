@@ -1,10 +1,6 @@
 import AuthLayout from '#/components/auth-layout';
-import BookingBlock from '#/components/blocks/booking';
-import { BookingRenderBlock } from '#/components/blocks/booking/render';
-import FilterAccordion from '#/components/common/filter-accordion';
-import { Layout } from '#/components/layout';
-import { TemplateProps } from '#/components/templates';
-import { setStaticParamsLocale } from '#/i18n/server';
+import { WrapperBookingBlock } from '#/components/blocks/booking/wrapper-index';
+import { setStaticParamsLocale, getStaticParams } from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 
@@ -13,18 +9,18 @@ export const metadata: Metadata = {
   description: 'This is a sample page, please remove this page after tested',
 };
 
-const BookingPage = async ({ params, searchParams }: PageProps) => {
-  const { locale } = await params;
-  const _searchParams = await searchParams;
-  setStaticParamsLocale(locale);
+// Sử dụng function có sẵn
+export const generateStaticParams = getStaticParams;
 
-  const template: TemplateProps = {
-    name: 'standard',
-  };
+const BookingPage = async (props: PageProps) => {
+  const params = await props.params;
+  const { locale } = params;
+
+  setStaticParamsLocale(locale);
 
   return (
     <AuthLayout>
-      <BookingBlock searchParams={_searchParams} />
+      <WrapperBookingBlock />
     </AuthLayout>
   );
 };

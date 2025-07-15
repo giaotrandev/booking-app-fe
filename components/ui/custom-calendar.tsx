@@ -37,11 +37,13 @@ const CustomCalendar = ({
       showOutsideDays={showOutsideDays}
       className={cn('', className)}
       classNames={{
-        root: 'text-[14px] rounded-xl border p-2 bg-white relative',
+        root: 'text-[16px] rounded-xl border p-2 bg-white relative',
         day: cn(
           // 'h-10 grow shrink-0 basis-[0%] rounded',
           // 'lg:[&:not([aria-selected=true])]:hocus-visible:bg-pj-input-focus/5',
-          'relative m-0 inline-flex w-8  h-8 items-center justify-center p-0',
+          // 'relative m-0 inline-flex lg:w-8 lg:h-8 items-center justify-center p-0',
+          'relative m-0 inline-flex grow shrink-0 basis-[0%] lg:w-8 h-8 items-center justify-center p-0',
+          // grow shrink-0 basis-[0%]
           'aria-selected:opacity-100 font-normal',
         ),
         day_button: 'h-full w-full lg:cursor-pointer',

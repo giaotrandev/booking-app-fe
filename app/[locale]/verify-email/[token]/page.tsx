@@ -1,5 +1,9 @@
 import { VerifyEmailClient } from '#/components/blocks/verify-email-client/render';
-import { getTranslate, setStaticParamsLocale } from '#/i18n/server';
+import {
+  getStaticParams,
+  getTranslate,
+  setStaticParamsLocale,
+} from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 
@@ -7,7 +11,8 @@ export const metadata: Metadata = {
   title: 'Verify Email',
   description: 'Verify your email address to activate your account.',
 };
-
+// Thêm dòng này
+export const generateStaticParams = getStaticParams;
 const VerifyEmailPage = async ({ params }: PageProps) => {
   const resolvedParams = await params;
   const { locale, token } = resolvedParams;

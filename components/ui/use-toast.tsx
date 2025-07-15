@@ -103,7 +103,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     timerRef.current = setTimeout(() => {
       handleClose(firstToast.id);
       timerRef.current = null;
-    }, 10000);
+    }, 3000);
 
     // Cleanup khi unmount hoặc deps thay đổi
     return () => {

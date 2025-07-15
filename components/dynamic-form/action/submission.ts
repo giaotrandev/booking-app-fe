@@ -11,13 +11,13 @@ interface DynamicFormSubmissionsActionProps {
   token: string;
   fields?: FormFieldProps[];
   data?: Record<string, any>;
-  baseUrl: string;
+  // baseUrl: string;
 }
 
 const dynamicFormSubmissionsAction = async ({
   token,
   data,
-  baseUrl,
+  // baseUrl,
 }: DynamicFormSubmissionsActionProps): Promise<{
   success: boolean;
   message?: string;
@@ -28,11 +28,13 @@ const dynamicFormSubmissionsAction = async ({
     const verify = await cloudflareTurnstileSiteVerify(token);
     if (verify && verify.success) {
       // Token is valid, call the local /api/login route
-      // const BASE_URL =
-      //   process.env.NODE_ENV === 'production'
-      //     ? process.env.NEXT_BASE_URL // ví dụ: https://yourdomain.com
-      //     : 'http://localhost:3000'; // local URL
-      const loginUrl = `${baseUrl}/api/login`;
+      const BASE_URL =
+        process.env.NODE_ENV === 'production'
+          ? process.env.NEXT_BASE_URL // ví dụ: https://yourdomain.com
+          : 'http://localhost:3000'; // local URL
+      const loginUrl = `${BASE_URL}/api/login`;
+      // const loginUrl = `http://localhost:3000/api/login`;
+
       // const loginUrl = `/api/login`;
       const cookieStore = await cookies();
       const res = await fetch(loginUrl, {

@@ -15,6 +15,7 @@ export interface SeatItemProps extends SeatRequestProps {
   rowId: string;
 }
 const SeatItem = ({
+  id,
   status,
   number,
   price,
@@ -28,8 +29,9 @@ const SeatItem = ({
   if (!(status || number || price)) return null;
 
   const handleSelectSeat = () => {
+    console.log('id', id);
     if (status !== SeatStatus.AVAILABLE || !number) return;
-    selectSeat({ number, price, deckId, rowId });
+    selectSeat({ id, number, price, deckId, rowId, status });
   };
 
   const selected = isSeatSelected(number ?? '');

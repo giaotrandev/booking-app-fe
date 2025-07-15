@@ -1,5 +1,9 @@
 import { ResetPassword } from '#/components/blocks/reset-password/render';
-import { getTranslate, setStaticParamsLocale } from '#/i18n/server';
+import {
+  getStaticParams,
+  getTranslate,
+  setStaticParamsLocale,
+} from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 
@@ -7,7 +11,8 @@ export const metadata: Metadata = {
   title: 'Reset Password',
   description: 'Set a new password for your account.',
 };
-
+// Thêm dòng này
+export const generateStaticParams = getStaticParams;
 const ResetPasswordPage = async ({ params }: PageProps) => {
   const resolvedParams = await params;
   const { locale, token } = resolvedParams;

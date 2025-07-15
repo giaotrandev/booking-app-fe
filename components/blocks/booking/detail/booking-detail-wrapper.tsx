@@ -12,16 +12,18 @@ const BookingDetailWrapper = ({
   decks,
   dropingList,
   pickingList,
+  id,
 }: BookingDetailWrapperProps) => {
   return (
-    <BookingSelectionProvider>
-      <BookingDetailContent
-        seatsLeft={seatsLeft}
-        decks={decks}
-        dropingList={dropingList}
-        pickingList={pickingList}
-      />
-    </BookingSelectionProvider>
+    // <BookingSelectionProvider>
+    <BookingDetailContent
+      id={id}
+      seatsLeft={seatsLeft}
+      decks={decks}
+      dropingList={dropingList}
+      pickingList={pickingList}
+    />
+    // </BookingSelectionProvider>
   );
 };
 

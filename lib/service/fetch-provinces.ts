@@ -1,19 +1,19 @@
 'use server';
 // lib/api/fetchProvinces.ts
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers';
 
-export const fetchProvincesWithCookie = async (): Promise<any> => {
+export const fetchProvinces = async (): Promise<any> => {
   const isDev = process.env.NODE_ENV === 'development';
   const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_BASE_URL;
-  const cookieStore = await cookies();
+  // const cookieStore = await cookies();
   try {
     const res = await fetch(`${baseURL}/api/city-province`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Cookie: cookieStore.toString(),
+        // Cookie: cookieStore.toString(),
       },
-      cache: 'no-store',
+      next: { revalidate: 3600 },
     });
 
     if (res.ok) {

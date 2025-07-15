@@ -3,12 +3,13 @@ import { HeroBlock } from '#/components/blocks/hero';
 import ServiceRenderBlock from '#/components/blocks/service/render';
 import { TeaserRenderBlock } from '#/components/blocks/teaser/render';
 import { Layout } from '#/components/layout';
-import { setStaticParamsLocale } from '#/i18n/server';
+import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { homePagePath } from '#/lib/constant';
 import { getValidRoutes } from '#/lib/helper/get-valid-routes';
 import { PageProps } from '#/types/global';
 import { notFound } from 'next/navigation';
-
+// Thêm dòng này
+export const generateStaticParams = getStaticParams;
 const HomePage = async (props: PageProps) => {
   const { locale, all } = await props.params;
   setStaticParamsLocale(locale);

@@ -3,6 +3,8 @@
 import { RadioGroup, RadioGroupItem } from '#/components/ui/radio-group';
 import { useEffect, useState } from 'react';
 import { cn } from '#/lib/utilities/cn';
+import { Typography } from '#/components/ui/typography';
+import { formatUtcTime } from '#/lib/utilities/format-time';
 
 export interface OptionItemProps {
   id: string;
@@ -34,7 +36,7 @@ const OptionItemList = ({
   }, [defaultValue]);
   const handleChange = (value: string) => {
     setSelectedValue(value);
-    onChange?.(value); // truyền ra ngoài
+    onChange?.(value);
   };
 
   return (
@@ -46,18 +48,22 @@ const OptionItemList = ({
       {list.map(option => {
         const value = String(option.id);
         return (
-          <div key={option.id} className={cn('w-full rounded-md border p-4')}>
-            <div className="flex items-center gap-x-3">
-              <RadioGroupItem disabled={disabled} value={value} id={value} />
-              <label className="flex flex-col" htmlFor={value}>
-                <p className="font-medium">
-                  {option.time} - {option.locationName}
+          <div
+            key={option.id}
+            className={cn('flex w-full items-center rounded-md border p-4')}
+          >
+            <RadioGroupItem disabled={disabled} value={value} id={value} />
+            <label className="flex flex-1 flex-col pl-3" htmlFor={value}>
+              <Typography asChild className="font-medium">
+                <p>
+                  {option.time && `${formatUtcTime(option.time)} - `}
+                  {option.locationName}
                 </p>
-                <p className="text-muted-foreground text-sm">
-                  {option.address}
-                </p>
-              </label>
-            </div>
+              </Typography>
+              <Typography asChild className="text-pj-grey" variant="sub-label">
+                <p>{option.address}</p>
+              </Typography>
+            </label>
           </div>
         );
       })}

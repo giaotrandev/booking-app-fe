@@ -6,7 +6,6 @@ export async function POST() {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('at')?.value;
     const refreshToken = cookieStore.get('rt')?.value;
-
     if (!accessToken) {
       return NextResponse.json(
         {

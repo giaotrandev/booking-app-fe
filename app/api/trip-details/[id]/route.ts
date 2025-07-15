@@ -9,7 +9,7 @@ export async function GET(
   const { id } = await params;
 
   try {
-    const res = await fetch(`${BE_BASE_URL}/trips/${id}`);
+    const res = await fetch(`${BE_BASE_URL}/trips/details/${id}`);
     if (!res.ok) throw new Error('Failed to fetch trip details');
 
     const data = await res.json();

@@ -8,35 +8,74 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-}
+  input[type='range']::-webkit-slider-thumb {
+    pointer-events: auto;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    -webkit-appearance: none;
+    @apply bg-pj-red;
 
-@layer utilities {
-  .shadow-custom {
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    /* @apply w-6 h-6 appearance-none pointer-events-auto; */
   }
 }
+@layer utilities {
+  .custom-scrollbar {
+    scrollbar-color: transparent transparent;
+  }
 
+  .custom-scrollbar:hover {
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    border-radius: 9999px;
+    transition: background-color 0.3s;
+  }
+
+  .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+   .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: red; 
+  }
+}
 @theme {
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-archivo: var(--font-archivo), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-armata: var(--font-armata), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-roboto: var(--font-roboto), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --color-pj-red: #E04141;
-  --color-pj-grey-lightest: #EEEDED;
-  --color-pj-grey-light: #6A6A6B;
+  --font-sans:
+    var(--font-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-archivo:
+    var(--font-archivo), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-montserrat:
+    var(--font-montserrat), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-armata:
+    var(--font-armata), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-roboto:
+    var(--font-roboto), ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --color-pj-red: #e04141;
+  --color-pj-grey-lightest: #eeeded;
+  --color-pj-grey-light: #6a6a6b;
   --color-pj-grey: #414242;
-  --color-pj-blue: #1D7ED8;
-  --color-pj-blue-medium: #393F4E;
-  --color-pj-green: #4CAF50;
+  --color-pj-blue: #1d7ed8;
+  --color-pj-blue-medium: #393f4e;
+  --color-pj-green: #4caf50;
   --color-black: #000000;
   --color-pj-brown: #434141;
-  --color-pj-orange: #F07272;
+  --color-pj-orange: #f07272;
   --color-pj-blue-dark: #052863;
   --color-pj-input-focus: #0b0b0b;
 

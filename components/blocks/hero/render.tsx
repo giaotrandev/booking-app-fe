@@ -9,9 +9,8 @@ import { useTranslate } from '#/i18n/client';
 import { useDotButton } from '#/lib/embla-carousel/dot-button';
 import Autoplay from 'embla-carousel-autoplay';
 import { Typography } from '#/components/ui/typography';
-import { NavigationBookingProps } from '../../layout/filter-trip/navigation-booking/render';
 
-export interface HeroRenderBlockProps extends NavigationBookingProps {}
+export interface HeroRenderBlockProps {}
 const HeroRenderBlock = ({}: HeroRenderBlockProps) => {
   const { translate } = useTranslate();
   const uuid = useId();
@@ -29,14 +28,14 @@ const HeroRenderBlock = ({}: HeroRenderBlockProps) => {
   return (
     <section
       ref={emblaRef}
-      className="relative min-h-[calc(100vh-64px)] overflow-hidden lg:min-h-[calc(100vh-95px)]"
+      className="relative h-dvh !min-h-dvh overflow-hidden"
     >
       {isClient ? (
         <>
-          <div className="flex overflow-hidden">
+          <div className="flex h-dvh overflow-hidden">
             {heroListImagesAndVideos.map((item, index) => (
               <div
-                className="relative h-[calc(100vh-64px)] before:absolute before:z-[10] before:h-full before:w-full before:bg-black/30 before:content-[''] lg:h-[calc(100vh-95px)]"
+                className="relative h-screen before:absolute before:z-[10] before:h-full before:w-full before:bg-black/30 before:content-['']"
                 key={index}
               >
                 {(item.image || item.videoURL) && (
@@ -52,8 +51,12 @@ const HeroRenderBlock = ({}: HeroRenderBlockProps) => {
               </div>
             ))}
           </div>
-          <div className="absolute top-23.75 left-1/2 z-[11] -translate-x-1/2">
-            <Typography variant="h2" asChild className="text-white uppercase">
+          <div className="absolute top-1/2 left-1/2 z-[11] -translate-x-1/2 -translate-y-1/2 lg:top-50">
+            <Typography
+              variant="h1"
+              asChild
+              className="text-center text-white uppercase"
+            >
               <h1>START YOUR TRIP WITH US HERE </h1>
             </Typography>
           </div>

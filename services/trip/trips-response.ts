@@ -61,6 +61,7 @@ export interface Route extends BaseEntity {
   estimatedDuration?: number;
   sourceProvince?: Province;
   destinationProvince?: Province;
+  routeStops: RouteStopProps;
 }
 
 // Seat interface
@@ -118,6 +119,26 @@ export interface Vehicle extends BaseEntity {
 // Count interface
 export interface Count {
   seats?: number;
+}
+
+export interface PickUpPointResponseProps {
+  busStopId?: string;
+  name?: string;
+  latitude?: number;
+  longitude?: number;
+  wardName?: string;
+  districtName?: string;
+  provinceName?: string;
+  provinceId?: string;
+  stopOrder?: number;
+  price?: number;
+  address?: string;
+  estimatedTime?: string;
+}
+export interface DropOffPointResponseProps extends PickUpPointResponseProps {}
+export interface RouteStopProps {
+  pickupPoints?: PickUpPointResponseProps[];
+  dropoffPoints?: DropOffPointResponseProps[];
 }
 
 // Main Trip interface

@@ -1,4 +1,4 @@
-.custom-scrollbar {
+.custom-select-scrollbar {
   /* width */
   ::-webkit-scrollbar {
     @apply w-[5px];

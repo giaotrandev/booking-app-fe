@@ -61,7 +61,7 @@ const Accordion = ({
               >
                 <div
                   className={cn(
-                    'flex w-full items-center justify-between px-4',
+                    'flex w-full items-center justify-between',
                     item.children && 'cursor-pointer',
                   )}
                 >
@@ -88,9 +88,7 @@ const Accordion = ({
                 </div>
               </AccordionTrigger>
               {item.children && (
-                <AccordionContent
-                  className={cn('pt-4 pl-4', childrenClassName)}
-                >
+                <AccordionContent className={cn('pt-4', childrenClassName)}>
                   {item.children}
                 </AccordionContent>
               )}

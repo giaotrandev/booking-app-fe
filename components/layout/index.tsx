@@ -3,8 +3,8 @@ import { PropsWithChildren } from 'react';
 import { LayoutFooter, LayoutFooterProps } from './footer/footer';
 import { LayoutHeader, LayoutHeaderProps } from './header';
 import { LayoutMain } from './main';
-import { LayoutFilterTrip } from './filter-trip';
-import { fetchProvincesWithCookie } from '#/lib/service/fetch-provinces';
+import { LayoutFilterTrip } from './filter-trip/render';
+import { fetchProvinces } from '#/lib/service/fetch-provinces';
 import { convertProvinceList } from '#/services/global-settings/province-list';
 import { ProvincesRequestProps } from '#/services/global-settings/provinces-request';
 import { convertToSelectOptions } from '#/lib/utilities/convert-to-select-options';
@@ -17,7 +17,7 @@ const Layout = async ({ children }: LayoutProps) => {
   //     params: { locale: currentLocale },
   //   });
 
-  const resProvinces = await fetchProvincesWithCookie();
+  const resProvinces = await fetchProvinces();
   const provinceListData: ProvincesRequestProps[] = await convertProvinceList(
     resProvinces.provinces,
   );

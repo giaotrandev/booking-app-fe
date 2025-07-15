@@ -2,6 +2,7 @@ import { Col } from '#/components/ui/col';
 import { Row } from '#/components/ui/row';
 import { Typography } from '#/components/ui/typography';
 import { useBookingSelection } from '#/context/booking/booking-selection-context';
+import { useEffect } from 'react';
 import { OptionItemList, OptionItemListProps } from './option-list';
 
 export interface PickingAndDropingListProps {
@@ -18,6 +19,19 @@ const PickingAndDropingList = ({
     selectedPickingId,
     selectedDropingId,
   } = useBookingSelection();
+
+  useEffect(() => {
+    if (pickingList?.[0]?.id && !selectedPickingId) {
+      setSelectedPickingId(pickingList[0].id);
+    }
+  }, [pickingList, selectedPickingId, setSelectedPickingId]);
+
+  useEffect(() => {
+    if (dropingList?.[0]?.id && !selectedDropingId) {
+      setSelectedDropingId(dropingList[0].id);
+    }
+  }, [dropingList, selectedDropingId, setSelectedDropingId]);
+
   if (
     !(
       (Array.isArray(pickingList) && pickingList.length > 0) ||

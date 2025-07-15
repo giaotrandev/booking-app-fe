@@ -46,6 +46,21 @@ export type SeatConfiguration = {
   decks?: DeckRequest[];
 };
 
+export interface PickUpPointRequestProps {
+  busStopId?: string;
+  name?: string;
+  wardName?: string;
+  districtName?: string;
+  provinceName?: string;
+  provinceId?: string;
+  stopOrder?: number;
+}
+export interface DropOffPointRequestProps extends PickUpPointRequestProps {}
+// export interface RouteStopProps {
+//   pickUpPointsStop?: PickUpPointStop[];
+//   dropOffPointsProps?: DropOffPointProps[];
+// }
+
 export interface TripsRequestProps {
   id: string;
   name?: string;
@@ -63,5 +78,7 @@ export interface TripsRequestProps {
   pickingList?: OptionItemProps[];
   dropingList?: OptionItemProps[];
   seats?: SeatRequestProps[];
+  // pickUpPoints?: PickUpPointRequestProps[];
+  // DropOffPoints?: DropOffPointRequestProps[];
 }
 export interface TripDetailsRequestProps extends TripsRequestProps {}

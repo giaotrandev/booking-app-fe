@@ -8,7 +8,7 @@ const Hamburger = () => {
   const dataState = sidenavOpen ? 'open' : 'closed';
 
   return (
-    <span className="inline-flex size-10 items-center justify-center overflow-hidden">
+    <span className="inline-flex size-10 items-center justify-end overflow-hidden">
       <span className="relative h-2.5 w-5">
         <span
           data-state={dataState}

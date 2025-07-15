@@ -4,7 +4,7 @@ import { ComponentProps } from 'react';
 import { Typography } from './typography';
 
 const inputVariants = cva([
-  'flex w-full h-10 outline-none lg:h-14 border bg-transparent rounded-[4px] p-3',
+  'flex w-full h-14 outline-none lg:h-12  border bg-transparent rounded-[4px] p-3',
   'border-black placeholder:text-zinc-500',
   // 'dark:border-white dark:placeholder:text-zinc-500',
   '[&[aria-invalid=true]]:border-pj-red',

@@ -76,7 +76,7 @@ const CustomProvincesSelect = ({
   const rowVirtualizer = useVirtualizer({
     count: filteredOptions.length || 0,
     getScrollElement: () => listRef.current,
-    estimateSize: () => 40,
+    estimateSize: () => 30,
     overscan: 5,
   });
 
@@ -139,28 +139,28 @@ const CustomProvincesSelect = ({
           type="button"
           className={cn(
             inputVariants(),
-            'relative line-clamp-1 flex cursor-pointer items-center pr-4 text-left',
+            'relative line-clamp-1 flex cursor-pointer items-center py-2 pr-3 text-left',
           )}
           disabled={disabled}
         >
           <Typography
             asChild
-            variant="sub-label"
+            variant="small-label"
             className={cn(
-              'absolute top-1 left-3 text-[10px] text-zinc-500 transition-opacity',
+              'absolute top-0.5 left-3 text-[10px] text-zinc-500 transition-opacity',
               valueSelected.length > 0 ? 'opacity-100' : 'opacity-0',
             )}
           >
             <span>{subPlaceholder}</span>
           </Typography>
           {valueSelected.length > 0 ? (
-            <span className="text-black">
-              {valueSelected.map(item => item.label).join(', ')}
-            </span>
+            <Typography className="text-black" asChild variant="small-label">
+              <span>{valueSelected.map(item => item.label).join(', ')}</span>
+            </Typography>
           ) : (
             <span className="text-zinc-500">{placeholder}</span>
           )}
-          <span className="pointer-events-none absolute top-1/2 right-2 -translate-y-1/2">
+          <span className="pointer-events-none absolute top-1/2 right-1 -translate-y-1/2">
             <Icon
               name="chevron-down"
               className={cn(
@@ -172,7 +172,7 @@ const CustomProvincesSelect = ({
         </button>
       </PopoverTrigger>
       <PopoverContent
-        className="relative top-2 z-[12] w-[var(--radix-popover-trigger-width)]"
+        className="pointer-events-auto relative top-2 z-[99999999] w-[var(--radix-popover-trigger-width)]"
         onOpenAutoFocus={e => {
           try {
             ref.current?.focus();
@@ -184,7 +184,7 @@ const CustomProvincesSelect = ({
         <div className="rounded-xl border border-black bg-white px-2 py-4 text-black">
           <CommandPrimitive
             ref={ref}
-            className="custom-scrollbar overflow-hidden outline-none"
+            className="custom-select-scrollbar overflow-hidden bg-white outline-none"
             shouldFilter={false}
           >
             {searchable && (
@@ -195,7 +195,7 @@ const CustomProvincesSelect = ({
                     searchPlaceholder ??
                     translate({ vi: 'Tìm kiếm...', en: 'Search...' })
                   }
-                  className="mb-2 w-full border-b border-black bg-white px-2 py-1 text-black outline-none placeholder:text-zinc-500"
+                  className="w-full border-b border-black bg-white px-2 py-1 text-black outline-none placeholder:text-zinc-500"
                   value={searchValue}
                   onChange={e => setSearchValue(e.target.value)}
                 />
@@ -221,11 +221,12 @@ const CustomProvincesSelect = ({
                   open && (
                     <div
                       ref={listRef}
-                      className="relative flex max-h-[160px] flex-col gap-y-1.5 overflow-auto"
+                      className="relative z-[1] flex max-h-[160px] flex-col gap-y-3 overflow-auto"
                     >
                       <div
                         style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
-                        className="relative w-full"
+                        className="relative flex w-full flex-col gap-y-1.5"
+                        // tabIndex={-1}
                       >
                         {rowVirtualizer.getVirtualItems().map(virtualRow => {
                           const item = filteredOptions[virtualRow.index];
@@ -235,15 +236,16 @@ const CustomProvincesSelect = ({
 
                           return (
                             <CommandPrimitive.Item
+                              data-slot="command-item"
                               key={`${item.value}-${virtualRow.index}`}
                               // Giữ nguyên value là ID
                               value={item.value}
                               onSelect={() => handleSelect(item)}
                               className={cn(
-                                'absolute right-0 left-0 w-full cursor-pointer rounded-xl p-1.5 outline-none',
+                                'lg:data-[selected=true]:bg-pj-blue/70 absolute right-0 left-0 flex w-full cursor-pointer items-center rounded-xl px-1.5 leading-[0.875] outline-none lg:data-[selected=true]:text-white',
                                 isSelected
                                   ? 'bg-pj-blue text-white'
-                                  : 'hover:bg-pj-blue/70 hover:text-white',
+                                  : 'hocus:bg-pj-blue/70 hocus:text-white',
                                 'disabled:pointer-events-none disabled:opacity-50',
                               )}
                               style={{

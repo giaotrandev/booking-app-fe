@@ -9,7 +9,7 @@ const typographyVariants = cva([''], {
   variants: {
     variant: {
       'big-title': 'leading-none font-archivo text-[48px] lg:text-[64px]',
-      h1: 'font-archivo leading-none lg:text-[48px]',
+      h1: 'font-archivo leading-none text-[36px] lg:text-[48px]',
       h2: 'font-archivo leading-none lg:text-[40px]',
       h3: 'font-semibold leading-none lg:text-[32px]',
       h4: 'font-bold leading-none lg:text-[24px]',

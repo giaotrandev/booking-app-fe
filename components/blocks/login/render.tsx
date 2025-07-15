@@ -58,7 +58,7 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
       const result = await dynamicFormSubmissionsAction({
         token: currentToken,
         data: formData,
-        baseUrl: 'http://localhost:3000',
+        // baseUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       });
       resetTurnstile();
 
@@ -94,59 +94,6 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
     }
   };
 
-  // const handleSubmit = async (formData: Record<string, any>) => {
-  //   if (!token) {
-  //     toast({
-  //       title: 'Verification required',
-  //       description: 'Please complete the verification.',
-  //       variant: 'error',
-  //     });
-  //     return;
-  //   }
-
-  //   const currentToken = token;
-  //   try {
-  //     setProcessing(true);
-  //     const result = await dynamicFormSubmissionsAction({
-  //       token: currentToken,
-  //       data: formData,
-  //     });
-
-  //     resetTurnstile();
-
-  //     if (!result.success) {
-  //       toast({
-  //         title: 'Login failed',
-  //         description: result.message,
-  //         variant: 'error',
-  //       });
-  //       return;
-  //     }
-
-  //     // Success logic
-  //     useUserStore.getState().setAuth({
-  //       user: result.data.user,
-  //       rememberMe: formData.rememberMe,
-  //     });
-
-  //     toast({
-  //       variant: 'success',
-  //       title: 'Login successful',
-  //       description: 'You have successfully signed in.',
-  //     });
-
-  //     formRenderRef.current?.handleReset();
-  //     router.push('/');
-  //   } catch (error) {
-  //     toast({
-  //       title: 'Login failed',
-  //       description: 'Something went wrong. Please try again later.',
-  //       variant: 'error',
-  //     });
-  //   } finally {
-  //     setProcessing(false);
-  //   }
-  // };
   const handleSubmitWithGoogle = () => {
     const width = 500;
     const height = 600;
