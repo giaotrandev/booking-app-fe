@@ -10,7 +10,6 @@ import { SeatConfiguration } from '#/services/trip/trips-request';
 export interface SeatLayoutProps extends SeatConfiguration {}
 const SeatLayout = ({ decks }: SeatLayoutProps) => {
   if (!(Array.isArray(decks) && decks.length > 0)) return null;
-  console.log(decks);
   return (
     <Row className="gap-y-4 lg:grid-cols-6 lg:gap-x-4 lg:gap-y-0">
       {decks.map((deck, index) => (
@@ -87,7 +86,6 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
                     {Array.isArray(otherSeats) && otherSeats.length > 0 && (
                       <Row className="grid-cols-3 gap-5 lg:grid-cols-3">
                         {otherSeats.map((seat, seatIndex) => {
-                          console.log(seat.id);
                           return (
                             <Col key={seatIndex} className="col-span-1">
                               {deck?.deckId && row?.rowId && (

@@ -59,6 +59,7 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
         formRenderRef.current.handleReset();
       }
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Unexpected register error:', error);
       toast({
         title: 'Registration Failed',
@@ -163,7 +164,7 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
           onClose={() => setShowNotification(false)}
           children={
             <div className="flex w-full max-w-140 flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 shadow-lg transition-[opacity,transform]">
-              <Typography asChild variant="h2">
+              <Typography asChild variant="h3">
                 <p>Confirm Your Account</p>
               </Typography>
               <Typography asChild className="text-pj-grey-light text-center">

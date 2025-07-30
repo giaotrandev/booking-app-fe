@@ -4,6 +4,7 @@ import { Modal } from '../headless/modal';
 interface NotificationProps {
   open: boolean;
   onClose: () => void;
+  clickOutsideToClose?: boolean;
   children: ReactNode;
 }
 

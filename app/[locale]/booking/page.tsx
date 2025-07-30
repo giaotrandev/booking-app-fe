@@ -3,7 +3,6 @@ import { WrapperBookingBlock } from '#/components/blocks/booking/wrapper-index';
 import { setStaticParamsLocale, getStaticParams } from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
-
 export const metadata: Metadata = {
   title: 'Sample',
   description: 'This is a sample page, please remove this page after tested',

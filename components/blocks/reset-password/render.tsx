@@ -53,6 +53,7 @@ const ResetPassword = ({ token, isValid }: ResetPasswordProps) => {
       }
       router.push('/login');
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Unexpected error during password reset:', error);
       toast({
         title: 'Something went wrong',

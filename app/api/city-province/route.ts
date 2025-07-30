@@ -12,7 +12,6 @@ export async function GET() {
 
     // Kiểm tra environment variable
     if (!process.env.NEXT_PUBLIC_SITE_URL) {
-      console.error('NEXT_PUBLIC_SITE_URL is not defined');
       return NextResponse.json(
         { success: false, message: 'Server configuration error' },
         { status: 500 },
@@ -26,12 +25,11 @@ export async function GET() {
           'Content-Type': 'application/json',
           // Authorization: `Bearer ${accessToken}`,
         },
-        next: { revalidate: 3600 }, // Cache 1 giờ
+        // next: { revalidate: 3600 }, // Cache 1 giờ
       },
     );
 
     if (!res.ok) {
-      console.error('External API error:', res.status, res.statusText);
       return NextResponse.json(
         {
           success: false,
@@ -45,7 +43,6 @@ export async function GET() {
 
     // Validate data structure
     if (!data || typeof data !== 'object') {
-      console.error('Invalid data structure received from external API');
       return NextResponse.json(
         { success: false, message: 'Invalid data received' },
         { status: 500 },
@@ -55,12 +52,11 @@ export async function GET() {
     return NextResponse.json(data.data || data, {
       status: 200,
       headers: {
-        'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
+        // 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
         'Content-Type': 'application/json',
       },
     });
   } catch (error) {
-    console.error('API route error:', error);
     return NextResponse.json(
       {
         success: false,

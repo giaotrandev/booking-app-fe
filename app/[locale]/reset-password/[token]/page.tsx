@@ -43,6 +43,7 @@ const ResetPasswordPage = async ({ params }: PageProps) => {
 
     isValid = res.ok && data.success === true;
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error('Error checking token:', err);
   }
 

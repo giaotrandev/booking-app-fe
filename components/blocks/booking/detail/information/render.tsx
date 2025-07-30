@@ -3,13 +3,24 @@ import { FormFieldProps } from '#/components/dynamic-form/type';
 import { Typography } from '#/components/ui/typography';
 import { useToast } from '#/components/ui/use-toast';
 import { useBookingSelection } from '#/context/booking/booking-selection-context';
+import { createBooking } from '#/lib/service/create-booking';
+import { useRouter } from 'next/navigation';
 
-export interface InformationRenderProps {}
-const InformationRender = () => {
+export interface InformationRenderProps {
+  tripId: string;
+}
+const InformationRender = ({ tripId }: InformationRenderProps) => {
   const { toast } = useToast();
-  const { isSubmit, setIsSubmit, validateSelectedSeats, setPassengerInfo } =
-    useBookingSelection();
-  const handleSubmitForm = (formData: Record<string, any>) => {
+  const router = useRouter();
+  const {
+    isSubmit,
+    setIsSubmit,
+    validateSelectedSeats,
+    selectedPickingId,
+    selectedDropingId,
+    getAvailableSeats,
+  } = useBookingSelection();
+  const handleSubmitForm = async (formData: Record<string, any>) => {
     const validation = validateSelectedSeats();
     if (!validation.isValid) {
       toast({
@@ -19,12 +30,28 @@ const InformationRender = () => {
       });
       return;
     }
-    setPassengerInfo({
-      fullname: formData.fullname,
-      email: formData.email,
-      phoneNumber: formData.phoneNumber,
-      note: formData.note,
-    });
+    try {
+      const availableSeatIds = getAvailableSeats().map(seat => seat.id);
+
+      const response = await createBooking({
+        tripId: tripId,
+        seatIds: availableSeatIds,
+        passengerName: formData?.fullname ?? '',
+        passengerEmail: formData?.email ?? '',
+        passengerPhone: formData?.phoneNumber ?? '',
+        passengerNote: formData?.note,
+        pickupId: selectedPickingId ?? '',
+        dropoffId: selectedDropingId ?? '',
+      });
+      const bookingId = response;
+      router.push(`/checkout?bookingId=${bookingId}`);
+    } catch (error) {
+      toast({
+        title: 'Đặt vé thất bại',
+        description: 'Đã có lỗi xảy ra. Vui lòng thử lại sau.',
+        variant: 'destructive',
+      });
+    }
   };
   return (
     <div className="mt-4 flex flex-col items-center justify-center gap-y-4 lg:mt-0">

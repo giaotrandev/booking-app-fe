@@ -1,7 +1,6 @@
 import {
   DeckRequest,
   OptionItemProps,
-  PickUpPointRequestProps,
   RowRequest,
   SeatRequestProps,
   SeatStatus,
@@ -11,7 +10,6 @@ import {
 import {
   DeckResponse,
   PickUpPointResponseProps,
-  RouteStopProps,
   RowResponse,
   SeatResponse,
   TripResponseProps,

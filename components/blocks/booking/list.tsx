@@ -40,7 +40,8 @@ const BookingList = ({
   if (!(Array.isArray(list) && list.length > 0)) return null;
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const { selectedSeats, markSeatAsUnavailable } = useBookingSelection();
+  const { clearSelectedSeats, selectedSeats, markSeatAsUnavailable } =
+    useBookingSelection();
   const [accordionValue, setAccordionValue] = useState<string>('');
   const [tripDetails, setTripDetails] = useState<TripsRequestProps>();
   const [loadingTripId, setLoadingTripId] = useState<string>('');
@@ -92,7 +93,6 @@ const BookingList = ({
 
     try {
       const res = await getTripDetailAction(tripId);
-      console.log('res', res);
       if (
         res.error ||
         !res.data ||
@@ -100,12 +100,10 @@ const BookingList = ({
         !Array.isArray(res.data.decks) ||
         res.data.decks.length === 0
       ) {
-        console.error(res.message);
         return;
       }
 
       const trip = res.data;
-      console.log('trip', trip);
       const seatStatusMap = new Map<string, SeatStatus>();
       const seatIdMap = new Map<string, string>();
       trip.seats?.forEach(seat => {
@@ -185,6 +183,7 @@ const BookingList = ({
         );
       }
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error(err);
       toast({
         title: 'Lỗi kết nối thời gian thực',
@@ -220,7 +219,11 @@ const BookingList = ({
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [handleObserver]);
-
+  useEffect(() => {
+    if (!accordionValue) {
+      clearSelectedSeats(); // 👈 accordion đã đóng => reset ghế
+    }
+  }, [accordionValue]);
   return (
     <div className="space-y-6">
       <Accordion
@@ -267,7 +270,7 @@ const BookingList = ({
                     )}
                   </div>
                 </div>
-                <div className="flex-1 p-4 lg:py-0 lg:pr-0 lg:pl-4">
+                <div className="flex flex-1 flex-col p-4 lg:py-0 lg:pr-0 lg:pl-4">
                   {(item.name || item.price) && (
                     <div className="flex flex-row items-center justify-between gap-x-2">
                       {item.name && (
@@ -291,14 +294,11 @@ const BookingList = ({
                     </div>
                   )}
                   {item.description && (
-                    <Typography
-                      asChild
-                      className="text-pj-grey-light mt-2.5 mb-2"
-                    >
+                    <Typography asChild className="text-pj-grey-light">
                       <h2>{item.description}</h2>
                     </Typography>
                   )}
-                  <div className="flex flex-col lg:flex-row lg:justify-between lg:gap-x-2">
+                  <div className="flex flex-col lg:mt-auto lg:flex-row lg:justify-between lg:gap-x-2">
                     {(item.arrivalTime ||
                       item.departureTime ||
                       item.arrivalDestination ||
@@ -309,7 +309,7 @@ const BookingList = ({
                           item.departureTime ||
                           item.arrivalDestination ||
                           item.departureDestination) && (
-                          <div className="w-full lg:max-w-66.75">
+                          <div className="w-full lg:max-w-70 lg:translate-y-3">
                             {(item.departureTime ||
                               item.departureDestination) && (
                               <TimeItem
@@ -354,7 +354,6 @@ const BookingList = ({
                       )}
                       <AccordionTrigger
                         onClick={() => {
-                          console.log('tripId', item.id);
                           const isOpen = accordionValue === value;
                           const nextValue = isOpen ? '' : value;
                           setAccordionValue(nextValue);

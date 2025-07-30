@@ -46,6 +46,7 @@ const VerifyEmailPage = async ({ params }: PageProps) => {
     success = json.success;
     message = json.message;
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
   }
 

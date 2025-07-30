@@ -16,14 +16,11 @@ export async function POST(req: NextRequest) {
     );
 
     const data = await apiRes.json();
-    console.log('data', data);
     const response = NextResponse.json(data, {
       status: apiRes.status,
     });
-    console.log('req', response);
     return response;
   } catch (error) {
-    console.error('[API /api/login] Internal Server Error:', error);
     return NextResponse.json(
       {
         success: false,

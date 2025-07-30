@@ -1,6 +1,10 @@
 import EmptyContent from '#/components/common/empty-content';
 import FilterAccordion from '#/components/common/filter/filter-accordion-list';
 import { Container } from '#/components/ui/container';
+import {
+  DropoffPointsRequestProps,
+  PickUpPointRequestProps,
+} from '#/services/trip/filter/bus-stop/bus-stop-request';
 import NavigationBooking, {
   NavigationBookingProps,
 } from '../../layout/filter-trip/navigation-booking/item';
@@ -12,11 +16,15 @@ export interface BookingRenderBlockProps extends NavigationBookingProps {
   fetchNextPage?: () => void;
   hasNextPage?: boolean;
   isFetchingNextPage?: boolean;
+  pickUpFilterList?: PickUpPointRequestProps[];
+  dropOffFilterList?: DropoffPointsRequestProps[];
 }
 const BookingRenderBlock = ({
   arrivalList,
   destinationList,
   bookingList,
+  pickUpFilterList,
+  dropOffFilterList,
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
@@ -41,7 +49,10 @@ const BookingRenderBlock = ({
           <div className="flex flex-col gap-y-8 lg:flex-row lg:gap-y-0">
             <div className="w-full lg:max-w-59.25">
               <div className="sticky top-[100px] left-0">
-                <FilterAccordion />
+                <FilterAccordion
+                  dropOffFilterList={dropOffFilterList}
+                  pickUpFilterList={pickUpFilterList}
+                />
               </div>
             </div>
             <div className="w-full flex-1 xl:pl-14">

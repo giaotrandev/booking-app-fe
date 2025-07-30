@@ -40,6 +40,7 @@ export const useLogout = () => {
 
       router.push('/');
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Logout error:', error);
       toast({
         title: 'Logout failed',

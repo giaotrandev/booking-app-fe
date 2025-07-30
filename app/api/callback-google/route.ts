@@ -41,6 +41,7 @@ export async function GET(request: NextRequest) {
               //   window.close();
               // }, 1000);
             } catch (e) {
+             // eslint-disable-next-line no-console
               console.error('Error:', e);
               // window.close();
             }
@@ -70,6 +71,7 @@ export async function GET(request: NextRequest) {
     return response;
     // return NextResponse.redirect('http://localhost:3000', 302);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Auth callback error:', error);
 
     const errorHtml = `

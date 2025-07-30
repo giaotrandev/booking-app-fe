@@ -12,8 +12,6 @@ import { TripsRequestProps } from '#/services/trip/trips-request';
 import { formatPrice } from '#/lib/utilities/format-price';
 import { useToast } from '#/components/ui/use-toast';
 import { Notification } from '#/components/ui/notification';
-import { useRouter } from 'next/navigation';
-import { createBooking } from '#/lib/service/create-booking';
 export interface BookingDetailContentProps extends TripsRequestProps {}
 const BookingDetailContent = ({
   id,
@@ -28,13 +26,9 @@ const BookingDetailContent = ({
   const [isFullConflictSeats, setIsFullConflictSeats] =
     useState<boolean>(false);
   const [conflictSeats, setConflictSeats] = useState<string[]>([]);
-  const router = useRouter();
   const {
-    passengerInfo,
     selectedSeats,
     totalPrice,
-    selectedPickingId,
-    selectedDropingId,
     setIsSubmit,
     saveTotalPrice,
     validateSelectedSeats,
@@ -43,12 +37,10 @@ const BookingDetailContent = ({
     deselectSeat,
   } = useBookingSelection();
   const isContinueDisabled = selectedSeats.length === 0;
-
   const handleActionButtonNext = async () => {
     if (activeTab === 3) {
       // Validate seats trước khi submit
       const validation = validateSelectedSeats();
-
       if (!validation.isValid) {
         const conflict = validation.unavailableSeats;
         const allConflict = conflict.length === selectedSeats.length;
@@ -58,28 +50,6 @@ const BookingDetailContent = ({
         return;
       }
       setIsSubmit(true);
-      try {
-        const availableSeatIds = getAvailableSeats().map(seat => seat.id);
-        const response = await createBooking({
-          tripId: id,
-          seatIds: availableSeatIds,
-          passengerName: passengerInfo?.fullname ?? '',
-          passengerEmail: passengerInfo?.email ?? '',
-          passengerPhone: passengerInfo?.phoneNumber ?? '',
-          passengerNote: passengerInfo?.note,
-          pickupId: selectedPickingId ?? '',
-          dropoffId: selectedDropingId ?? '',
-        });
-        const bookingId = response;
-        // console.log(bookingId);
-        router.push(`/checkout?bookingId=${bookingId}`);
-      } catch (error) {
-        toast({
-          title: 'Đặt vé thất bại',
-          description: 'Đã có lỗi xảy ra. Vui lòng thử lại sau.',
-          variant: 'destructive',
-        });
-      }
     }
 
     saveTotalPrice();
@@ -135,7 +105,7 @@ const BookingDetailContent = ({
               />
             </div>
           )}
-          {activeTab === 3 && <InformationRender />}
+          {activeTab === 3 && <InformationRender tripId={id} />}
           <div className="mt-4 flex justify-between">
             <div
               className={cn(
@@ -169,7 +139,13 @@ const BookingDetailContent = ({
         onClose={() => setIsConflictModalOpen(false)}
       >
         <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
-          <h2 className="mb-3 text-lg font-semibold">Ghế đã bị đặt</h2>
+          <Typography
+            asChild
+            variant="h3"
+            className="text-center font-semibold"
+          >
+            <h2>Your seats have already booked </h2>
+          </Typography>
           {isFullConflictSeats ? (
             <>
               <Typography asChild className="mb-4" variant="small-label">

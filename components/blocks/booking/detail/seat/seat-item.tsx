@@ -29,7 +29,6 @@ const SeatItem = ({
   if (!(status || number || price)) return null;
 
   const handleSelectSeat = () => {
-    console.log('id', id);
     if (status !== SeatStatus.AVAILABLE || !number) return;
     selectSeat({ id, number, price, deckId, rowId, status });
   };

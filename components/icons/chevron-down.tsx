@@ -1,4 +1,4 @@
-import { SvgProps } from "#/types/global";
+import { SvgProps } from '#/types/global';
 
 const ChevronDown = ({ ...props }: SvgProps) => {
   return (

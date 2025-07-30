@@ -1,4 +1,7 @@
 'use server';
+
+import { convertProvinceList } from '#/services/global-settings/province-list';
+
 // lib/api/fetchProvinces.ts
 // import { cookies } from 'next/headers';
 
@@ -13,14 +16,14 @@ export const fetchProvinces = async (): Promise<any> => {
         'Content-Type': 'application/json',
         // Cookie: cookieStore.toString(),
       },
-      next: { revalidate: 3600 },
+      // next: { revalidate: 3600 },
     });
 
     if (res.ok) {
       const data = await res.json();
-      return data;
+      const convertedData = await convertProvinceList(data.provinces);
+      return convertedData;
     } else {
-      console.error('Failed to fetch provinces:', res.statusText);
       return [];
     }
   } catch (error) {

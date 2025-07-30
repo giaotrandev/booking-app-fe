@@ -30,6 +30,7 @@ export async function getTripDetailAction(tripId: string) {
       data: convertedDataResponse,
     };
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error(err);
     return {
       error: true,

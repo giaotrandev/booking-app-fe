@@ -18,9 +18,6 @@ const Layout = async ({ children }: LayoutProps) => {
   //   });
 
   const resProvinces = await fetchProvinces();
-  const provinceListData: ProvincesRequestProps[] = await convertProvinceList(
-    resProvinces.provinces,
-  );
   const header: LayoutHeaderProps = {};
   const footer: LayoutFooterProps = {};
 
@@ -28,8 +25,8 @@ const Layout = async ({ children }: LayoutProps) => {
     <>
       <LayoutHeader {...header} />
       <LayoutFilterTrip
-        arrivalList={convertToSelectOptions(provinceListData)}
-        destinationList={convertToSelectOptions(provinceListData)}
+        arrivalList={convertToSelectOptions(resProvinces)}
+        destinationList={convertToSelectOptions(resProvinces)}
       />
       <LayoutMain>{children}</LayoutMain>
       <LayoutFooter {...footer} />

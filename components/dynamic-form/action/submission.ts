@@ -90,6 +90,7 @@ const dynamicFormSubmissionsAction = async ({
       throw new Error(errorMessages);
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Turnstile validation or login error:', error);
     return {
       success: false,

@@ -1,4 +1,4 @@
-import { SvgProps } from "#/types/global";
+import { SvgProps } from '#/types/global';
 
 const Check = ({ ...props }: SvgProps) => {
   return (

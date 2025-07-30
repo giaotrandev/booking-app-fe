@@ -24,13 +24,6 @@ const LayoutFilterTrip = ({
   arrivalList,
   destinationList,
 }: LayoutFilterTripProps) => {
-  if (
-    !(
-      (Array.isArray(arrivalList) && arrivalList.length > 0) ||
-      (Array.isArray(destinationList) && destinationList.length > 0)
-    )
-  )
-    return null;
   const { translate } = useTranslate();
   const isDesktop = useMediaQuery('(min-width: 1023px)');
   const { sideFilterOpen, setFilterOpen } = useGlobalsStore();
@@ -42,6 +35,15 @@ const LayoutFilterTrip = ({
       setFilterOpen(false);
     }
   }, [isDesktop]);
+  if (
+    !(
+      (Array.isArray(arrivalList) && arrivalList.length > 0) ||
+      (Array.isArray(destinationList) && destinationList.length > 0)
+    )
+  ) {
+    return null;
+  }
+
   return (
     <Container>
       {/* Desktop */}

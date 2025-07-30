@@ -4,6 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { ComponentProps } from 'react';
 import { typographyVariants } from './typography';
 import { ButtonContent } from './button-content';
+import { IconProps } from '../icons';
 
 const buttonVariants = cva(
   [
@@ -28,9 +29,11 @@ const buttonVariants = cva(
         red: 'bg-pj-red',
         black: 'bg-black',
         grey: 'bg-pj-grey',
+        blue: 'bg-pj-blue',
       },
       shape: {
         default: 'rounded-[10px]',
+        tag: 'rounded-[24px]',
         special: 'border border-pj-grey-light rounded-[25px]',
       },
     },
@@ -47,6 +50,7 @@ export interface ButtonProps
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   text?: string;
+  icon?: IconProps;
 }
 
 const Button = ({
@@ -56,6 +60,7 @@ const Button = ({
   text,
   colors,
   shape,
+  icon,
   asChild = false,
   ...props
 }: ButtonProps) => {
@@ -71,7 +76,7 @@ const Button = ({
       {...props}
     >
       {children && <Slottable>{children}</Slottable>}
-      {text && <ButtonContent text={text} />}
+      {text && <ButtonContent text={text} icon={icon} />}
     </Comp>
   );
 };

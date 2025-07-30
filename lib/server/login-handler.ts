@@ -25,6 +25,7 @@ export async function loginHandler(data: Record<string, any>) {
       data: result.data,
     };
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('LoginHandler Error:', error);
     return {
       success: false,

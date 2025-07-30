@@ -111,6 +111,7 @@ const ForgotPasswordRenderBlock = ({ fields }: ForgotPasswordRenderBlock) => {
         variant: 'success',
       });
     } catch (error: any) {
+      // eslint-disable-next-line no-console
       console.error('Error resending reset link:', error);
       toast({
         title: 'Resend Failed',
@@ -159,7 +160,7 @@ const ForgotPasswordRenderBlock = ({ fields }: ForgotPasswordRenderBlock) => {
           onClose={() => setShowNotification(false)}
           children={
             <div className="flex w-full max-w-140 flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 shadow-lg transition-[opacity,transform]">
-              <Typography asChild variant="h2">
+              <Typography asChild variant="h3">
                 <p>Check Your Email</p>
               </Typography>
               <Typography asChild className="text-pj-grey-light text-center">

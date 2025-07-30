@@ -25,7 +25,10 @@ export const getValidRoutes = async (): Promise<string[]> => {
 
   for (const locale of routing.locales) {
     const localePath = path.resolve(process.cwd(), `app/${locale}`);
-    const exists = await fs.stat(localePath).then(() => true).catch(() => false);
+    const exists = await fs
+      .stat(localePath)
+      .then(() => true)
+      .catch(() => false);
     if (!exists) continue;
 
     const entries = await fs.readdir(localePath, { withFileTypes: true });

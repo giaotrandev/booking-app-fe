@@ -4,19 +4,19 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '#/components/headless/popover';
-import { Button } from '#/components/ui/button';
-import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
-import { ButtonIcon } from '#/components/ui/button-icon';
-import { cn } from '#/lib/utilities/cn';
-import { CustomProvincesSelect } from '#/components/ui/custom-provinces-select';
-import { CustomCalendar } from '#/components/ui/custom-calendar';
 import { Icon } from '#/components/icons';
-import { DateRange } from 'react-day-picker';
+import { Button } from '#/components/ui/button';
+import { ButtonIcon } from '#/components/ui/button-icon';
+import { CustomCalendar } from '#/components/ui/custom-calendar';
+import { CustomProvincesSelect } from '#/components/ui/custom-provinces-select';
 import { Typography } from '#/components/ui/typography';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { parseISO } from 'date-fns';
+import { cn } from '#/lib/utilities/cn';
+import { sanitizeTitle } from '#/lib/utilities/sanitize-title';
 import { useGlobalsStore } from '#/store/globals';
+import { format, parseISO } from 'date-fns';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { DateRange } from 'react-day-picker';
 
 const dateFormat = 'dd-MM-yyyy';
 
@@ -45,8 +45,8 @@ const NavigationBooking = ({
   const { setFilterOpen } = useGlobalsStore();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const sourceProvinceId = searchParams.get('sourceProvinceId');
-  const destinationProvinceId = searchParams.get('destinationProvinceId');
+  const sourceProvinceLabel = searchParams.get('from');
+  const destinationProvinceLabel = searchParams.get('to');
   const departureDate = searchParams.get('departureDate');
   const arrivalDate = searchParams.get('arrivalDate');
   const [processing, setProcessing] = useState(false);
@@ -87,13 +87,13 @@ const NavigationBooking = ({
   const handleSearchTrip = () => {
     setProcessing(true);
     const params = new URLSearchParams();
-
     if (selectedArrival) {
-      params.append('sourceProvinceId', selectedArrival.value);
+      params.append('from', sanitizeTitle(selectedArrival.label));
     }
     if (selectedDestination) {
-      params.append('destinationProvinceId', selectedDestination.value);
+      params.append('to', sanitizeTitle(selectedDestination.label));
     }
+
     if (dateRange?.from) {
       params.append('departureDate', format(dateRange.from, 'yyyy-MM-dd'));
     }
@@ -104,19 +104,22 @@ const NavigationBooking = ({
     const bookingUrl = queryString ? `/booking?${queryString}` : '/booking';
     router.push(bookingUrl);
   };
+
   useEffect(() => {
-    if (sourceProvinceId && !selectedArrival) {
+    if (!arrivalList.length || !destinationList.length) return;
+    if (sourceProvinceLabel && !selectedArrival) {
       const foundArrival = arrivalList.find(
-        arrivalItem => arrivalItem.value === sourceProvinceId,
+        arrivalItem => sanitizeTitle(arrivalItem.label) === sourceProvinceLabel,
       );
       if (foundArrival) {
         setSelectedArrival(foundArrival);
       }
     }
 
-    if (destinationProvinceId && !selectedDestination) {
+    if (destinationProvinceLabel && !selectedDestination) {
       const foundDestination = destinationList.find(
-        destinationItem => destinationItem.value === destinationProvinceId,
+        destinationItem =>
+          sanitizeTitle(destinationItem.label) === destinationProvinceLabel,
       );
       if (foundDestination) {
         setSelectedDestination(foundDestination);
@@ -124,14 +127,15 @@ const NavigationBooking = ({
     }
 
     if ((departureDate || arrivalDate) && !dateRange?.from && !dateRange?.to) {
-      setDateRange({
+      const range = {
         from: departureDate ? parseISO(departureDate) : undefined,
         to: arrivalDate ? parseISO(arrivalDate) : undefined,
-      });
+      };
+      setDateRange(range);
     }
   }, [
-    sourceProvinceId,
-    destinationProvinceId,
+    sourceProvinceLabel,
+    destinationProvinceLabel,
     departureDate,
     arrivalDate,
     arrivalList,
@@ -139,7 +143,13 @@ const NavigationBooking = ({
   ]);
   useEffect(() => {
     setProcessing(false);
-  }, [sourceProvinceId, destinationProvinceId, departureDate, arrivalDate]);
+  }, [
+    sourceProvinceLabel,
+    destinationProvinceLabel,
+    departureDate,
+    arrivalDate,
+  ]);
+
   return (
     <div
       className={cn(
@@ -213,8 +223,10 @@ const NavigationBooking = ({
             <PopoverTrigger asChild>
               <button
                 type="button"
+                disabled={processing}
                 className={cn(
                   'relative h-14 w-full rounded-xl border px-4 py-3 text-left lg:h-12',
+                  'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
                 )}
                 onClick={() => setIsDatePickerOpen(true)}
               >

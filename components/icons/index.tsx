@@ -8,6 +8,7 @@ import CheckCircle from './check-circle';
 import { ChevronDown } from './chevron-down';
 import { ChevronLeft } from './chevron-left';
 import { ChevronRight } from './chevron-right';
+import ChevronRightWithStick from './chevron-right-with-stick';
 import { ChevronUp } from './chevron-up';
 import Date from './date';
 import Email from './email';
@@ -16,6 +17,7 @@ import Eye from './eye';
 import { Hamburger } from './hamburger';
 import HidePassword from './hide-password';
 import Phone from './phone';
+import Print from './print';
 import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
 import { SteeringWheel } from './steering-wheel';
@@ -38,6 +40,8 @@ const icons = {
   'exclamation-circle': ExclamationCircle,
   'x-circle': XCircle,
   'steering-wheel': SteeringWheel,
+  'chevron-right-with-sticky': ChevronRightWithStick,
+  print: Print,
   seat: Seat,
   hamburger: Hamburger,
   eye: Eye,

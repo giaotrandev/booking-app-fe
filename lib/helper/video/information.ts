@@ -1,4 +1,4 @@
-import { MediaProps } from "#/types/global";
+import { MediaProps } from '#/types/global';
 
 export interface HandleVideoInformationProps extends MediaProps {
   platform?: 'generic' | 'youtube' | 'vimeo';

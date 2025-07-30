@@ -6,3 +6,7 @@ export const dateFormat = 'dd.MM.yyyy'; // SETUP - Constants: Set the format dis
 export const dateNewsFormat = 'd. MMMM yyyy';
 export const pageSize = '5';
 export const defaultPage = '1';
+export const minPriceDefault = 0;
+export const maxPriceDefault = 10000;
+export const minTimeDefault = 0;
+export const maxTimeDefault = 1440;

@@ -4,6 +4,11 @@ import { cn } from '#/lib/utilities/cn';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { ComponentProps, useId } from 'react';
 import { Typography } from '../ui/typography'; // Đảm bảo bạn đã import Typography đúng
+import { ImageProps } from '#/types/global';
+import type { VariantProps } from 'class-variance-authority';
+import { typographyVariants } from '../ui/typography';
+
+type TypographyVariant = VariantProps<typeof typographyVariants>['variant'];
 
 export type RadioGroupProps = ComponentProps<typeof RadioGroupPrimitive.Root>;
 
@@ -21,14 +26,24 @@ export type RadioGroupItemProps = ComponentProps<
   typeof RadioGroupPrimitive.Item
 > & {
   label?: string;
+  labelVariant?: TypographyVariant;
+  image?: ImageProps;
+  imageClassName?: string;
+  description?: string;
+  descriptionVariant?: TypographyVariant;
 };
 
 const RadioGroupItem = ({
   className,
   label,
+  image,
+  labelVariant = 'small-label',
+  imageClassName,
+  description,
+  descriptionVariant,
   ...props
 }: RadioGroupItemProps) => {
-  const id = useId(); // tạo id duy nhất để kết nối label với radio
+  const id = useId();
 
   return (
     <div className="flex items-center gap-x-2">
@@ -53,15 +68,40 @@ const RadioGroupItem = ({
         </RadioGroupPrimitive.Indicator>
       </RadioGroupPrimitive.Item>
 
-      {label && (
-        <label htmlFor={id}>
-          <Typography
-            asChild
-            variant="small-label"
-            className="text-pj-grey-light cursor-pointer"
-          >
-            <p>{label}</p>
-          </Typography>
+      {(label || image || description) && (
+        <label
+          htmlFor={id}
+          className="flex cursor-pointer items-center gap-x-2"
+        >
+          {image && image.src && (
+            <img
+              src={image.src}
+              alt={image.alt}
+              sizes="24px"
+              className={cn(
+                'h-20 w-20 flex-none rounded object-cover',
+                imageClassName,
+              )}
+            />
+          )}
+          {(label || description) && (
+            <div className="flex flex-col">
+              {label && (
+                <Typography
+                  asChild
+                  variant={labelVariant}
+                  className="text-pj-grey-light"
+                >
+                  <p>{label}</p>
+                </Typography>
+              )}
+              {description && (
+                <Typography asChild variant={descriptionVariant}>
+                  <p>{description}</p>
+                </Typography>
+              )}
+            </div>
+          )}
         </label>
       )}
     </div>

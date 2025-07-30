@@ -44,7 +44,6 @@ export async function POST() {
     cookieStore.delete('at');
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
-    console.error('Logout API Error:', error);
     return NextResponse.json(
       {
         success: false,

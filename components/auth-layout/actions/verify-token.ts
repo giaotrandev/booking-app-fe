@@ -12,6 +12,7 @@ function isTokenExpired(token: string): boolean {
     const now = Math.floor(Date.now() / 1000);
     return now >= exp;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Token decode error:', error);
     return true;
   }

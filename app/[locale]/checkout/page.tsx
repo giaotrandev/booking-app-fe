@@ -5,6 +5,7 @@ import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { SocketProvider } from '#/providers/socket-provider';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Sample',
@@ -15,7 +16,10 @@ export const generateStaticParams = getStaticParams;
 const CheckoutPage = async ({ params, searchParams }: PageProps) => {
   const { locale } = await params;
   const _searchParams = await searchParams;
-  console.log(_searchParams);
+  const bookingId = _searchParams?.bookingId as string;
+  if (!bookingId || typeof bookingId !== 'string') {
+    notFound();
+  }
   setStaticParamsLocale(locale);
 
   const template: TemplateProps = {
@@ -25,7 +29,7 @@ const CheckoutPage = async ({ params, searchParams }: PageProps) => {
   return (
     <AuthLayout>
       <SocketProvider>
-        <CheckoutBlock />
+        <CheckoutBlock bookingId={bookingId} />
       </SocketProvider>
     </AuthLayout>
   );
