@@ -56,7 +56,7 @@ const LayoutFilterTrip = ({
         </Suspense>
       </div>
       {/* Mobile */}
-      <div className="fixed right-5 bottom-5 z-[1090] block lg:hidden">
+      <div className="fixed right-5 bottom-5 z-[1090] lg:hidden">
         <Sheet open={sideFilterOpen} onOpenChange={onOpenChange}>
           <SheetTrigger asChild>
             <button
@@ -85,7 +85,8 @@ const LayoutFilterTrip = ({
               // event.preventDefault();
               setFilterOpen(false);
             }}
-            className="pointer-events-none inset-y-auto top-1/2 left-1/2 z-1094 w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-auto outline-hidden data-[state=closed]:duration-300 data-[state=open]:duration-300"
+            // className="pointer-events-none inset-y-auto top-1/2 left-1/2 z-[1094] w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-auto"
+            className="inset-y-auto top-1/2 left-1/2 z-[1094] w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-auto"
             overlay={{ className: 'z-1093 bg-black/30' }}
           >
             <SheetHeader>
@@ -98,6 +99,7 @@ const LayoutFilterTrip = ({
                 destinationList={destinationList}
               />
             </Suspense>
+
             <SheetFooter></SheetFooter>
           </SheetContent>
         </Sheet>

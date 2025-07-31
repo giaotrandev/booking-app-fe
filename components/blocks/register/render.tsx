@@ -136,7 +136,7 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
             <FormRenderBlock
               ref={formRenderRef}
               fields={fields}
-              containerClassName="gap-y-8"
+              containerClassName="gap-y-12 lg:gap-y-8"
               submitButton={{
                 label: 'Register',
               }}

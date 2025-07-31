@@ -8,6 +8,7 @@ import { Icon } from '../icons';
 import { inputVariants } from './input';
 import { Typography } from './typography';
 import { useVirtualizer } from '@tanstack/react-virtual';
+import { useGlobalsStore } from '#/store/globals';
 
 export interface CustomProvincesSelectOptionProps {
   label: string;
@@ -52,7 +53,7 @@ const CustomProvincesSelect = ({
   const ref = useRef<HTMLDivElement | null>(null);
   const listRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState<boolean>(false);
-
+  const { sideFilterOpen } = useGlobalsStore();
   // State để track search value
   const [searchValue, setSearchValue] = useState<string>('');
   const normalizeText = (text: string) => {
@@ -133,7 +134,7 @@ const CustomProvincesSelect = ({
     );
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal={sideFilterOpen}>
       <PopoverTrigger asChild className="rounded-xl">
         <button
           type="button"
@@ -215,7 +216,7 @@ const CustomProvincesSelect = ({
                 </CommandEmpty>
               )}
 
-              <CommandPrimitive.Group>
+              <CommandPrimitive.Group className="mt-2">
                 {Array.isArray(filteredOptions) &&
                   filteredOptions.length > 0 &&
                   open && (

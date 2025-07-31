@@ -100,6 +100,7 @@ const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
             'absolute inset-0 -z-10 h-16 bg-[#fff3] opacity-100 backdrop-blur-xs transition-opacity duration-500 lg:h-23.75',
             isScrolled && 'bg-white',
             (sidenavOpen || sideFilterOpen) && 'opacity-0',
+            // sidenavOpen && 'opacity-0',
           )}
         ></div>
         <div className="flex w-full items-center justify-between px-5 lg:px-20">

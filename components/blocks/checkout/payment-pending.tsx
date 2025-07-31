@@ -10,6 +10,7 @@ import { formatUtcDate, formatUtcTime } from '#/lib/utilities/format-time';
 import { OptionsPaymentProps, PaymentMethodList } from './payment-method-list';
 import { PaymentMethodMobile } from './payment-method-mobile';
 import { InfoList } from './info-list';
+import { useState } from 'react';
 
 interface PaymentPendingProps extends BookingRequestProps {
   qrCode?: string;
@@ -36,6 +37,9 @@ const PaymentPending = ({
   paymentList,
   finalPrice,
 }: PaymentPendingProps) => {
+  const [selectedMethod, setSelectedMethod] = useState<string>('');
+  console.log(selectedMethod);
+
   const pickupText = pickupPoint
     ? `${pickupPoint.name || ''} - ${pickupPoint.address || ''}, ${pickupPoint.ward || ''}, ${pickupPoint.district || ''}, ${pickupPoint.province || ''}`
     : '';
@@ -87,7 +91,10 @@ const PaymentPending = ({
           <h1>Please select your payment method</h1>
         </Typography>
         <div className="border-pj-grey-light flex flex-col gap-y-4 rounded-xl border p-3">
-          <PaymentMethodList options={paymentList} />
+          <PaymentMethodList
+            options={paymentList}
+            onChange={setSelectedMethod}
+          />
         </div>
       </Col>
       <Col className="col-span-full hidden rounded-xl bg-white lg:col-span-4 lg:flex lg:h-fit">
@@ -133,7 +140,15 @@ const PaymentPending = ({
         </div>
       </Col>
       <Col className="col-span-full flex lg:hidden">
-        <PaymentMethodMobile options={paymentList} />
+        <PaymentMethodMobile
+          options={paymentList}
+          onChange={setSelectedMethod}
+          selectedMethod={selectedMethod}
+          isHaveQrCode={isHaveQrCode}
+          totalPrice={totalPrice}
+          updatedAt={updatedAt}
+          qrCode={qrCode}
+        />
       </Col>
     </Row>
   );

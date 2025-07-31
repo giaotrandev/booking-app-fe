@@ -42,7 +42,7 @@ const CustomCalendar = ({
           // 'h-10 grow shrink-0 basis-[0%] rounded',
           // 'lg:[&:not([aria-selected=true])]:hocus-visible:bg-pj-input-focus/5',
           // 'relative m-0 inline-flex lg:w-8 lg:h-8 items-center justify-center p-0',
-          'relative m-0 inline-flex grow shrink-0 basis-[0%] lg:w-8 h-8 items-center justify-center p-0',
+          'relative m-0 w-full justify-center inline-flex lg:w-8 lg:h-8 items-center justify-center p-0',
           // grow shrink-0 basis-[0%]
           'aria-selected:opacity-100 font-normal',
         ),
@@ -69,8 +69,9 @@ const CustomCalendar = ({
         months: 'flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0',
         month_grid: 'w-full border-collapse space-y-1 mt-4',
         nav: 'pointer-events-none absolute left-0 top-2 flex w-full justify-between',
-        week: 'flex flex-nowrap mt-2',
-        weekday: 'grow shrink-0 basis-[0%]',
+        week: 'grid grid-cols-7  lg:flex lg:flex-nowrap mt-2',
+        // weekday: 'grow shrink-0 basis-[0%]',
+        weekday: 'flex w-full justify-center',
         weekdays: 'flex flex-nowrap text-[12px]',
         // week_number: '',
         today: cn('font-medium', 'text-pj-blue bg-pj-blue/20 rounded-[50%]'),
@@ -86,9 +87,9 @@ const CustomCalendar = ({
         ),
         hidden: 'invisible',
         range_start:
-          'relative z-[2] text-white rounded-l-[50%] before:absolute before:content-[""] before:inset-[0_2px_0_2px] before:bg-pj-blue before:-z-[1] before:rounded-[50%] after:absolute after:inset-[0_0_0_2px] after:bg-pj-blue/20 after:rounded-l-[50%] day-range-start after:-z-[1]',
+          'relative z-[2] text-white rounded-l-[50%] before:absolute before:content-[""] before:inset-0 before:bg-pj-blue before:-z-[1] before:rounded-[50%] after:absolute after:inset-[0_0_0_0] after:bg-pj-blue/20 after:rounded-l-[50%] day-range-start after:-z-[1]',
         range_end:
-          'relative z-[2] text-white rounded-r-[50%] before:absolute before:content-[""] before:inset-[0_2px_0_2px] before:bg-pj-blue before:-z-[1] before:rounded-[50%] day-range-end after:absolute after:inset-[0_2px_0_0] after:bg-pj-blue/20 after:rounded-r-[50%] after:-z-[1]',
+          'relative z-[2] text-white rounded-r-[50%] before:absolute before:content-[""] before:inset-0 before:bg-pj-blue before:-z-[1] before:rounded-[50%] day-range-end after:absolute after:inset-[0_0_0_0] after:bg-pj-blue/20 after:rounded-r-[50%] after:-z-[1]',
         range_middle: 'bg-pj-blue/20',
       }}
       components={{

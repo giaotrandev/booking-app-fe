@@ -76,12 +76,13 @@ const formFields: FormFieldProps[] = [
     type: 'date',
     label: 'Birthday',
     required: true,
+    placeholder: 'Birthday',
   },
   {
     id: 'register-password',
     name: 'password',
     type: 'password',
-    label: 'password',
+    label: 'Password',
     required: true,
   },
   {

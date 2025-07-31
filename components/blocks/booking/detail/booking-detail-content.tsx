@@ -49,10 +49,12 @@ const BookingDetailContent = ({
         setIsConflictModalOpen(true);
         return;
       }
+      saveTotalPrice();
       setIsSubmit(true);
+      return;
     }
-
     saveTotalPrice();
+
     setActiveTab(prev => Math.min(3, prev + 1));
   };
 

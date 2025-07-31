@@ -37,6 +37,14 @@ const paymentList: OptionsPaymentProps[] = [
       src: '/images/vietqr.webp',
     },
   },
+  {
+    label: 'Momo',
+    value: 'momo',
+    image: {
+      alt: 'Momo-payment-logo',
+      src: '/images/vietqr.webp',
+    },
+  },
 ];
 const CheckoutBlockRender = ({
   arrivalTime,

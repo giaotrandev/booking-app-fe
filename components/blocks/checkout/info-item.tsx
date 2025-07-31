@@ -24,7 +24,10 @@ const InfoItem = ({
         </Typography>
       </div>
       <div className="max-w-1/2 text-right">
-        <Typography asChild className={cn('font-medium', contentClassName)}>
+        <Typography
+          asChild
+          className={cn('font-medium break-words', contentClassName)}
+        >
           <span>{content}</span>
         </Typography>
       </div>

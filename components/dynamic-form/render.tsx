@@ -463,23 +463,26 @@ const FormRenderBlock = forwardRef<
                         // @ts-ignore
                         name={name}
                         render={({ field }) => (
-                          <div className="ml-5 flex gap-x-10">
-                            <div>
-                              <Typography asChild variant="small-label">
-                                <span className="bg-white text-black">
-                                  {placeholder ?? label ?? ''}
-                                  {item.required && (
-                                    <span className="text-pj-red"> *</span>
-                                  )}
-                                </span>
-                              </Typography>
-                            </div>
+                          <div className="flex gap-x-8 lg:gap-x-10">
+                            {/* <div className="flex"> */}
+                            <Typography asChild variant="small-label">
+                              <p className="relative bg-white text-black">
+                                {placeholder ?? label ?? ''}
+                                {item.required && (
+                                  <span className="text-pj-red -righ-[10px] absolute top-0">
+                                    {' '}
+                                    *
+                                  </span>
+                                )}
+                              </p>
+                            </Typography>
+                            {/* </div> */}
                             <FormItem className="relative">
                               <FormControl>
                                 <RadioGroup
                                   defaultValue={field.value}
                                   onValueChange={field.onChange}
-                                  className="flex flex-wrap"
+                                  className="flex w-full flex-wrap justify-between gap-y-1.5 md:justify-start"
                                 >
                                   {options.map(
                                     (option: FormFieldOptionProps, key) => {
@@ -596,6 +599,18 @@ const FormRenderBlock = forwardRef<
                                         )}
                                       </span>
                                     </Typography>
+                                    {!field.value && (
+                                      <div className="absolute top-1/2 left-3 -translate-y-1/2">
+                                        <Typography
+                                          asChild
+                                          variant="small-label"
+                                        >
+                                          <span className="text-pj-input">
+                                            25/02/2001
+                                          </span>
+                                        </Typography>
+                                      </div>
+                                    )}
                                     <div className="absolute top-1/2 right-0 -translate-1/2">
                                       <Icon
                                         name="date"

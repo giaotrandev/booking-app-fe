@@ -12,6 +12,7 @@ import {
   FormProvider,
   useFormContext,
 } from 'react-hook-form';
+import { Typography } from './typography';
 
 const Form = FormProvider;
 
@@ -142,14 +143,16 @@ const FormMessage = ({
   }
 
   return (
-    <p
-      data-slot="form-message"
-      id={formMessageId}
-      className={cn('text-red-500', className)}
-      {...props}
-    >
-      {body}
-    </p>
+    <Typography asChild variant="sub-label">
+      <p
+        data-slot="form-message"
+        id={formMessageId}
+        className={cn('text-red-500', className)}
+        {...props}
+      >
+        {body}
+      </p>
+    </Typography>
   );
 };
 

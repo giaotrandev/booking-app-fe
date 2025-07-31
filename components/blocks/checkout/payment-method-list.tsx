@@ -1,4 +1,6 @@
 'use client';
+
+import { useMediaQuery } from 'usehooks-ts';
 import { RadioGroup, RadioGroupItem } from '#/components/ui/radio-group';
 import { ImageProps, OptionType } from '#/types/global';
 import { useEffect, useState } from 'react';
@@ -16,15 +18,18 @@ const PaymentMethodList = ({
   options = [],
   onChange,
 }: PaymentMethodListProps) => {
-  const [selectedValue, setSelectedValue] = useState<string>(
-    options[0]?.value ?? '',
-  );
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [hasAutoSelected, setHasAutoSelected] = useState(false);
   useEffect(() => {
-    if (options.length > 0 && !selectedValue) {
-      setSelectedValue(options[0].value);
-      onChange?.(options[0].value);
+    if (options.length > 0 && !selectedValue && isDesktop && !hasAutoSelected) {
+      const defaultValue = options[0].value;
+      setSelectedValue(defaultValue);
+      setHasAutoSelected(true);
+      onChange?.(defaultValue);
     }
-  }, [options]);
+  }, [options, isDesktop, selectedValue, hasAutoSelected]);
+
   const handleChange = (value: string) => {
     setSelectedValue(value);
     onChange?.(value);

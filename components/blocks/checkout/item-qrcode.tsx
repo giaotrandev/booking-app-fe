@@ -3,16 +3,16 @@ import { blurDataUrl } from '#/lib/constant';
 import { cn } from '#/lib/utilities/cn';
 import { formatPrice } from '#/lib/utilities/format-price';
 import { formatTimeLeft } from '#/lib/utilities/format-time-left';
-import { QrCodeRequestProps } from '#/services/QrCode/qr-code-request';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface ItemQrCodeProps {
+export interface ItemQrCodeProps {
   totalPrice: string;
   updatedAt: string;
   isHaveQrCode: boolean;
   qrCode?: string;
+  className?: string;
 }
 
 const ItemQrCode = ({
@@ -20,6 +20,7 @@ const ItemQrCode = ({
   totalPrice,
   updatedAt,
   isHaveQrCode,
+  className,
 }: ItemQrCodeProps) => {
   const [timeCount, setTimeCount] = useState<number | null>(null);
   const router = useRouter();
@@ -66,8 +67,9 @@ const ItemQrCode = ({
     <>
       <div
         className={cn(
-          'border-pj-grey-light flex flex-col items-center gap-y-2 rounded-xl border p-2',
+          'border-pj-grey-light flex w-full flex-col items-center gap-y-2 rounded-xl border p-4',
           !isHaveQrCode && 'items-end border-0 p-0',
+          className,
         )}
       >
         <div className="text-center">

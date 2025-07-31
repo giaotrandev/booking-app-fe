@@ -60,8 +60,8 @@ const NavigationBooking = ({
   // Popover states
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const [arrivalOptions, setArrivalOptions] = useState(arrivalList);
-  const [destinationOptions, setDestinationOptions] = useState(destinationList);
+  // const [arrivalOptions, setArrivalOptions] = useState(arrivalList);
+  // const [destinationOptions, setDestinationOptions] = useState(destinationList);
 
   const [arrivalPlaceholder, setArrivalPlaceholder] =
     useState('Departure Point');
@@ -154,6 +154,7 @@ const NavigationBooking = ({
     <div
       className={cn(
         'pointer-events-auto relative flex w-full flex-col items-center gap-y-6 rounded-[20px] bg-white px-4 pt-15 pb-8 lg:max-w-232 lg:flex-row lg:space-y-0 lg:gap-x-3 lg:px-3 lg:py-5',
+        // !isInSpeacialLayout && 'mx-auto max-w-150',
         className,
       )}
     >
@@ -165,54 +166,63 @@ const NavigationBooking = ({
           <Icon className="h-6 w-6 stroke-black" name="x-mark" />
         </button>
       )}
-      <div className="flex w-full flex-col items-center justify-between gap-x-2 gap-y-2 md:flex-row md:gap-y-0 lg:w-1/2">
-        {arrivalOptions.length > 0 && (
-          <div className="w-full">
-            <CustomProvincesSelect
-              searchable
-              disabled={processing}
-              options={arrivalOptions}
-              multiple={false}
-              placeholder={arrivalPlaceholder}
-              subPlaceholder="Departure Point"
-              value={selectedArrival}
-              onChange={value => {
-                if (!Array.isArray(value)) {
-                  setSelectedArrival(value);
-                }
-              }}
+      {((Array.isArray(arrivalList) && arrivalList.length > 0) ||
+        (Array.isArray(destinationList) && destinationList.length > 0)) && (
+        <div className="flex w-full flex-col items-center justify-between gap-x-2 gap-y-2 md:flex-row md:gap-y-0 lg:w-[55%]">
+          {Array.isArray(arrivalList) && arrivalList.length > 0 && (
+            <div className="w-full">
+              <CustomProvincesSelect
+                searchable
+                disabled={processing}
+                // options={arrivalOptions}
+                options={arrivalList.filter(
+                  item => item.value !== selectedDestination?.value,
+                )}
+                multiple={false}
+                placeholder={arrivalPlaceholder}
+                subPlaceholder="Departure Point"
+                value={selectedArrival}
+                onChange={value => {
+                  if (!Array.isArray(value)) {
+                    setSelectedArrival(value);
+                  }
+                }}
+              />
+            </div>
+          )}
+          <div>
+            <ButtonIcon
+              icon={{ name: 'swap' }}
+              aria-label="swap-arrival-and-destination"
+              onClick={handleSwap}
             />
           </div>
-        )}
-        <div>
-          <ButtonIcon
-            icon={{ name: 'swap' }}
-            aria-label="swap-arrival-and-destination"
-            onClick={handleSwap}
-          />
+
+          {Array.isArray(destinationList) && destinationList.length > 0 && (
+            <div className="w-full">
+              <CustomProvincesSelect
+                searchable
+                disabled={processing}
+                // options={destinationOptions}
+                options={destinationList.filter(
+                  item => item.value !== selectedArrival?.value,
+                )}
+                multiple={false}
+                placeholder={destinationPlaceholder}
+                subPlaceholder="Destination Point"
+                value={selectedDestination}
+                onChange={value => {
+                  if (!Array.isArray(value)) {
+                    setSelectedDestination(value);
+                  }
+                }}
+              />
+            </div>
+          )}
         </div>
+      )}
 
-        {destinationOptions.length > 0 && (
-          <div className="w-full">
-            <CustomProvincesSelect
-              searchable
-              disabled={processing}
-              options={destinationOptions}
-              multiple={false}
-              placeholder={destinationPlaceholder}
-              subPlaceholder="Destination Point"
-              value={selectedDestination}
-              onChange={value => {
-                if (!Array.isArray(value)) {
-                  setSelectedDestination(value);
-                }
-              }}
-            />
-          </div>
-        )}
-      </div>
-
-      <div className="flex w-full flex-col gap-y-6 lg:w-1/2 lg:flex-row lg:gap-x-3 lg:gap-y-0">
+      <div className="flex w-full flex-col gap-y-6 lg:w-[45%] lg:flex-row lg:gap-x-3 lg:gap-y-0">
         <div
           className={cn(
             'relative z-[1000] w-full flex-1',
