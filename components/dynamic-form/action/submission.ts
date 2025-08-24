@@ -33,9 +33,7 @@ const dynamicFormSubmissionsAction = async ({
           ? process.env.NEXT_BASE_URL // ví dụ: https://yourdomain.com
           : 'http://localhost:3000'; // local URL
       const loginUrl = `${BASE_URL}/api/login`;
-      // const loginUrl = `http://localhost:3000/api/login`;
 
-      // const loginUrl = `/api/login`;
       const cookieStore = await cookies();
       const res = await fetch(loginUrl, {
         method: 'POST',

@@ -14,7 +14,7 @@ const Loading = ({
   textClassName,
 }: LoadingProps) => {
   return (
-    <div className={cn('flex items-center justify-center py-8', className)}>
+    <div className={cn('flex items-center justify-center py-2', className)}>
       <div className="border-pj-red h-6 w-6 animate-spin rounded-full border-4 border-t-transparent" />
       <Typography
         asChild

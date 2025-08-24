@@ -17,7 +17,8 @@ export interface FormFieldProps {
     | 'checkbox'
     | 'radio'
     | 'select'
-    | 'date';
+    | 'date'
+    | 'custom-file';
   label?: string;
   placeholder?: string;
   required?: boolean;

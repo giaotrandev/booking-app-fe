@@ -98,9 +98,16 @@ const CheckoutBlockRender = ({
     );
     return () => {
       socket.off('bookingStatusChanged');
-      socket.emit('leaveBookingRoom', id);
+      socket.emit(
+        'leaveBookingRoom',
+        id,
+        (response: { success: boolean; error?: string }) => {
+          return;
+        },
+      );
     };
   }, [socket, id]);
+
   useEffect(() => {
     if (!showInfoTickets) return;
     const getQrCode = async () => {
@@ -205,8 +212,9 @@ const CheckoutBlockRender = ({
           clickOutsideToClose
           open={showNotification}
           onClose={() => setShowNotification(false)}
+          className="max-w-140"
           children={
-            <div className="relative flex w-full max-w-140 flex-col items-center justify-center gap-y-4 rounded-xl bg-white px-4 py-10 shadow-lg">
+            <div className="relative flex w-full flex-col items-center justify-center gap-y-4 rounded-xl bg-white px-4 py-10 shadow-lg">
               <button
                 onClick={() => setShowNotification(false)}
                 className="group/button bg-pj-white absolute top-2 right-2 cursor-pointer rounded-full transition-colors duration-200 ease-in-out hover:bg-black focus-visible:bg-black"

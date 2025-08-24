@@ -38,7 +38,6 @@ const PaymentPending = ({
   finalPrice,
 }: PaymentPendingProps) => {
   const [selectedMethod, setSelectedMethod] = useState<string>('');
-  console.log(selectedMethod);
 
   const pickupText = pickupPoint
     ? `${pickupPoint.name || ''} - ${pickupPoint.address || ''}, ${pickupPoint.ward || ''}, ${pickupPoint.district || ''}, ${pickupPoint.province || ''}`

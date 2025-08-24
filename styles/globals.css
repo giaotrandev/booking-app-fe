@@ -24,7 +24,7 @@
     /* @apply w-6 h-6 appearance-none pointer-events-auto; */
   }
 }
-/* @layer utilities {
+@layer utilities {
   .custom-scrollbar {
     scrollbar-color: transparent transparent;
   }
@@ -49,7 +49,7 @@
   .custom-scrollbar::-webkit-scrollbar-track {
     background-color: red;
   }
-} */
+}
 @theme {
   --font-sans:
     var(--font-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',

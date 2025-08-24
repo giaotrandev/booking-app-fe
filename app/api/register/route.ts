@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
 
     const res = await fetch(
-      'https://booking-app-s5m3.onrender.com/api/auth/register',
+      `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/register`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

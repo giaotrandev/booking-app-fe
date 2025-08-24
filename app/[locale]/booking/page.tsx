@@ -1,4 +1,4 @@
-import AuthLayout from '#/components/auth-layout';
+import StandardLayout from '#/components/auth-layout';
 import { WrapperBookingBlock } from '#/components/blocks/booking/wrapper-index';
 import { setStaticParamsLocale, getStaticParams } from '#/i18n/server';
 import { PageProps } from '#/types/global';
@@ -18,9 +18,9 @@ const BookingPage = async (props: PageProps) => {
   setStaticParamsLocale(locale);
 
   return (
-    <AuthLayout>
+    <StandardLayout>
       <WrapperBookingBlock />
-    </AuthLayout>
+    </StandardLayout>
   );
 };
 

@@ -1,4 +1,4 @@
-import AuthLayout from '#/components/auth-layout';
+import StandardLayout from '#/components/auth-layout';
 import { CheckoutBlock } from '#/components/blocks/checkout';
 import { TemplateProps } from '#/components/templates';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
@@ -27,11 +27,11 @@ const CheckoutPage = async ({ params, searchParams }: PageProps) => {
   };
 
   return (
-    <AuthLayout>
+    <StandardLayout>
       <SocketProvider>
         <CheckoutBlock bookingId={bookingId} />
       </SocketProvider>
-    </AuthLayout>
+    </StandardLayout>
   );
 };
 

@@ -73,7 +73,7 @@ const ItemQrCode = ({
         )}
       >
         <div className="text-center">
-          <div className="flex items-center justify-center gap-x-2">
+          <div className="flex flex-wrap items-center justify-center gap-x-2">
             <div className="mt-1.25">
               <Typography asChild variant="small-label" className="font-sans">
                 <p>Total price: </p>
@@ -95,10 +95,10 @@ const ItemQrCode = ({
         </div>
         {isHaveQrCode && qrCode && (
           <div className="w-full">
-            <div className="relative w-full overflow-hidden pt-[100%]">
+            <div className="relative mx-auto w-full max-w-[500px] overflow-hidden pt-[100%]">
               <Image
                 src={qrCode}
-                className="w-full rounded-xl"
+                className="w-full rounded-xl object-contain"
                 fill
                 blurDataURL={blurDataUrl}
                 alt={`qrcode - ${qrCode}`}
@@ -108,7 +108,7 @@ const ItemQrCode = ({
               <Typography
                 asChild
                 className="text-pj-green font-sans font-medium"
-                variant="label"
+                variant="h5"
               >
                 <p>How to Pay: </p>
               </Typography>

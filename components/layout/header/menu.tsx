@@ -7,6 +7,7 @@ import { useGlobalsStore } from '#/store/globals';
 import { useUserStore } from '#/store/user';
 import { LinkProps } from '#/types/global';
 import { ItemMenu } from './item-menu';
+import { UserMenu } from './user-menu';
 
 export interface LayoutHeaderMenuProps {
   list?: LinkProps[];

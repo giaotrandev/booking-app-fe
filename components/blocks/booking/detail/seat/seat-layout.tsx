@@ -46,7 +46,6 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
                 );
                 return (
                   <React.Fragment key={rowIndex}>
-                    {/* Hàng riêng cho DRIVER */}
                     {deck.deckId === 'lower' && driverSeat && (
                       <Row className="grid-cols-3 lg:grid-cols-3">
                         {driverSeat && (

@@ -70,9 +70,18 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
         });
         return;
       }
-
       useUserStore.getState().setAuth({
-        user: result.data.user,
+        user: {
+          id: result.data.data.id,
+          email: result.data.data.email,
+          name: `${result.data.data.lastName} ${result.data.data.firstName}`,
+          firstName: result.data.data.firstName,
+          lastName: result.data.data.lastName,
+          avatarUrl: result.data.data.avatarUrl,
+          gender: result.data.data.gender,
+          birthday: result.data.data.birthday,
+          phoneNumber: result.data.data.phoneNumber,
+        },
         rememberMe: formData.rememberMe,
       });
 

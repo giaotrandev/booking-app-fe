@@ -173,7 +173,39 @@ const useDynamicFormSchema = ({ fields }: DynamicFormSchemaProps) => {
           }
           defaultValues[name] = undefined;
           break;
-
+        case 'custom-file':
+          if (required) {
+            zodRawShape[name] = z
+              .custom<FileList>()
+              .refine(item => item && item.length > 0, {
+                message: message.required,
+              })
+              .refine(
+                item => {
+                  const files = item ? Array.from(item) : [];
+                  return !files.some(
+                    file => file.size > maxFileSizeBytes(maxFileSize),
+                  );
+                },
+                { message: message.maxFileSize },
+              );
+          } else {
+            zodRawShape[name] = z
+              .custom<FileList>()
+              .optional()
+              .refine(
+                item => {
+                  if (!item || item.length === 0) return true;
+                  const files = Array.from(item);
+                  return !files.some(
+                    file => file.size > maxFileSizeBytes(maxFileSize),
+                  );
+                },
+                { message: message.maxFileSize },
+              );
+          }
+          defaultValues[name] = undefined;
+          break;
         // case 'checkbox':
         //   if (hasOptions) {
         //     if (required) {

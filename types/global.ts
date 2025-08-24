@@ -17,7 +17,10 @@ export interface PageProps {
   }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
-
+export interface FileProps {
+  id?: number;
+  type?: 'file';
+}
 export interface StaticParamsProps extends Pick<PageProps, 'params'> {}
 
 export type SvgProps = SVGProps<SVGSVGElement>;

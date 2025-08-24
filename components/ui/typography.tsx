@@ -20,9 +20,11 @@ const typographyVariants = cva([''], {
       'small-label': 'font-roboto leading-none text-[16px]',
       'sub-label': 'font-roboto leading-[0.75] text-[12px]',
       body: 'leading-[0.667] text-[16px]',
-      'sub-body': 'font-armata leading-none text-[11px]',
+      'sub-body': 'leading-none text-[14px]',
       'button-label': 'font-medium leading-none text-[18px] lg:text-[20px]',
       'small-number': 'font-armata leading-none text-[14px]',
+      // p2: 'text-[16px] leading-[22px] lg:text-[24px] lg:leading-[32px]',
+      // p3: 'text-[14px] leading-[18px] lg:text-[18px] lg:leading-[26px]',
     },
   },
   defaultVariants: {

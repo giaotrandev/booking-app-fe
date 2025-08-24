@@ -6,63 +6,25 @@ import { LayoutHeaderSidenav, LayoutHeaderSidenavProps } from './sidenav';
 import { Link } from '#/i18n/routing';
 import { LayoutHeaderMenu } from './menu';
 import { LinkProps } from '#/types/global';
-import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utilities/cn';
-import { StretchedLink } from '#/components/common/stretched-link';
 import React, { useEffect, useState } from 'react';
 import { useGlobalsStore } from '#/store/globals';
 import { useUserStore } from '#/store/user';
-import { useToast } from '#/components/ui/use-toast';
 import { verifyTokenAction } from '#/components/auth-layout/actions/verify-token';
-import { useLogout } from '#/lib/hooks/use-handle-logout';
+import { Button } from '#/components/ui/button';
+import { UserMenu } from './user-menu';
+import { InformationProfileRequestProps } from '#/services/user/information-profile-request';
 
 export interface LayoutHeaderProps {
   sidenav?: LayoutHeaderSidenavProps;
+  userInformation?: InformationProfileRequestProps;
 }
 
-const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
+const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { sidenavOpen, sideFilterOpen } = useGlobalsStore();
   const { isLoggedIn, clearAuth } = useUserStore();
-  const { toast } = useToast();
-  const { handleLogout } = useLogout();
-  // const handleLogout = async () => {
-  //   try {
-  //     const res = await fetch('/api/logout', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //     });
 
-  //     const data = await res.json();
-  //     if (!res.ok) {
-  //       toast({
-  //         title: 'Logout failed',
-  //         description: data.message || 'Unable to logout.',
-  //         variant: 'error',
-  //       });
-  //       return;
-  //     }
-
-  //     clearAuth();
-
-  //     toast({
-  //       title: 'Logged out',
-  //       description: data.message || 'You have been successfully logged out.',
-  //       variant: 'success',
-  //     });
-
-  //     router.push('/');
-  //   } catch (error) {
-  //     console.error('Logout error:', error);
-  //     toast({
-  //       title: 'Logout failed',
-  //       description: 'Something went wrong.',
-  //       variant: 'error',
-  //     });
-  //   }
-  // };
   const handleScroll = () => {
     if (window.scrollY > 0) {
       setIsScrolled(true);
@@ -102,7 +64,7 @@ const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
             (sidenavOpen || sideFilterOpen) && 'opacity-0',
             // sidenavOpen && 'opacity-0',
           )}
-        ></div>
+        />
         <div className="flex w-full items-center justify-between px-5 lg:px-20">
           <div>
             <Link href="/">
@@ -121,41 +83,33 @@ const LayoutHeader = ({ sidenav }: LayoutHeaderProps) => {
             <ul className="flex w-auto shrink-0 grow-0 basis-auto space-x-2">
               {isLoggedIn ? (
                 <li className="relative block">
-                  <Typography
-                    variant="label"
-                    className={cn(
-                      'hocus:text-pj-blue hocus:transition-[color] before:bg-pj-blue hocus:before:scale-100 hocus:before:origin-left cursor-pointer before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-[""]',
-                    )}
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </Typography>
+                  <UserMenu />
                 </li>
               ) : (
-                menu.slice(-2).map((item, key) => (
-                  <React.Fragment key={key}>
-                    <li className="relative block">
-                      <Typography
-                        variant="label"
-                        className={cn(
-                          "hocus:text-pj-blue hocus:transition-[color] before:bg-pj-blue hocus:before:scale-100 hocus:before:origin-left before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-['']",
-                        )}
+                menu.slice(-2).map((item, key) => {
+                  const isSecondLast = key === 1;
+                  return (
+                    <li
+                      key={key}
+                      className="relative block"
+                      id={key.toString()}
+                    >
+                      <Button
+                        text={item.text}
                         asChild
+                        variant={isSecondLast ? 'outline' : 'default'}
+                        colors={isSecondLast ? 'none' : 'red'}
                       >
-                        <StretchedLink link={item}>{item.text}</StretchedLink>
-                      </Typography>
+                        <Link href="/login" />
+                      </Button>
                     </li>
-                    {key === 0 && (
-                      <li>
-                        <span>|</span>
-                      </li>
-                    )}
-                  </React.Fragment>
-                ))
+                  );
+                })
               )}
             </ul>
           </div>
-          <div className="lg:hidden">
+          <div className="flex items-center lg:hidden">
+            {/* <UserMenu /> */}
             <LayoutHeaderSidenav {...sidenav} list={menu.slice(0, -2)} />
           </div>
         </div>

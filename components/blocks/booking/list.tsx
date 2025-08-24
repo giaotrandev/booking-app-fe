@@ -131,7 +131,7 @@ const BookingList = ({
 
       // Socket logic
       if (!socket || !socket.connected) {
-        console.warn('Socket chưa sẵn sàng.');
+        // console.warn('Socket chưa sẵn sàng.');
         return;
       }
 
@@ -141,12 +141,6 @@ const BookingList = ({
           tripId,
           (response: { success: boolean; error?: string }) => {
             if (response.success) {
-              toast({
-                title: 'Đã tham gia phòng chuyến đi',
-                description: `Đã vào phòng: public:trip:${tripId}`,
-                variant: 'success',
-              });
-
               socket.on(
                 'seatStatusChanged',
                 (data: {
@@ -160,12 +154,6 @@ const BookingList = ({
                   }
                 },
               );
-            } else {
-              toast({
-                title: 'Lỗi tham gia phòng chuyến đi',
-                description: `Không thể vào phòng: ${response.error || 'Không rõ lý do'}`,
-                variant: 'error',
-              });
             }
           },
         );
@@ -173,18 +161,10 @@ const BookingList = ({
         socket.emit(
           'leaveTripRoom',
           tripId,
-          (response: { success: boolean; error?: string }) => {
-            toast({
-              title: 'Đã rời phòng',
-              description: `Đã rời phòng: public:trip:${tripId}`,
-              variant: 'success',
-            });
-          },
+          (response: { success: boolean; error?: string }) => {},
         );
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err);
       toast({
         title: 'Lỗi kết nối thời gian thực',
         description: 'Không thể thiết lập kết nối thời gian thực.',
@@ -233,173 +213,176 @@ const BookingList = ({
         onValueChange={setAccordionValue}
         className="flex flex-col gap-y-6"
       >
-        {list.map((item, index) => {
-          if (!item) return null;
-          const value = `item-${index}`;
-          const isNewItem =
-            newItemsCount > 0 && index >= list.length - newItemsCount;
+        {list
+          .filter(item => item.seatsLeft !== 0)
+          .map((item, index) => {
+            if (!item) return null;
+            const value = `item-${index}`;
+            const isNewItem =
+              newItemsCount > 0 && index >= list.length - newItemsCount;
 
-          return (
-            <AccordionItem
-              key={value}
-              value={value}
-              className={cn(
-                'rounded-xl bg-white',
-                isNewItem &&
-                  'animate-in slide-in-from-bottom-4 fade-in duration-500',
-              )}
-              style={{
-                // Stagger animation cho các item mới
-                animationDelay: isNewItem
-                  ? `${(index - (list.length - newItemsCount)) * 100}ms`
-                  : '0ms',
-              }}
-            >
-              <div className={cn('flex flex-col lg:flex-row lg:p-5')}>
-                <div className="w-full lg:max-w-[229px]">
-                  <div className="relative overflow-hidden rounded-t-xl pt-[78%] lg:h-full lg:rounded-xl lg:pt-[100%]">
-                    {item.image && (
-                      <Image
-                        src={item.image}
-                        alt={''}
-                        fill
-                        className="object-cover"
-                        placeholder="blur"
-                        blurDataURL={blurDataUrl}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="flex flex-1 flex-col p-4 lg:py-0 lg:pr-0 lg:pl-4">
-                  {(item.name || item.price) && (
-                    <div className="flex flex-row items-center justify-between gap-x-2">
-                      {item.name && (
-                        <Typography
-                          asChild
-                          variant="h3"
-                          className="text-pj-grey text-[20px]"
-                        >
-                          <h2>{item.name}</h2>
-                        </Typography>
-                      )}
-                      {item.price && (
-                        <Typography
-                          asChild
-                          variant="h3"
-                          className="text-pj-orange text-[20px]"
-                        >
-                          <p>{formatPrice(item.price)}</p>
-                        </Typography>
+            return (
+              <AccordionItem
+                key={value}
+                value={value}
+                className={cn(
+                  'rounded-xl bg-white',
+                  isNewItem &&
+                    'animate-in slide-in-from-bottom-4 fade-in duration-500',
+                )}
+                style={{
+                  // Stagger animation cho các item mới
+                  animationDelay: isNewItem
+                    ? `${(index - (list.length - newItemsCount)) * 100}ms`
+                    : '0ms',
+                }}
+              >
+                <div className={cn('flex flex-col lg:flex-row lg:p-5')}>
+                  <div className="w-full lg:max-w-[229px]">
+                    <div className="relative overflow-hidden rounded-t-xl pt-[78%] lg:h-full lg:rounded-xl lg:pt-[100%]">
+                      {item.image && (
+                        <Image
+                          src={item.image}
+                          alt={''}
+                          fill
+                          className="object-cover"
+                          placeholder="blur"
+                          blurDataURL={blurDataUrl}
+                        />
                       )}
                     </div>
-                  )}
-                  {item.description && (
-                    <Typography asChild className="text-pj-grey-light">
-                      <h2>{item.description}</h2>
-                    </Typography>
-                  )}
-                  <div className="flex flex-col lg:mt-auto lg:flex-row lg:justify-between lg:gap-x-2">
-                    {(item.arrivalTime ||
-                      item.departureTime ||
-                      item.arrivalDestination ||
-                      item.departureDestination ||
-                      item.seatsLeft) && (
-                      <div>
-                        {(item.arrivalTime ||
-                          item.departureTime ||
-                          item.arrivalDestination ||
-                          item.departureDestination) && (
-                          <div className="w-full lg:max-w-70 lg:translate-y-3">
-                            {(item.departureTime ||
-                              item.departureDestination) && (
-                              <TimeItem
-                                time={item.departureTime}
-                                destination={item.departureDestination}
-                              />
-                            )}
-
-                            {item.arrivalTime && item.departureTime && (
-                              <div className="my-2 flex items-center gap-x-2 pl-1 lg:my-0">
-                                <div className="bg-pj-grey-light h-4 w-px lg:h-10" />
-                                <Typography
-                                  asChild
-                                  variant="sub-label"
-                                  className="text-pj-grey-light"
-                                >
-                                  <p>
-                                    {getTimeDifference(
-                                      item.arrivalTime,
-                                      item.departureTime,
-                                    )}{' '}
-                                    hours
-                                  </p>
-                                </Typography>
-                              </div>
-                            )}
-                            {(item.arrivalTime || item.arrivalDestination) && (
-                              <TimeItem
-                                time={item.arrivalTime}
-                                destination={item.arrivalDestination}
-                              />
-                            )}
-                          </div>
+                  </div>
+                  <div className="flex flex-1 flex-col p-4 lg:py-0 lg:pr-0 lg:pl-4">
+                    {(item.name || item.price) && (
+                      <div className="flex flex-row items-center justify-between gap-x-2">
+                        {item.name && (
+                          <Typography
+                            asChild
+                            variant="h3"
+                            className="text-pj-grey text-[20px]"
+                          >
+                            <h2>{item.name}</h2>
+                          </Typography>
+                        )}
+                        {item.price && (
+                          <Typography
+                            asChild
+                            variant="h3"
+                            className="text-pj-orange text-[20px]"
+                          >
+                            <p>{formatPrice(item.price)}</p>
+                          </Typography>
                         )}
                       </div>
                     )}
-                    <div className="flex flex-col items-end gap-y-2 lg:justify-end">
-                      {item.seatsLeft && (
-                        <Typography asChild className="text-pj-grey-light">
-                          <p>{item.seatsLeft} seats left</p>
-                        </Typography>
+                    {item.description && (
+                      <Typography asChild className="text-pj-grey-light">
+                        <h2>{item.description}</h2>
+                      </Typography>
+                    )}
+                    <div className="flex flex-col lg:mt-auto lg:flex-row lg:justify-between lg:gap-x-2">
+                      {(item.arrivalTime ||
+                        item.departureTime ||
+                        item.arrivalDestination ||
+                        item.departureDestination ||
+                        item.seatsLeft) && (
+                        <div>
+                          {(item.arrivalTime ||
+                            item.departureTime ||
+                            item.arrivalDestination ||
+                            item.departureDestination) && (
+                            <div className="w-full lg:max-w-70 lg:translate-y-3">
+                              {(item.departureTime ||
+                                item.departureDestination) && (
+                                <TimeItem
+                                  time={item.departureTime}
+                                  destination={item.departureDestination}
+                                />
+                              )}
+
+                              {item.arrivalTime && item.departureTime && (
+                                <div className="my-2 flex items-center gap-x-2 pl-1 lg:my-0">
+                                  <div className="bg-pj-grey-light h-4 w-px lg:h-10" />
+                                  <Typography
+                                    asChild
+                                    variant="sub-label"
+                                    className="text-pj-grey-light"
+                                  >
+                                    <p>
+                                      {getTimeDifference(
+                                        item.arrivalTime,
+                                        item.departureTime,
+                                      )}{' '}
+                                      hours
+                                    </p>
+                                  </Typography>
+                                </div>
+                              )}
+                              {(item.arrivalTime ||
+                                item.arrivalDestination) && (
+                                <TimeItem
+                                  time={item.arrivalTime}
+                                  destination={item.arrivalDestination}
+                                />
+                              )}
+                            </div>
+                          )}
+                        </div>
                       )}
-                      <AccordionTrigger
-                        onClick={() => {
-                          const isOpen = accordionValue === value;
-                          const nextValue = isOpen ? '' : value;
-                          setAccordionValue(nextValue);
-                          handleTripDetails(item.id, !isOpen);
-                        }}
-                        className={cn(
-                          buttonVariants({
-                            variant: 'small',
-                            colors: 'red',
-                            shape: 'default',
-                          }),
-                          'group/button',
+                      <div className="flex flex-col items-end gap-y-2 lg:justify-end">
+                        {item.seatsLeft && (
+                          <Typography asChild className="text-pj-grey-light">
+                            <p>{item.seatsLeft} seats left</p>
+                          </Typography>
                         )}
-                      >
-                        <ButtonContent
-                          text={
-                            loadingTripId === item.id
-                              ? 'Loading...'
-                              : accordionValue !== value
-                                ? 'Book'
-                                : 'Close'
-                          }
-                        />
-                      </AccordionTrigger>
+                        <AccordionTrigger
+                          onClick={() => {
+                            const isOpen = accordionValue === value;
+                            const nextValue = isOpen ? '' : value;
+                            setAccordionValue(nextValue);
+                            handleTripDetails(item.id, !isOpen);
+                          }}
+                          className={cn(
+                            buttonVariants({
+                              variant: 'small',
+                              colors: 'red',
+                              shape: 'default',
+                            }),
+                            'group/button',
+                          )}
+                        >
+                          <ButtonContent
+                            text={
+                              loadingTripId === item.id
+                                ? 'Loading...'
+                                : accordionValue !== value
+                                  ? 'Book'
+                                  : 'Close'
+                            }
+                          />
+                        </AccordionTrigger>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <AccordionContent>
-                {loadingTripId === item.id ? (
-                  <div className="px-5 pb-5">
-                    <Loading content="Đang tải chi tiết chuyến đi..." />
-                  </div>
-                ) : tripDetails ? (
-                  <BookingDetailWrapper
-                    id={tripDetails.id}
-                    seatsLeft={tripDetails.seatsLeft}
-                    decks={tripDetails.decks}
-                    dropingList={tripDetails.dropingList}
-                    pickingList={tripDetails.pickingList}
-                  />
-                ) : null}
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
+                <AccordionContent>
+                  {loadingTripId === item.id ? (
+                    <div className="px-5 pb-5">
+                      <Loading content="Đang tải chi tiết chuyến đi..." />
+                    </div>
+                  ) : tripDetails ? (
+                    <BookingDetailWrapper
+                      id={tripDetails.id}
+                      seatsLeft={tripDetails.seatsLeft}
+                      decks={tripDetails.decks}
+                      dropingList={tripDetails.dropingList}
+                      pickingList={tripDetails.pickingList}
+                    />
+                  ) : null}
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })}
       </Accordion>
 
       {/* Intersection observer target */}

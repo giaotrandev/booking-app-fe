@@ -1,0 +1,23 @@
+import { cn } from '#/lib/utilities/cn';
+import { SvgProps } from '#/types/global';
+
+const FaceHuman = ({ ...props }: SvgProps) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 22 22"
+      fill="none"
+      className={cn('h-4 w-4 stroke-black', props.className)}
+      {...props}
+    >
+      <path
+        d="M7.7999 1.3999H3.53324C2.35503 1.3999 1.3999 2.35503 1.3999 3.53324V14.1999V18.4666C1.3999 19.6448 2.35503 20.5999 3.53324 20.5999H14.1999H18.4666C19.6448 20.5999 20.5999 19.6448 20.5999 18.4666V7.7999V3.53324C20.5999 2.35503 19.6448 1.3999 18.4666 1.3999H7.9999M6.7999 8.16513V6.99514M15.1999 8.16513V6.99514M7.65256 14.6001C9.02072 15.6602 12.0888 15.6602 14.0006 14.6001M10.3999 11.6751L10.6484 11.4328C10.8735 11.2134 10.9999 10.9158 10.9999 10.6055V7.58014"
+        // stroke="black"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+};
+
+export default FaceHuman;

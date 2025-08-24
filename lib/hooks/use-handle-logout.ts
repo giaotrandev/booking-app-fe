@@ -1,15 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useToast } from '#/components/ui/use-toast';
 import { useUserStore } from '#/store/user';
+import { protectedRoutes } from '../constant';
 
-/**
- * Custom hook để tái sử dụng logic logout
- */
 export const useLogout = () => {
   const clearAuth = useUserStore(state => state.clearAuth);
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
 
   const handleLogout = async () => {
@@ -38,9 +37,10 @@ export const useLogout = () => {
         variant: 'success',
       });
 
-      router.push('/');
+      if (protectedRoutes.includes(pathname)) {
+        router.push('/');
+      }
     } catch (error) {
-      // eslint-disable-next-line no-console
       console.error('Logout error:', error);
       toast({
         title: 'Logout failed',

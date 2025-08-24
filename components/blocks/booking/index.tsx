@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { fetchProvinces } from '#/lib/service/fetch-provinces';
 import { convertToSelectOptions } from '#/lib/utilities/convert-to-select-options';
@@ -165,11 +165,7 @@ const BookingBlock = () => {
     if (!isValid) router.push('/not-found');
   }, [isValid]);
   if (loadingProvinces || !hasTriggeredRefetch.current) {
-    return (
-      <div className="fixed inset-0 z-[1910] flex h-screen items-center justify-center bg-white">
-        <LoadingPage />
-      </div>
-    );
+    return <LoadingPage />;
   }
   return (
     <BookingRenderBlock

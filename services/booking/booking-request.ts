@@ -65,6 +65,7 @@ export interface BookingRequestProps {
   id: string;
   tripId: string;
   userId?: string;
+  createdAt?: string;
   passengerName: string;
   passengerEmail: string;
   passengerPhone: string;

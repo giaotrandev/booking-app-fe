@@ -161,10 +161,12 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
       {success && (
         <Notification
           open={showNotification}
+          clickOutsideToClose={false}
           onClose={() => setShowNotification(false)}
+          className="max-w-140 shadow-lg"
           children={
-            <div className="flex w-full max-w-140 flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 shadow-lg transition-[opacity,transform]">
-              <Typography asChild variant="h3">
+            <div className="flex w-full flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 transition-[opacity,transform]">
+              <Typography asChild variant="h3" className="text-center">
                 <p>Confirm Your Account</p>
               </Typography>
               <Typography asChild className="text-pj-grey-light text-center">
@@ -184,7 +186,11 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
                 height={64}
               />
               <div className="flex flex-col items-center lg:flex-row lg:gap-x-1">
-                <Typography asChild variant="sub-body">
+                <Typography
+                  asChild
+                  variant="sub-body"
+                  className="text-center lg:text-start"
+                >
                   <p>Didn’t receive the email? Check your spam folder or</p>
                 </Typography>
                 <ButtonLink

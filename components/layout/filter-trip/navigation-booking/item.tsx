@@ -17,6 +17,7 @@ import { format, parseISO } from 'date-fns';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
+import { useMediaQuery } from 'usehooks-ts';
 
 const dateFormat = 'dd-MM-yyyy';
 
@@ -42,6 +43,8 @@ const NavigationBooking = ({
   buttonContainerClassName,
   isInSpeacialLayout,
 }: NavigationBookingProps) => {
+  const isDesktop = useMediaQuery('(min-width: 1023px)');
+
   const { setFilterOpen } = useGlobalsStore();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -59,9 +62,6 @@ const NavigationBooking = ({
 
   // Popover states
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-
-  // const [arrivalOptions, setArrivalOptions] = useState(arrivalList);
-  // const [destinationOptions, setDestinationOptions] = useState(destinationList);
 
   const [arrivalPlaceholder, setArrivalPlaceholder] =
     useState('Departure Point');
@@ -141,6 +141,7 @@ const NavigationBooking = ({
     arrivalList,
     destinationList,
   ]);
+
   useEffect(() => {
     setProcessing(false);
   }, [
@@ -149,6 +150,12 @@ const NavigationBooking = ({
     departureDate,
     arrivalDate,
   ]);
+
+  // useEffect(() => {
+  //   if (!isDesktop && isDatePickerOpen) {
+  //     setIsDatePickerOpen(false);
+  //   }
+  // }, [isDesktop, isDatePickerOpen, setIsDatePickerOpen]);
 
   return (
     <div
@@ -174,7 +181,6 @@ const NavigationBooking = ({
               <CustomProvincesSelect
                 searchable
                 disabled={processing}
-                // options={arrivalOptions}
                 options={arrivalList.filter(
                   item => item.value !== selectedDestination?.value,
                 )}
@@ -192,6 +198,7 @@ const NavigationBooking = ({
           )}
           <div>
             <ButtonIcon
+              size="lg"
               icon={{ name: 'swap' }}
               aria-label="swap-arrival-and-destination"
               onClick={handleSwap}
@@ -203,7 +210,6 @@ const NavigationBooking = ({
               <CustomProvincesSelect
                 searchable
                 disabled={processing}
-                // options={destinationOptions}
                 options={destinationList.filter(
                   item => item.value !== selectedArrival?.value,
                 )}
@@ -262,8 +268,8 @@ const NavigationBooking = ({
                 </div>
               </button>
             </PopoverTrigger>
-            <PopoverContent className="pointer-events-auto relative z-[1094] mt-4 w-[var(--radix-popover-trigger-width)] p-0 lg:w-auto">
-              <CustomCalendar
+            <PopoverContent className="pointer-events-auto relative top-2 z-[9999999] w-[var(--radix-popover-trigger-width)] p-0 lg:w-auto">
+              {/* <CustomCalendar
                 mode="range"
                 // timeZone="UTC"
                 numberOfMonths={1}
@@ -276,18 +282,19 @@ const NavigationBooking = ({
                 }
                 startMonth={new Date()}
                 endMonth={new Date(new Date().getFullYear() + 5, 11)}
-              />
+              /> */}
               <CustomCalendar
                 mode="range"
                 // timeZone="UTC"
-                numberOfMonths={2}
-                className="hidden lg:block"
+                numberOfMonths={isDesktop ? 2 : 1}
+                // className="hidden lg:block"
                 defaultMonth={dateRange?.from || new Date()}
                 selected={dateRange}
                 onSelect={handleDateRangeSelect}
-                disabled={date =>
-                  date < new Date(new Date().setHours(0, 0, 0, 0))
-                }
+                // disabled={date =>
+                //   date < new Date(new Date().setHours(0, 0, 0, 0))
+                // }
+                disabled={{ before: new Date() }}
                 startMonth={new Date()}
                 endMonth={new Date(new Date().getFullYear() + 5, 11)}
               />

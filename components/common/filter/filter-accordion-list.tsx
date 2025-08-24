@@ -86,7 +86,6 @@ const FilterAccordionList = ({
 
     const isPriceChanged =
       minPrice !== minPriceDefault || maxPrice !== maxPriceDefault;
-
     if (isPriceChanged) {
       params.set('minPrice', minPrice.toString());
       params.set('maxPrice', maxPrice.toString());
@@ -97,7 +96,6 @@ const FilterAccordionList = ({
 
     const isTimeChanged =
       minTime !== minTimeDefault || maxTime !== maxTimeDefault;
-
     if (isTimeChanged) {
       params.set('minTime', formatTime(minTime));
       params.set('maxTime', formatTime(maxTime));

@@ -1,11 +1,10 @@
-// components/providers/socket-provider.tsx
 'use client';
 
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
 const SocketContext = createContext<{
-  socket: any;
+  socket: Socket | null;
 }>({
   socket: null,
 });
@@ -13,20 +12,45 @@ const SocketContext = createContext<{
 export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const [socket, setSocket] = useState<any>(null);
+  const socketRef = useRef<Socket | null>(null);
+  const [socket, setSocket] = useState<Socket | null>(null);
 
   const SOCKET_URL = 'https://booking-app-s5m3.onrender.com';
 
   useEffect(() => {
-    const newSocket = io(`${SOCKET_URL}`, {
-      path: '/socket.io',
-      transports: ['websocket'],
-    });
-    newSocket.connect();
-    setSocket(newSocket);
+    if (!socketRef.current) {
+      const newSocket = io(SOCKET_URL, {
+        path: '/socket.io',
+        transports: ['websocket'],
+        reconnection: true, // Bật tự động reconnect
+        reconnectionAttempts: 5, // Số lần thử reconnect
+        reconnectionDelay: 1000, // Thời gian chờ giữa các lần reconnect
+      });
+
+      socketRef.current = newSocket;
+
+      // Xử lý sự kiện kết nối
+      newSocket.on('connect', () => {
+        setSocket(newSocket);
+      });
+
+      // Xử lý sự kiện ngắt kết nối
+      newSocket.on('disconnect', () => {
+        setSocket(null);
+      });
+
+      // Xử lý lỗi kết nối
+      newSocket.on('connect_error', error => {
+        console.error('Socket connection error:', error);
+      });
+    }
 
     return () => {
-      newSocket.disconnect(); // chỉ gọi hàm chứ không return nó
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+        socketRef.current = null;
+        setSocket(null);
+      }
     };
   }, []);
 

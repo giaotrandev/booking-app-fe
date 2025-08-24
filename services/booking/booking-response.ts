@@ -94,6 +94,7 @@ export interface BookingResponseProps {
   passengerEmail?: string;
   passengerPhone?: string;
   passengerNote?: string;
+  createdAt?: string; /// TODO
   pickupId?: string;
   dropoffId?: string;
   status: BookingStatusResponse;

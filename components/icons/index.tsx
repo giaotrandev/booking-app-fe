@@ -14,14 +14,17 @@ import Date from './date';
 import Email from './email';
 import ExclamationCircle from './exclamation-circle';
 import Eye from './eye';
+import FaceHuman from './face-human';
 import { Hamburger } from './hamburger';
 import HidePassword from './hide-password';
+import Logout from './logout';
 import Phone from './phone';
 import Print from './print';
 import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
 import { SteeringWheel } from './steering-wheel';
 import { Swap } from './swap';
+import Ticket from './ticket';
 import Upload from './upload';
 import XCircle from './x-circle';
 import { XMark } from './x-mark';
@@ -41,6 +44,7 @@ const icons = {
   'x-circle': XCircle,
   'steering-wheel': SteeringWheel,
   'chevron-right-with-sticky': ChevronRightWithStick,
+  'face-human': FaceHuman,
   print: Print,
   seat: Seat,
   hamburger: Hamburger,
@@ -53,6 +57,8 @@ const icons = {
   email: Email,
   address: Address,
   swap: Swap,
+  ticket: Ticket,
+  logout: Logout,
 };
 
 export type IconNamesProps = keyof typeof icons;

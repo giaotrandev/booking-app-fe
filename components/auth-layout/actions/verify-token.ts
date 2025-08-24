@@ -1,8 +1,16 @@
 'use server';
 
 import { cookies } from 'next/headers';
+import jwt from 'jsonwebtoken';
 
-function isTokenExpired(token: string): boolean {
+function verifyJwt(token: string) {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET!); // <-- verify chữ ký
+  } catch {
+    return null;
+  }
+}
+function isTokenExpired(token: string): boolean | 'invalid' {
   try {
     const payloadBase64 = token.split('.')[1];
     const decodedPayload = JSON.parse(
@@ -11,10 +19,8 @@ function isTokenExpired(token: string): boolean {
     const exp = decodedPayload.exp;
     const now = Math.floor(Date.now() / 1000);
     return now >= exp;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Token decode error:', error);
-    return true;
+  } catch {
+    return 'invalid';
   }
 }
 
@@ -29,9 +35,13 @@ const verifyTokenAction = async () => {
 
   const expired = isTokenExpired(accessToken);
 
+  if (expired === 'invalid') {
+    return { valid: false, reason: 'Invalid token' };
+  }
+
   return {
     valid: !expired,
-    expired,
+    expired: expired === true,
     accessToken,
     refreshToken,
   };

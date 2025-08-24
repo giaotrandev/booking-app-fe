@@ -110,6 +110,7 @@ export const convertBookingItem = async (
     totalPrice: booking?.totalPrice ?? '',
     finalPrice: booking?.finalPrice ?? '',
     userId: booking?.userId ?? undefined,
+    createdAt: booking?.createdAt ?? undefined,
     seats: (await convertSeats(booking.bookingTrips![0]?.seats ?? [])) ?? [],
     dropingPoint: {
       name: booking?.dropoff?.name ?? undefined,

@@ -15,6 +15,7 @@ import NavigationBooking, {
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
 import { useTranslate } from '#/i18n/client';
+import { cn } from '#/lib/utilities/cn';
 import { useGlobalsStore } from '#/store/globals';
 import { Suspense, useEffect } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
@@ -31,10 +32,10 @@ const LayoutFilterTrip = ({
     setFilterOpen(open);
   };
   useEffect(() => {
-    if (isDesktop) {
+    if (isDesktop && sideFilterOpen) {
       setFilterOpen(false);
     }
-  }, [isDesktop]);
+  }, [isDesktop, sideFilterOpen, setFilterOpen]);
   if (
     !(
       (Array.isArray(arrivalList) && arrivalList.length > 0) ||
@@ -47,7 +48,11 @@ const LayoutFilterTrip = ({
   return (
     <Container>
       {/* Desktop */}
-      <div className="pointer-events-none absolute top-0 left-0 z-[12] hidden h-screen w-full items-center justify-center lg:flex">
+      <div
+        className={cn(
+          'pointer-events-none absolute top-0 left-0 z-[12] hidden h-screen w-full items-center justify-center lg:flex',
+        )}
+      >
         <Suspense>
           <NavigationBooking
             arrivalList={arrivalList}

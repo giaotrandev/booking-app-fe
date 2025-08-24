@@ -28,6 +28,7 @@ const CarouselNavigation = ({
     >
       <div className="inline-flex">
         <ButtonIcon
+          size="md"
           icon={{ name: 'arrow-left' }}
           onClick={onPrevClick}
           disabled={prevDisabled}
@@ -36,6 +37,7 @@ const CarouselNavigation = ({
       </div>
       <div className="inline-flex">
         <ButtonIcon
+          size="md"
           icon={{ name: 'arrow-right' }}
           onClick={onNextClick}
           disabled={nextDisabled}

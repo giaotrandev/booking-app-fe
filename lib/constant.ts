@@ -9,4 +9,8 @@ export const defaultPage = '1';
 export const minPriceDefault = 0;
 export const maxPriceDefault = 10000;
 export const minTimeDefault = 0;
-export const maxTimeDefault = 1440;
+export const maxTimeDefault = 1425;
+export const protectedRoutes = [
+  '/my-account/profile',
+  '/my-account/my-booking',
+];

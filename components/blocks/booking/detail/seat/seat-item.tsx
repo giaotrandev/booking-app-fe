@@ -51,7 +51,8 @@ const SeatItem = ({
                 : 'w-[60%] md:w-[34%] lg:w-[60%]',
               status === SeatStatus.AVAILABLE &&
                 (selected ? 'fill-pj-green' : 'fill-pj-grey-light'),
-              status === SeatStatus.RESERVED &&
+              (status === SeatStatus.RESERVED ||
+                status === SeatStatus.BOOKED) &&
                 'pointer-events-none fill-black',
             )}
           />

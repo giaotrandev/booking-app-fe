@@ -23,6 +23,7 @@ const buttonVariants = cva(
         special: 'w-full lg:max-w-74 py-2.25 px-8',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         small: 'px-4 py-2 text-[14px] lg:text-[16px]',
+        outline: 'px-4 py-1.25 border border-pj-red text-pj-red',
       },
       colors: {
         none: '',

@@ -2,13 +2,30 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+type Permission = {
+  code: string;
+  name: string;
+};
+
+type Role = {
+  name: string;
+  permissions: Permission[];
+};
 
 type User = {
   id: string;
-  name: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
-  role: string;
-  permissions: string[];
+  role?: Role; // giữ nguyên object
+  avatar?: string | null;
+  previewAvatar?: string | null;
+  phoneNumber?: string;
+  birthday?: string;
+  gender?: 'MALE' | 'FEMALE';
+  address?: string;
+  avatarUrl?: string;
+  name: string;
 };
 
 type AuthState = {
@@ -20,6 +37,8 @@ type AuthState = {
 type Actions = {
   setAuth: (payload: { user: User; rememberMe?: boolean }) => void;
   clearAuth: () => void;
+  setPreviewAvatar: (url: string | null) => void;
+  setUser: (userPartial: Partial<User>) => void; // Action mới để cập nhật user một phần
 };
 
 const useUserStore = create<AuthState & Actions>()(
@@ -42,6 +61,24 @@ const useUserStore = create<AuthState & Actions>()(
           user: null,
           isLoggedIn: false,
         })),
+
+      setPreviewAvatar: url => {
+        set(state => {
+          if (!state.user) return state; // Kiểm tra nếu không có user thì không thay đổi
+          return {
+            user: { ...state.user, previewAvatar: url },
+          };
+        });
+      },
+
+      setUser: userPartial => {
+        set(state => {
+          if (!state.user) return state;
+          return {
+            user: { ...state.user, ...userPartial },
+          };
+        });
+      },
     }),
     {
       name: 'user-store',

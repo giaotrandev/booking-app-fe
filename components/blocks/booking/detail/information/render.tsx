@@ -4,6 +4,7 @@ import { Typography } from '#/components/ui/typography';
 import { useToast } from '#/components/ui/use-toast';
 import { useBookingSelection } from '#/context/booking/booking-selection-context';
 import { createBooking } from '#/lib/service/create-booking';
+import { useUserStore } from '#/store/user';
 import { useRouter } from 'next/navigation';
 
 export interface InformationRenderProps {
@@ -20,6 +21,7 @@ const InformationRender = ({ tripId }: InformationRenderProps) => {
     selectedDropingId,
     getAvailableSeats,
   } = useBookingSelection();
+  const { user, isLoggedIn } = useUserStore();
   const handleSubmitForm = async (formData: Record<string, any>) => {
     const validation = validateSelectedSeats();
     if (!validation.isValid) {
@@ -53,6 +55,22 @@ const InformationRender = ({ tripId }: InformationRenderProps) => {
       });
     }
   };
+  // HotFix tam thoi
+  const defaultValues =
+    isLoggedIn && user
+      ? {
+          fullname: user.name ?? '',
+          email: user.email ?? '',
+          phoneNumber: user.phoneNumber ?? '', // Thêm trường này
+          note: '', // Thêm trường này
+        }
+      : {
+          fullname: '',
+          email: '',
+          phoneNumber: '',
+          note: '',
+        };
+
   return (
     <div className="mt-4 flex flex-col items-center justify-center gap-y-4 lg:mt-0">
       <Typography asChild variant="h4">
@@ -64,10 +82,10 @@ const InformationRender = ({ tripId }: InformationRenderProps) => {
           fields={formFields}
           containerClassName="gap-y-8"
           isLoginLayout
-          // submitButton={{ label: 'Sign in' }}
           onSubmit={handleSubmitForm}
           isSubmit={isSubmit}
           setIsSubmit={setIsSubmit}
+          initialDefaultValues={defaultValues}
           // processing={processing || turnstileLoading || !canSubmit}
         />
       </div>

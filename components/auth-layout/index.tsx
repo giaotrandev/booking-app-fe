@@ -2,8 +2,9 @@
 import { LayoutMain } from '../layout/main';
 import { LayoutHeader, LayoutHeaderProps } from '../layout/header';
 import { LayoutFooter, LayoutFooterProps } from '../layout/footer/footer';
+import { fetchProfileInformation } from '#/lib/service/fetch-profile-information';
 
-export default async function AuthLayout({
+export default async function StandardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -12,7 +13,10 @@ export default async function AuthLayout({
   // if (!result.valid) {
   //   redirect('/login');
   // }
-  const header: LayoutHeaderProps = {};
+  const userInformation = await fetchProfileInformation();
+  const header: LayoutHeaderProps = {
+    userInformation: userInformation,
+  };
   const footer: LayoutFooterProps = {};
 
   return (

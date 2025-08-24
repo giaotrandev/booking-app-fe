@@ -156,10 +156,12 @@ const ForgotPasswordRenderBlock = ({ fields }: ForgotPasswordRenderBlock) => {
       </div>
       {success && (
         <Notification
+          clickOutsideToClose={false}
           open={showNotification}
           onClose={() => setShowNotification(false)}
+          className="max-w-140"
           children={
-            <div className="flex w-full max-w-140 flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 shadow-lg transition-[opacity,transform]">
+            <div className="flex w-full flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 shadow-lg transition-[opacity,transform]">
               <Typography asChild variant="h3">
                 <p>Check Your Email</p>
               </Typography>

@@ -37,7 +37,7 @@ const CustomCalendar = ({
       showOutsideDays={showOutsideDays}
       className={cn('', className)}
       classNames={{
-        root: 'text-[16px] rounded-xl border p-2 bg-white relative',
+        root: 'text-[16px] rounded-xl border  bg-white relative',
         day: cn(
           // 'h-10 grow shrink-0 basis-[0%] rounded',
           // 'lg:[&:not([aria-selected=true])]:hocus-visible:bg-pj-input-focus/5',
@@ -66,7 +66,8 @@ const CustomCalendar = ({
         dropdown_root: 'relative inline-flex items-center',
         month_caption: 'flex justify-center items-center h-10',
         // months: 'relative',
-        months: 'flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0',
+        month: 'p-2',
+        months: 'flex flex-col space-y-4 lg:flex-row  lg:space-y-0',
         month_grid: 'w-full border-collapse space-y-1 mt-4',
         nav: 'pointer-events-none absolute left-0 top-2 flex w-full justify-between',
         week: 'grid grid-cols-7  lg:flex lg:flex-nowrap mt-2',

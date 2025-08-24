@@ -17,16 +17,19 @@ const InfoItem = ({
   contentClassName,
 }: InfoItemProps) => {
   return (
-    <div className="flex justify-between gap-x-2">
+    <div className="flex flex-col justify-between gap-x-1 md:flex-row">
       <div className="flex-1">
         <Typography asChild className={cn(titleClassName)}>
           <span>{title}: </span>
         </Typography>
       </div>
-      <div className="max-w-1/2 text-right">
+      <div className="md:max-w-3/4 md:text-right">
         <Typography
           asChild
-          className={cn('font-medium break-words', contentClassName)}
+          className={cn(
+            'text-[18px] font-medium break-words lg:text-[16px]',
+            contentClassName,
+          )}
         >
           <span>{content}</span>
         </Typography>

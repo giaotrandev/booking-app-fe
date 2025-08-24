@@ -50,7 +50,9 @@ const OptionItemList = ({
         return (
           <div
             key={option.id}
-            className={cn('flex w-full items-center rounded-md border p-4')}
+            className={cn(
+              'flex w-full items-center rounded-md border p-2 lg:p-4',
+            )}
           >
             <RadioGroupItem disabled={disabled} value={value} id={value} />
             <label className="flex flex-1 flex-col pl-3" htmlFor={value}>

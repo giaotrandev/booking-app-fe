@@ -108,11 +108,13 @@ const BookingDetailContent = ({
             </div>
           )}
           {activeTab === 3 && <InformationRender tripId={id} />}
-          <div className="mt-4 flex justify-between">
+          <div className="mt-4 flex flex-wrap justify-between">
             <div
               className={cn(
                 'transition-opacity',
-                activeTab > 1 ? 'opacity-100' : 'pointer-events-none opacity-0',
+                activeTab > 1
+                  ? 'static flex items-center justify-center opacity-100'
+                  : 'absolute opacity-0',
               )}
             >
               <Button
@@ -121,8 +123,13 @@ const BookingDetailContent = ({
                 onClick={() => setActiveTab(prev => Math.max(1, prev - 1))}
               />
             </div>
-            <div className="flex items-center gap-x-4">
-              <Typography asChild className="font-medium">
+            <div
+              className={cn(
+                'flex items-center gap-x-1 lg:gap-x-4',
+                activeTab < 2 && 'w-full justify-end',
+              )}
+            >
+              <Typography asChild className="text-center font-medium">
                 <p>{`Total: ${formatPrice(totalPrice)}`}</p>
               </Typography>
               <Button
@@ -137,10 +144,12 @@ const BookingDetailContent = ({
         </div>
       </div>
       <Notification
+        clickOutsideToClose={false}
         open={isConflictModalOpen}
+        className="max-w-md"
         onClose={() => setIsConflictModalOpen(false)}
       >
-        <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg">
+        <div className="w-full rounded-xl bg-white p-6 shadow-lg">
           <Typography
             asChild
             variant="h3"

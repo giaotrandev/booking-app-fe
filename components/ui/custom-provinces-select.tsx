@@ -9,6 +9,7 @@ import { inputVariants } from './input';
 import { Typography } from './typography';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useGlobalsStore } from '#/store/globals';
+import { useMediaQuery } from 'usehooks-ts';
 
 export interface CustomProvincesSelectOptionProps {
   label: string;
@@ -54,6 +55,12 @@ const CustomProvincesSelect = ({
   const listRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const { sideFilterOpen } = useGlobalsStore();
+  const isDesktop = useMediaQuery('(min-width: 1023px)');
+  useEffect(() => {
+    if (!isDesktop && open) {
+      setOpen(false);
+    }
+  }, [isDesktop, open, setOpen]);
   // State để track search value
   const [searchValue, setSearchValue] = useState<string>('');
   const normalizeText = (text: string) => {
@@ -95,7 +102,7 @@ const CustomProvincesSelect = ({
     if (!open) {
       setSearchValue('');
     }
-  }, [open]);
+  }, [open, setSearchValue]);
 
   const valueSelected = value ? (Array.isArray(value) ? value : [value]) : [];
 
@@ -173,14 +180,8 @@ const CustomProvincesSelect = ({
         </button>
       </PopoverTrigger>
       <PopoverContent
-        className="pointer-events-auto relative top-2 z-[99999999] w-[var(--radix-popover-trigger-width)]"
-        onOpenAutoFocus={e => {
-          try {
-            ref.current?.focus();
-          } catch (error) {
-            console.warn('Focus error:', error);
-          }
-        }}
+        className="pointer-events-auto relative top-2 z-[1094] w-[var(--radix-popover-trigger-width)] lg:z-[1092]"
+        onOpenAutoFocus={e => e.preventDefault()}
       >
         <div className="rounded-xl border border-black bg-white px-2 py-4 text-black">
           <CommandPrimitive
