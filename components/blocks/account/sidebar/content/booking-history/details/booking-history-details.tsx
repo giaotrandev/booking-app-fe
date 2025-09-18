@@ -33,7 +33,6 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
   const [showModalConfirmCancel, setShowModalConfirmCancel] =
     useState<boolean>(false);
   const [isProcessingCancel, setIsProcessingCancel] = useState<boolean>(false);
-  const [statusBooking, setStatusBooking] = useState<boolean>(false);
 
   const { toast } = useToast();
   const searchParams = useSearchParams();
@@ -108,7 +107,6 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
     setIsProcessingCancel(true);
     try {
       const responseCancel = await cancelBooking(id);
-      console.log('res', responseCancel);
       if (responseCancel?.success) {
         setBooking(prev => {
           if (!prev) return null;

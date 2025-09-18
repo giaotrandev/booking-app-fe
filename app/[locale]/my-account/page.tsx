@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 export const generateStaticParams = getStaticParams;
 const MyAccountPage = async ({ params, searchParams }: PageProps) => {
   const { locale } = await params;
-  const _searchParams = await searchParams;
 
   setStaticParamsLocale(locale);
   const tokenResult = await verifyTokenAction();

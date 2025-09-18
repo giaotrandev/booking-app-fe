@@ -28,13 +28,14 @@ const verifyTokenAction = async () => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('at')?.value;
   const refreshToken = cookieStore.get('rt')?.value;
-
+  console.log('Access Token:', accessToken);
+  console.log('Refresh Token:', refreshToken);
   if (!accessToken) {
     return { valid: false, reason: 'No access token' };
   }
 
   const expired = isTokenExpired(accessToken);
-
+  console.log('Is Token Expired:', expired);
   if (expired === 'invalid') {
     return { valid: false, reason: 'Invalid token' };
   }

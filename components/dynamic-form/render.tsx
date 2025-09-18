@@ -133,7 +133,7 @@ const FormRenderBlock = forwardRef<
       if (formRef && formRef.current) {
         formRef.current.reset();
       }
-      form.reset({});
+      form.reset(initialDefaultValues ?? defaultValues);
       setPreviewImages({});
       setPreviewFileNames({});
     };

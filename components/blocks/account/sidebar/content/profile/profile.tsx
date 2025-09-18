@@ -41,8 +41,6 @@ const ProfileContentSidebar = ({
               body: uploadFormData,
             });
             if (!res.ok) {
-              // eslint-disable-next-line no-console
-              console.error(`Upload avatar failed for ${file.name}`);
               continue;
             }
             const result = await res.json();
