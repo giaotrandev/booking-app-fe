@@ -9,7 +9,9 @@ interface BlockWrapperProps extends HTMLAttributes<HTMLDivElement> {
 const BlockWrapper = forwardRef<HTMLDivElement, BlockWrapperProps>(
   ({ className, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : 'section';
-    return <Comp className={cn('', className)} ref={ref} {...props} />;
+    return (
+      <Comp className={cn('py-12 lg:py-20', className)} ref={ref} {...props} />
+    );
   },
 );
 BlockWrapper.displayName = 'BlockWrapper';

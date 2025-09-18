@@ -1,6 +1,6 @@
 import AuthLayout from '#/components/auth-layout';
 import { verifyTokenAction } from '#/components/auth-layout/actions/verify-token';
-import { AccountBlock } from '#/components/blocks/account';
+// import { AccountBlock } from '#/components/blocks/account';
 import { TemplateProps } from '#/components/templates';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { fetchProfileInformation } from '#/lib/service/fetch-profile-information';
@@ -26,7 +26,7 @@ const MyAccountPage = async ({ params, searchParams }: PageProps) => {
   }
   // const userInformation = await fetchProfileInformation();
 
-  return <AccountBlock />;
+  return <></>;
 };
 
 export default MyAccountPage;

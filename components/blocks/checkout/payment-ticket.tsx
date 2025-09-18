@@ -14,7 +14,8 @@ import { UncheckedQrCodeItemRequestProps } from '#/services/QrCode/details/unche
 import { Button } from '#/components/ui/button';
 import { Link } from '#/i18n/routing';
 
-interface PaymentTicketProps extends Omit<BookingRequestProps, 'seats'> {
+interface PaymentTicketProps
+  extends Omit<BookingRequestProps, 'seats' | 'createdAt' | 'basePrice'> {
   isHaveQrCode: boolean;
   seats?: UncheckedQrCodeItemRequestProps[];
 }
@@ -71,6 +72,7 @@ const PaymentTicket = ({
               <Col
                 className={cn(
                   'col-span-full flex flex-col gap-y-4 rounded-xl bg-white p-5 lg:col-span-6',
+                  seats.length === 1 && 'lg:col-start-4',
                 )}
                 key={index}
               >
@@ -79,7 +81,7 @@ const PaymentTicket = ({
                     <div className="border-pj-red inline-flex rounded-[24px] border px-4 py-1">
                       <Typography
                         asChild
-                        className="text-pj-red font-sans font-medium uppercase"
+                        className="text-pj-red font-medium uppercase"
                       >
                         <p>{`Seat: ${item.seat?.seatNumber}`}</p>
                       </Typography>

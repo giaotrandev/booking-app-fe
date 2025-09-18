@@ -189,7 +189,7 @@ const BookingList = ({
   useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, {
       root: null,
-      rootMargin: '0px 0px -10% 0px', // Trigger earlier
+      rootMargin: '0px 0px -10% 0px',
       threshold: 0,
     });
 
@@ -312,8 +312,7 @@ const BookingList = ({
                                       {getTimeDifference(
                                         item.arrivalTime,
                                         item.departureTime,
-                                      )}{' '}
-                                      hours
+                                      )}
                                     </p>
                                   </Typography>
                                 </div>
@@ -389,7 +388,7 @@ const BookingList = ({
       <div ref={loaderRef} className="h-px" />
       {hasNextPage && isFetchingNextPage && (
         <div className="flex justify-center">
-          <Loading content="Đang tải thêm chuyến xe..." />
+          <Loading content="Loading more trips..." />
         </div>
       )}
     </div>

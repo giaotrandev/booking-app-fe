@@ -60,11 +60,15 @@ const handleAnimate = (
 
 const getTransitionDuration = (ref: RefObject<HTMLElement | null>) => {
   if (typeof window !== 'undefined') {
-    if (ref.current) {
-      return (
-        parseFloat(window.getComputedStyle(ref.current).transitionDuration) *
-        1000
-      );
+    const panel = ref.current?.querySelector('.panel');
+    const backdrop = ref.current?.querySelector('.backdrop');
+    if (ref.current && panel && backdrop) {
+      const panelDuration =
+        parseFloat(window.getComputedStyle(panel).transitionDuration) * 1000;
+      const backdropDuration =
+        parseFloat(window.getComputedStyle(backdrop).transitionDuration) * 1000;
+
+      return Math.max(backdropDuration, panelDuration);
     }
   }
   return 0;
@@ -119,11 +123,10 @@ const HeadlessModal = ({
   );
 
   const isClient = useIsClient();
-
   const ref = useRef<HTMLElement | null>(null);
 
   useScrollLock({
-    autoLock: isOpened,
+    autoLock: open,
     lockTarget: 'body',
   });
 
@@ -132,52 +135,34 @@ const HeadlessModal = ({
   useEffect(() => {
     if (isClient) {
       if (open) {
-        if (ref.current) {
+        const el = ref.current;
+        if (el) {
           setIsOpened(true);
-          ref.current.style.display = '';
+          el.style.zIndex = '';
         }
       } else {
-        const timeout = setTimeout(
-          () => {
-            if (ref.current) {
-              setIsOpened(false);
-              ref.current.style.display = 'none';
-            }
-          },
-          transitionDurationBackdrop >= transitionDurationPanel
-            ? transitionDurationBackdrop
-            : transitionDurationPanel,
-        );
-        return () => {
-          clearTimeout(timeout);
-        };
+        const el = ref.current;
+        if (el) {
+          const timeout = setTimeout(() => {
+            setIsOpened(false);
+            el.style.zIndex = '-1';
+          }, getTransitionDuration(ref));
+          return () => clearTimeout(timeout);
+        }
       }
     }
-  }, [
-    isClient,
-    ref,
-    open,
-    transitionDurationBackdrop,
-    transitionDurationPanel,
-  ]);
+  }, [isClient, open, transitionDurationBackdrop, transitionDurationPanel]);
 
   useEventListener('keydown', event => {
-    if (event.defaultPrevented) {
-      return; // Do nothing if the event was already processed
-    }
-    switch (event.key) {
-      case 'Esc': // IE/Edge specific value
-      case 'Escape':
-        onClose();
-        break;
-      default:
-        return;
+    if (event.defaultPrevented) return;
+    if (event.key === 'Escape' || event.key === 'Esc') {
+      onClose();
     }
   });
 
   const firstStyle: CSSProperties | null = firstOpen.current
     ? null
-    : { display: 'none' };
+    : { zIndex: -1 };
 
   const As = as;
 
@@ -197,7 +182,7 @@ const HeadlessModal = ({
         >
           <As
             ref={ref}
-            className={className}
+            className={className ?? ''}
             style={{ ...style, ...firstStyle }}
           >
             {children}
@@ -221,44 +206,26 @@ const Backdrop = ({
   enter = {},
   leave = {},
 }: BackdropProps) => {
-  const { open, setTransitionDurationBackdrop } = useContext(ContextModal);
-
+  const { open } = useContext(ContextModal);
   const isClient = useIsClient();
-
   const ref = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (isClient) {
-      setTransitionDurationBackdrop &&
-        setTransitionDurationBackdrop(getTransitionDuration(ref));
-    }
-  }, [isClient, ref, setTransitionDurationBackdrop]);
 
   useEffect(() => {
     if (isClient) {
       if (open) {
         const timeout = setTimeout(() => {
-          handleAnimate(ref, {
-            remove: leave,
-            add: enter,
-          });
+          handleAnimate(ref, { remove: leave, add: enter });
         }, TRANSITION_DURATION_DEFAULT);
-        return () => {
-          clearTimeout(timeout);
-        };
+        return () => clearTimeout(timeout);
       } else {
-        handleAnimate(ref, {
-          remove: enter,
-          add: leave,
-        });
+        handleAnimate(ref, { remove: enter, add: leave });
       }
     }
-  }, [isClient, ref, open, enter, leave]);
+  }, [isClient, open, enter, leave]);
 
   const As = as;
-
   return isClient ? (
-    <As ref={ref} className={className} style={style}>
+    <As ref={ref} className={`backdrop ${className ?? ''}`} style={style ?? {}}>
       {children}
     </As>
   ) : null;
@@ -276,16 +243,10 @@ const Panel = ({
   enter = {},
   leave = {},
 }: PanelProps) => {
-  const {
-    open,
-    isOpened,
-    onClose,
-    clickOutsideToClose,
-    setTransitionDurationPanel,
-  } = useContext(ContextModal);
+  const { open, isOpened, onClose, clickOutsideToClose } =
+    useContext(ContextModal);
 
   const isClient = useIsClient();
-
   const ref = useRef<HTMLElement | null>(null);
 
   // @ts-ignore
@@ -293,36 +254,20 @@ const Panel = ({
 
   useEffect(() => {
     if (isClient) {
-      setTransitionDurationPanel &&
-        setTransitionDurationPanel(getTransitionDuration(ref));
-    }
-  }, [isClient, ref, setTransitionDurationPanel]);
-
-  useEffect(() => {
-    if (isClient) {
       if (open) {
         const timeout = setTimeout(() => {
-          handleAnimate(ref, {
-            remove: leave,
-            add: enter,
-          });
+          handleAnimate(ref, { remove: leave, add: enter });
         }, TRANSITION_DURATION_DEFAULT);
-        return () => {
-          clearTimeout(timeout);
-        };
+        return () => clearTimeout(timeout);
       } else {
-        handleAnimate(ref, {
-          remove: enter,
-          add: leave,
-        });
+        handleAnimate(ref, { remove: enter, add: leave });
       }
     }
-  }, [isClient, ref, open, enter, leave]);
+  }, [isClient, open, enter, leave]);
 
   const As = as;
-
   return isClient ? (
-    <As ref={ref} className={className} style={style}>
+    <As ref={ref} className={`panel ${className ?? ''}`} style={style ?? {}}>
       {children({ isOpened })}
     </As>
   ) : null;

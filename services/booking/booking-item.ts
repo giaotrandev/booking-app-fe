@@ -10,19 +10,18 @@ import {
   BookingTripsResponseProps,
   PaymentStatusResponse,
 } from './booking-response';
-const convertSeats = async (seats: BookingTripsResponseProps['seats']) => {
-  const _seats: BookingRequestProps['seats'] = [];
-  for (const seat of seats ?? []) {
-    _seats.push({
-      id: seat.id ?? '',
-      seatNumber: seat.seatNumber ?? '',
-      tripId: seat?.tripId ?? '',
-      bookingTripId: seat.bookingTripId ?? '',
-      seatType: seat.type ?? undefined,
-      status: seat.status ?? undefined,
-    });
-  }
-  return _seats;
+const convertSeats = (
+  seats: BookingTripsResponseProps['seats'],
+): BookingRequestProps['seats'] => {
+  if (!(Array.isArray(seats) && seats.length > 0)) return [];
+  return seats.map(seat => ({
+    id: seat.id ?? '',
+    seatNumber: seat.seatNumber ?? '',
+    tripId: seat.tripId ?? '',
+    bookingTripId: seat.bookingTripId ?? '',
+    seatType: seat.type ?? undefined,
+    status: seat.status ?? undefined,
+  }));
 };
 export const mapPaymentStatus = (
   status?: PaymentStatusResponse,
@@ -50,68 +49,59 @@ export const mapBookingStatus = (
       return BookingStatusRequest.PENDING;
   }
 };
-export const convertBookingItem = async (
+export const convertBookingItem = (
   booking: BookingResponseProps,
-): Promise<BookingRequestProps> => {
-  let arrivalTime: string = '';
-  let departureTime: string = '';
-  let vehicleId: string = '';
-  let vehicleDescription: string | undefined = undefined;
-  let vehicleName: string | undefined = undefined;
-  let vehiclePlateNumber: string | undefined = undefined;
-  let vehicleImage: string | undefined = undefined;
-  let vehicleCapacity: number = 0;
-  let route: BookingRouteItemRequestProps = {
-    id: '',
-    name: undefined,
-    code: undefined,
-    sourceProvince: undefined,
-    destinationProvince: undefined,
+): BookingRequestProps => {
+  const firstTrip = booking.bookingTrips?.[0]; // 👈 an toàn hơn
+
+  const arrivalTime = firstTrip?.trip?.arrivalTime ?? '';
+  const departureTime = firstTrip?.trip?.departureTime ?? '';
+  const tripId = firstTrip?.trip?.id ?? '';
+
+  const vehicle = {
+    vehicleId: firstTrip?.trip?.vehicleId ?? '',
+    vehicleDescription: firstTrip?.trip?.vehicle?.vehicleType?.description,
+    vehicleName: firstTrip?.trip?.vehicle?.vehicleType?.name,
+    vehiclePlateNumber: firstTrip?.trip?.vehicle?.plateNumber,
+    vehicleImage: firstTrip?.trip?.imageUrl,
+    vehicleCapacity: firstTrip?.trip?.capacity ?? 0,
   };
-  let tripId: string = '';
-  if (booking.bookingTrips && booking.bookingTrips.length > 0) {
-    let bookingTrip = booking.bookingTrips[0];
-    arrivalTime = bookingTrip.trip?.arrivalTime ?? '';
-    departureTime = bookingTrip.trip?.departureTime ?? '';
-    vehicleId = bookingTrip.trip?.vehicleId ?? '';
-    vehicleDescription = bookingTrip.trip?.vehicle?.vehicleType?.description;
-    vehicleName = bookingTrip.trip?.vehicle?.vehicleType?.name;
-    vehiclePlateNumber = bookingTrip.trip?.vehicle?.plateNumber;
-    vehicleImage = bookingTrip.trip?.imageUrl;
-    vehicleCapacity = bookingTrip.trip?.capacity ?? 0;
-    tripId = bookingTrip.trip?.id ?? '';
-    if (bookingTrip.trip?.route) {
-      let bookingTripRoute = bookingTrip.trip.route;
-      route = {
-        id: bookingTripRoute.id ?? '',
-        code: bookingTripRoute.code ?? undefined,
-        destinationProvince: {
-          id: bookingTripRoute.destinationProvince?.id ?? '',
-          name: bookingTripRoute.destinationProvince?.name ?? undefined,
+
+  const route: BookingRouteItemRequestProps | undefined = firstTrip?.trip?.route
+    ? {
+        id: firstTrip.trip.route.id ?? '',
+        code: firstTrip.trip.route.code ?? undefined,
+        name: firstTrip.trip.route.name ?? '',
+        sourceProvince: firstTrip.trip.route.sourceProvince && {
+          id: firstTrip.trip.route.sourceProvince.id ?? '',
+          name: firstTrip.trip.route.sourceProvince.name ?? undefined,
         },
-        name: bookingTripRoute.name ?? '',
-        sourceProvince: {
-          id: bookingTripRoute.sourceProvince?.id ?? '',
-          name: bookingTripRoute.sourceProvince?.name ?? undefined,
+        destinationProvince: firstTrip.trip.route.destinationProvince && {
+          id: firstTrip.trip.route.destinationProvince.id ?? '',
+          name: firstTrip.trip.route.destinationProvince.name ?? undefined,
         },
-      };
-    }
-  }
+      }
+    : undefined;
 
   return {
     id: booking.id,
-    tripId: tripId,
-    arrivalTime: arrivalTime,
-    departureTime: departureTime,
+    tripId,
+    arrivalTime,
+    departureTime,
     passengerEmail: booking?.passengerEmail ?? '',
     passengerName: booking?.passengerName ?? '',
     passengerPhone: booking?.passengerPhone ?? '',
     passengerNote: booking?.passengerNote ?? undefined,
-    totalPrice: booking?.totalPrice ?? '',
-    finalPrice: booking?.finalPrice ?? '',
+    totalPrice: booking.totalPrice + '',
+    finalPrice: booking.finalPrice + '',
+    basePrice: firstTrip?.trip?.basePrice + '',
+    totalSeats:
+      Array.isArray(firstTrip?.seats) && firstTrip?.seats.length > 0
+        ? firstTrip?.seats?.length
+        : undefined,
+    specialPrice: firstTrip?.trip?.specialPrice?.toString(),
     userId: booking?.userId ?? undefined,
-    createdAt: booking?.createdAt ?? undefined,
-    seats: (await convertSeats(booking.bookingTrips![0]?.seats ?? [])) ?? [],
+    seats: convertSeats(firstTrip?.seats ?? []),
     dropingPoint: {
       name: booking?.dropoff?.name ?? undefined,
       address: booking?.dropoff?.address ?? undefined,
@@ -128,16 +118,9 @@ export const convertBookingItem = async (
     },
     paymentStatus: mapPaymentStatus(booking.paymentStatus),
     status: mapBookingStatus(booking.status),
-    vehicle: {
-      // TODO: ADD CAPACITY
-      vehicleId: vehicleId,
-      vehicleDescription: vehicleDescription,
-      vehicleImage: vehicleImage,
-      vehicleName: vehicleName,
-      vehiclePlateNumber: vehiclePlateNumber,
-      vehicleCapacity: vehicleCapacity,
-    },
-    route: route,
-    updatedAt: booking.updatedAt,
+    vehicle,
+    route,
+    createdAt: booking?.createdAt,
+    updatedAt: booking?.updatedAt,
   };
 };

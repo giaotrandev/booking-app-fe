@@ -2,14 +2,15 @@ import Stroke from '#/components/common/stroke';
 import { Button } from '#/components/ui/button';
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
+import { BlockWrapper } from '../wrapper';
 import FeaturedArticleList from './list';
 
 const FeaturedArticlesRenderBlock = () => {
   return (
-    <section className="bg-pj-grey-lightest pt-6 pb-10">
-      <div className="mb-6">
+    <BlockWrapper className="bg-pj-grey-lightest">
+      {/* <div className="mb-6">
         <Stroke />
-      </div>
+      </div> */}
       <Container>
         <div className="flex flex-col gap-y-6 xl:flex-row xl:gap-x-19 xl:gap-y-0">
           <div className="flex max-w-107.75 flex-col space-y-3">
@@ -47,7 +48,7 @@ const FeaturedArticlesRenderBlock = () => {
           </div>
         </div>
       </Container>
-    </section>
+    </BlockWrapper>
   );
 };
 

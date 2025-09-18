@@ -1,17 +1,26 @@
 import { Typography } from '#/components/ui/typography';
+import { cn } from '#/lib/utilities/cn';
 
 interface BookingInfoItemProps {
   label: string;
   value: string | number;
+  valueClassName?: string;
 }
 
-const BookingInfoItem = ({ label, value }: BookingInfoItemProps) => {
+const BookingInfoItem = ({
+  label,
+  value,
+  valueClassName,
+}: BookingInfoItemProps) => {
   return (
     <div className="flex flex-col">
       <Typography className="text-pj-grey" asChild>
         <p>{label}</p>
       </Typography>
-      <Typography className="text-[20px] font-medium" variant="h5">
+      <Typography
+        className={cn('text-[20px] font-medium', valueClassName)}
+        variant="h5"
+      >
         {value}
       </Typography>
     </div>

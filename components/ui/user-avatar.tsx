@@ -23,7 +23,7 @@ const UserAvatar = ({
   return (
     <Avatar
       className={cn(
-        'flex size-14 items-center justify-center',
+        'flex size-12 items-center justify-center',
         avatarClassName,
       )}
     >

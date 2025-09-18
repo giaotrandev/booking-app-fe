@@ -236,160 +236,155 @@ const UploadFile = ({
         clickOutsideToClose={!showConfirmExit}
         className="max-w-lg"
       >
-        <>
-          <div className="pointer-events-auto relative flex flex-col items-center gap-4 rounded-xl bg-white p-4 lg:p-6">
-            <div className="absolute top-3 right-3 lg:top-4 lg:right-4">
-              <ButtonIcon
-                onClick={requestClose}
-                size="sm"
-                icon={{ name: 'x-mark' }}
-              />
-            </div>
-            <Typography variant="h3" className="text-center" asChild>
-              <p>{isAvatar ? 'Choose Profile Picture' : 'Upload File'}</p>
-            </Typography>
+        <div className="pointer-events-auto relative flex flex-col items-center gap-4 rounded-xl bg-white p-4 lg:p-6">
+          <div className="absolute top-3 right-3 lg:top-4 lg:right-4">
+            <ButtonIcon
+              onClick={requestClose}
+              size="sm"
+              icon={{ name: 'x-mark' }}
+            />
+          </div>
+          <Typography variant="h3" className="text-center" asChild>
+            <p>{isAvatar ? 'Choose Profile Picture' : 'Upload File'}</p>
+          </Typography>
 
-            {/* Preview Section */}
-            <div className="relative">
-              {isAvatar ? (
-                <UserAvatar
-                  // urlAvatar={displayPreview}
-                  urlAvatar={displayPreview || undefined}
-                  userName={
-                    user?.name
-                      ?.split(' ')
-                      .map(word => word[0]?.toUpperCase())
-                      .join('') || 'User'
-                  }
-                  width={128}
-                  height={128}
-                  avatarClassName="size-32"
-                  titleFallBack="h3"
-                />
-              ) : (
-                // Non-avatar file preview
-                <div className="flex h-30 w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
-                  {selectedFiles.length > 0 ? (
-                    <div className="text-center">
-                      <Icon
-                        name="upload"
-                        className="mx-auto h-8 w-8 text-gray-400"
-                      />
-                      <p className="mt-2 text-sm text-gray-600">
-                        {selectedFiles.map(file => file.name).join(', ')}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="text-center text-gray-400">
-                      <Icon name="upload" className="mx-auto h-8 w-8" />
-                      <p className="mt-2 text-sm">No file selected</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            {/* Drop Zone */}
-            <div
-              className={cn(
-                'group w-full cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors',
-                'hover:border-pj-red focus-visible:border-pj-red',
-                dragOver
-                  ? 'border-pj-red'
-                  : 'border-pj-grey-lightest hover:border-pj-grey-lightest',
-              )}
-              onClick={() => fileInputRef.current?.click()}
-              onDrop={handleDrop}
-              onDragOver={handleDragOver}
-              onDragLeave={handleDragLeave}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  fileInputRef.current?.click();
+          {/* Preview Section */}
+          <div className="relative">
+            {isAvatar ? (
+              <UserAvatar
+                // urlAvatar={displayPreview}
+                urlAvatar={displayPreview || undefined}
+                userName={
+                  user?.name
+                    ?.split(' ')
+                    .map(word => word[0]?.toUpperCase())
+                    .join('') || 'User'
                 }
-              }}
-            >
-              <span
-                className={cn(
-                  'group-hocus-visible:text-pj-red group-hocus-visible:fill-pj-red group-focus-visible:text-pj-red flex cursor-pointer flex-col transition-colors',
-                )}
-              >
-                <Typography
-                  asChild
-                  className={cn('font-sans', dragOver && 'text-pj-red')}
-                  variant="small-label"
-                >
-                  <span>
+                width={128}
+                height={128}
+                avatarClassName="size-32"
+                titleFallBack="h3"
+              />
+            ) : (
+              // Non-avatar file preview
+              <div className="flex h-30 w-full items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
+                {selectedFiles.length > 0 ? (
+                  <div className="text-center">
                     <Icon
                       name="upload"
-                      className={cn(
-                        'mx-auto h-8 w-8',
-                        dragOver && 'fill-pj-red',
-                      )}
+                      className="mx-auto h-8 w-8 text-gray-400"
                     />
-                    Upload file{multiple ? '(s)' : ''} here
-                  </span>
-                </Typography>
-                <Typography
-                  asChild
-                  variant="sub-body"
-                  className={cn(
-                    'text-pj-input group-hover:text-pj-red group-focus-visible:text-pj-red transition-colors',
-                    dragOver && 'text-pj-red',
-                  )}
-                >
-                  <span>or drag and drop here</span>
-                </Typography>
-              </span>
-            </div>
+                    <p className="mt-2 text-sm text-gray-600">
+                      {selectedFiles.map(file => file.name).join(', ')}
+                    </p>
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-400">
+                    <Icon name="upload" className="mx-auto h-8 w-8" />
+                    <p className="mt-2 text-sm">No file selected</p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
-            {/* File Input */}
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept={accept}
-              multiple={multiple}
-              onChange={handleInputChange}
-              className="hidden"
-            />
-
-            {/* File Type Info */}
-            <Typography
-              className="text-pj-input text-center"
-              asChild
-              variant="sub-body"
+          {/* Drop Zone */}
+          <div
+            className={cn(
+              'group w-full cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors',
+              'hover:border-pj-red focus-visible:border-pj-red',
+              dragOver
+                ? 'border-pj-red'
+                : 'border-pj-grey-lightest hover:border-pj-grey-lightest',
+            )}
+            onClick={() => fileInputRef.current?.click()}
+            onDrop={handleDrop}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            role="button"
+            tabIndex={0}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                fileInputRef.current?.click();
+              }
+            }}
+          >
+            <span
+              className={cn(
+                'group-hocus-visible:text-pj-red group-hocus-visible:fill-pj-red group-focus-visible:text-pj-red flex cursor-pointer flex-col transition-colors',
+              )}
             >
-              <p>
-                {isAvatar
-                  ? `( JPG, PNG up to 5MB )${multiple ? ', multiple files allowed' : ''}`
-                  : `Select ${multiple ? 'files' : 'a file'} to upload`}
-              </p>
-            </Typography>
+              <Typography
+                asChild
+                className={cn(dragOver && 'text-pj-red')}
+                variant="small-label"
+              >
+                <span>
+                  <Icon
+                    name="upload"
+                    className={cn('mx-auto h-8 w-8', dragOver && 'fill-pj-red')}
+                  />
+                  Upload file{multiple ? '(s)' : ''} here
+                </span>
+              </Typography>
+              <Typography
+                asChild
+                variant="sub-body"
+                className={cn(
+                  'text-pj-input group-hover:text-pj-red group-focus-visible:text-pj-red transition-colors',
+                  dragOver && 'text-pj-red',
+                )}
+              >
+                <span>or drag and drop here</span>
+              </Typography>
+            </span>
+          </div>
 
-            {/* Action Buttons */}
-            <div className="flex w-full flex-col gap-3 lg:flex-row">
-              <div className="w-full lg:w-1/2">
-                <Button
-                  type="button"
-                  onClick={requestClose}
-                  text="Cancel"
-                  className="w-full"
-                />
-              </div>
-              <div className="w-full lg:w-1/2">
-                <Button
-                  type="button"
-                  onClick={handleConfirm}
-                  text="Save Changes"
-                  disabled={!hasNewFiles}
-                  className="w-full"
-                />
-              </div>
+          {/* File Input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept={accept}
+            multiple={multiple}
+            onChange={handleInputChange}
+            className="hidden"
+          />
+
+          {/* File Type Info */}
+          <Typography
+            className="text-pj-input text-center"
+            asChild
+            variant="sub-body"
+          >
+            <p>
+              {isAvatar
+                ? `( JPG, PNG up to 5MB )${multiple ? ', multiple files allowed' : ''}`
+                : `Select ${multiple ? 'files' : 'a file'} to upload`}
+            </p>
+          </Typography>
+
+          {/* Action Buttons */}
+          <div className="flex w-full flex-col gap-3 lg:flex-row">
+            <div className="w-full lg:w-1/2">
+              <Button
+                type="button"
+                onClick={requestClose}
+                text="Cancel"
+                className="w-full"
+              />
+            </div>
+            <div className="w-full lg:w-1/2">
+              <Button
+                type="button"
+                onClick={handleConfirm}
+                text="Save Changes"
+                disabled={!hasNewFiles}
+                className="w-full"
+              />
             </div>
           </div>
-        </>
+        </div>
       </Notification>
       {/* Overlay Confirmation Dialog */}
       {showConfirmExit && (

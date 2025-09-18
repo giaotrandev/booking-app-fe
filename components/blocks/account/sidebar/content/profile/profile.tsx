@@ -6,7 +6,7 @@ import { parseDate } from '#/lib/utilities/format-time';
 import { InformationProfileRequestProps } from '#/services/user/information-profile-request';
 import { useUserStore } from '#/store/user';
 import { useState } from 'react';
-import { IntroductionContent } from './introduction-content';
+import { IntroductionContent } from '../introduction-content';
 
 interface ProfileContentSidebarProps {
   userInformation?: InformationProfileRequestProps;

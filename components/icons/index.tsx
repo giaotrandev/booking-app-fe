@@ -18,6 +18,7 @@ import FaceHuman from './face-human';
 import { Hamburger } from './hamburger';
 import HidePassword from './hide-password';
 import Logout from './logout';
+import Password from './password';
 import Phone from './phone';
 import Print from './print';
 import { Seat } from './seat';
@@ -26,6 +27,7 @@ import { SteeringWheel } from './steering-wheel';
 import { Swap } from './swap';
 import Ticket from './ticket';
 import Upload from './upload';
+import User from './user';
 import XCircle from './x-circle';
 import { XMark } from './x-mark';
 
@@ -59,6 +61,8 @@ const icons = {
   swap: Swap,
   ticket: Ticket,
   logout: Logout,
+  user: User,
+  password: Password,
 };
 
 export type IconNamesProps = keyof typeof icons;

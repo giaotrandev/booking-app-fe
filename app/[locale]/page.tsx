@@ -1,5 +1,7 @@
+import { FAQRenderBlock } from '#/components/blocks/FAQ/render';
 import { FeaturedArticlesRenderBlock } from '#/components/blocks/featured-articles/render';
 import { HeroBlock } from '#/components/blocks/hero';
+import { ImageWithTextRenderBlock } from '#/components/blocks/image-with-text/render';
 import ServiceRenderBlock from '#/components/blocks/service/render';
 import { TeaserRenderBlock } from '#/components/blocks/teaser/render';
 import { Layout } from '#/components/layout';
@@ -26,7 +28,9 @@ const HomePage = async (props: PageProps) => {
     <Layout>
       <HeroBlock />
       <TeaserRenderBlock />
-      <ServiceRenderBlock />
+      {/* <ServiceRenderBlock /> */}
+      <ImageWithTextRenderBlock />
+      <FAQRenderBlock />
       <FeaturedArticlesRenderBlock />
     </Layout>
   );

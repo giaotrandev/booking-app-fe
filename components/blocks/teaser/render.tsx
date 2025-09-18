@@ -1,12 +1,13 @@
 import Stroke from '#/components/common/stroke';
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
+import { BlockWrapper } from '../wrapper';
 import { TeaserList } from './list';
 
 const TeaserRenderBlock = () => {
   return (
-    <section className="mt-11 mb-23">
-      <Stroke className="mb-8" />
+    <BlockWrapper>
+      {/* <Stroke className="mb-8" /> */}
       <Container>
         <div className="flex flex-col space-y-5">
           <h2>
@@ -20,7 +21,7 @@ const TeaserRenderBlock = () => {
           <TeaserList list={sampleTeaserList} />
         </div>
       </Container>
-    </section>
+    </BlockWrapper>
   );
 };
 

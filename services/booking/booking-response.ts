@@ -69,9 +69,9 @@ export interface BookingTripItemProps {
   vehicleId?: string;
   arrivalTime?: string;
   departureTime?: string;
-  basePrice?: string;
+  basePrice?: number;
   capacity?: number;
-  specialPrice?: string;
+  specialPrice?: number;
   route?: BookingRouteItemProps;
   vehicle?: VehicleItemProps;
   imageUrl?: string;
@@ -94,15 +94,15 @@ export interface BookingResponseProps {
   passengerEmail?: string;
   passengerPhone?: string;
   passengerNote?: string;
-  createdAt?: string; /// TODO
   pickupId?: string;
   dropoffId?: string;
   status: BookingStatusResponse;
   paymentStatus: PaymentStatusResponse;
-  totalPrice?: string;
-  finalPrice?: string;
+  totalPrice?: number;
+  finalPrice?: number;
   pickup?: BusStopProps;
   dropoff?: BusStopProps;
   bookingTrips?: BookingTripsResponseProps[];
   updatedAt: string;
+  createdAt: string;
 }

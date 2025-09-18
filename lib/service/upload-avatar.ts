@@ -15,7 +15,6 @@ export const uploadAvatar = async (req: UploadAvatarProps) => {
       // next: { revalidate: 300 },
     });
     const responseData = await res.json();
-    console.log(responseData);
     if (!res.ok || !responseData.success) {
       throw new Error(responseData.message || 'Upload avatar failed');
     }

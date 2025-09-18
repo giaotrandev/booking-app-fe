@@ -14,3 +14,6 @@ export const protectedRoutes = [
   '/my-account/profile',
   '/my-account/my-booking',
 ];
+export const BOOKING_EXPIRE_MINUTES = parseInt(
+  process.env.BOOKING_EXPIRE_MINUTES ?? '120',
+);

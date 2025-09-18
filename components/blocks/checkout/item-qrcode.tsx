@@ -29,27 +29,15 @@ const ItemQrCode = ({
     'Use the icon_scan icon to scan the QR code.',
     'Scan the code on this page and proceed with the payment.',
   ];
+
   useEffect(() => {
     if (!isHaveQrCode) return;
+
     const updatedTime = new Date(updatedAt).getTime();
     const now = Date.now();
     const elapsedSeconds = Math.floor((now - updatedTime) / 1000);
     const remaining = 7200 - elapsedSeconds;
-
-    if (remaining <= 0) {
-      router.push('/');
-    } else {
-      setTimeCount(remaining);
-    }
-  }, [updatedAt, router]);
-  useEffect(() => {
-    if (!isHaveQrCode) return;
-    if (timeCount === null) return;
-    if (timeCount <= 0) {
-      router.push('/');
-      return;
-    }
-
+    setTimeCount(remaining);
     const timer = setInterval(() => {
       setTimeCount(prev => {
         if (prev !== null && prev <= 1) {
@@ -62,7 +50,7 @@ const ItemQrCode = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [timeCount, router]);
+  }, [updatedAt]);
   return (
     <>
       <div
@@ -72,18 +60,14 @@ const ItemQrCode = ({
           className,
         )}
       >
-        <div className="text-center">
+        <div className="w-full text-center">
           <div className="flex flex-wrap items-center justify-center gap-x-2">
             <div className="mt-1.25">
-              <Typography asChild variant="small-label" className="font-sans">
+              <Typography asChild variant="small-label">
                 <p>Total price: </p>
               </Typography>
             </div>
-            <Typography
-              asChild
-              variant="h3"
-              className="text-pj-red font-sans font-bold"
-            >
+            <Typography asChild variant="h3" className="text-pj-red font-bold">
               <p>{formatPrice(totalPrice)}</p>
             </Typography>
           </div>
@@ -107,7 +91,7 @@ const ItemQrCode = ({
             <div className="flex flex-col gap-y-2">
               <Typography
                 asChild
-                className="text-pj-green font-sans font-medium"
+                className="text-pj-green-medium font-medium"
                 variant="h5"
               >
                 <p>How to Pay: </p>

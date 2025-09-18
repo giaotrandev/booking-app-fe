@@ -35,7 +35,7 @@ const InfoList = ({
           'text-pj-red text-center text-[28px] font-semibold lg:text-start',
           titleColor === 'red' && 'text-pj-red',
           titleColor === 'blue' && 'text-pj-blue',
-          titleColor === 'green' && 'text-pj-green',
+          titleColor === 'green' && 'text-pj-green-medium',
         )}
       >
         <p>{title}</p>

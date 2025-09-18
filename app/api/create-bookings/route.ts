@@ -1,16 +1,25 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get('at')?.value;
+    // Chuẩn bị headers chung
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
 
+    // Nếu có token thì thêm Authorization
+    if (accessToken) {
+      headers.Authorization = `Bearer ${accessToken}`;
+    }
     const apiRes = await fetch(
       `${process.env.NEXT_PUBLIC_SITE_URL}/api/bookings`,
       {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers,
         body: JSON.stringify(body),
       },
     );

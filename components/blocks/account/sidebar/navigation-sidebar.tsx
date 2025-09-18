@@ -40,6 +40,13 @@ export const NavigationItemSidebarSample: UserMenuLinkItemProps[] = [
   },
   {
     link: {
+      url: '/my-account/change-password',
+      text: 'Change password',
+    },
+    icon: { name: 'password' },
+  },
+  {
+    link: {
       url: '/my-account/my-booking',
       text: 'My booking',
     },

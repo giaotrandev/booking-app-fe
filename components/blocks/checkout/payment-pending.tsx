@@ -12,7 +12,8 @@ import { PaymentMethodMobile } from './payment-method-mobile';
 import { InfoList } from './info-list';
 import { useState } from 'react';
 
-interface PaymentPendingProps extends BookingRequestProps {
+interface PaymentPendingProps
+  extends Omit<BookingRequestProps, 'createdAt' | 'basePrice'> {
   qrCode?: string;
   isHaveQrCode: boolean;
   paymentList: OptionsPaymentProps[];
@@ -51,7 +52,7 @@ const PaymentPending = ({
     { title: 'Passenger phone', content: passengerPhone },
     { title: 'Passenger note', content: passengerNote },
   ];
-  const seatsNumber = seats.map(item => item.seatNumber).join(', ');
+  const seatsNumber = seats?.map(item => item.seatNumber).join(', ');
   const busInfoItems = [
     { title: 'Bus Type', content: vehicle?.vehicleName },
     { title: 'Bus capacity', content: vehicle?.vehicleCapacity },

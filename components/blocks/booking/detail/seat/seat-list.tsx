@@ -13,7 +13,7 @@ const SeatList = ({ decks }: SeatListProps) => {
         <Col className="col-span-full mt-4 lg:col-span-4 lg:mt-0">
           <div className="flex flex-col gap-y-4 lg:gap-y-2">
             <Typography asChild variant="h6" className="font-medium">
-              <p>Please select your desired seat</p>
+              <p>Please select your desired seat(s)</p>
             </Typography>
             <Typography asChild variant="h6" className="font-bold uppercase">
               <p>Note:</p>
@@ -26,7 +26,7 @@ const SeatList = ({ decks }: SeatListProps) => {
                   name="seat"
                   className={cn(
                     index === 1 && 'fill-pj-grey-light',
-                    index === 2 && 'fill-pj-green',
+                    index === 2 && 'fill-pj-green-medium',
                   )}
                 />
                 <Typography asChild variant="small-label">

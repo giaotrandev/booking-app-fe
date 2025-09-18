@@ -51,31 +51,32 @@
   }
 }
 @theme {
-  --font-sans:
-    var(--font-sans), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-archivo:
-    var(--font-archivo), ui-sans-serif, system-ui, sans-serif,
+  --font-strada:
+    var(--font-strada), ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-montserrat:
-    var(--font-montserrat), ui-sans-serif, system-ui, sans-serif,
+  --font-gabriela:
+    var(--font-strada), ui-sans-serif, system-ui, sans-serif,
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-armata:
-    var(--font-armata), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  --font-roboto:
-    var(--font-roboto), ui-sans-serif, system-ui, sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
   --color-pj-red: #e04141;
+  --color-pj-red-light: #f8d7da;
+  --color-pj-red-medium: #721c24;
   --color-pj-grey-lightest: #eeeded;
   --color-pj-grey-light: #6a6a6b;
   --color-pj-grey: #414242;
   --color-pj-blue: #1d7ed8;
   --color-pj-blue-medium: #393f4e;
-  --color-pj-green: #4caf50;
+  --color-pj-green-lightest: #d4edda;
+  --color-pj-green-light: #155724;
+  --color-pj-green-medium: #4caf50;
   --color-black: #000000;
   --color-pj-brown: #434141;
+  --color-pj-brown-medium: #92400e;
   --color-pj-orange: #f07272;
+  --color-pj-orange-medium: #f59e0b;
+  --color-pj-yellow-light: #fff8f0;
+  --color-pj-yellow-medium: #fed7ab;
+  --color-pj-yellow-dark: #fef3c7;
   --color-pj-blue-dark: #052863;
   --color-pj-input-focus: #0b0b0b;
   --color-pj-input: #bdbdbd;

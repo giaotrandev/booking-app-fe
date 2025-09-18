@@ -4,8 +4,9 @@ import { Icon, IconProps } from '../icons';
 export interface ButtonContentProps {
   text: string;
   icon?: IconProps;
+  iconClassName?: string;
 }
-const ButtonContent = ({ text, icon }: ButtonContentProps) => {
+const ButtonContent = ({ text, icon, iconClassName }: ButtonContentProps) => {
   return (
     <span className="relative flex items-center overflow-hidden">
       <span
@@ -14,7 +15,12 @@ const ButtonContent = ({ text, icon }: ButtonContentProps) => {
           icon && 'items-center gap-x-2',
         )}
       >
-        {icon && <Icon name={icon.name} className="h-4 w-4 stroke-black" />}
+        {icon && (
+          <Icon
+            name={icon.name}
+            className={cn('h-4 w-4 stroke-black', iconClassName)}
+          />
+        )}
         {text}
       </span>
       <span
@@ -23,7 +29,12 @@ const ButtonContent = ({ text, icon }: ButtonContentProps) => {
           icon && 'items-center gap-x-2',
         )}
       >
-        {icon && <Icon name={icon.name} className="h-4 w-4 stroke-black" />}
+        {icon && (
+          <Icon
+            name={icon.name}
+            className={cn('h-4 w-4 stroke-black', iconClassName)}
+          />
+        )}
         {text}
       </span>
     </span>

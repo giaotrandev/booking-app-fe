@@ -39,7 +39,7 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
     reset: resetTurnstile,
   } = useTurnstileVerification();
 
-  const [processing, setProcessing] = useState(false);
+  const [processing, setProcessing] = useState<boolean>(false);
   const handleSubmit = async (formData: Record<string, any>) => {
     if (!token) {
       toast({

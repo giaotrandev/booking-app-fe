@@ -52,6 +52,7 @@ export interface ButtonProps
   asChild?: boolean;
   text?: string;
   icon?: IconProps;
+  iconClassName?: string;
 }
 
 const Button = ({
@@ -62,6 +63,7 @@ const Button = ({
   colors,
   shape,
   icon,
+  iconClassName,
   asChild = false,
   ...props
 }: ButtonProps) => {
@@ -77,7 +79,9 @@ const Button = ({
       {...props}
     >
       {children && <Slottable>{children}</Slottable>}
-      {text && <ButtonContent text={text} icon={icon} />}
+      {text && (
+        <ButtonContent text={text} icon={icon} iconClassName={iconClassName} />
+      )}
     </Comp>
   );
 };

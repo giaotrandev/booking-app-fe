@@ -36,7 +36,6 @@ export const updateProfile = async (req: UpdateProfileProps) => {
       throw new Error(responseData?.message || 'Update failed');
     }
 
-    console.log('do', responseData);
     return responseData;
   } catch (error) {
     console.error('Error update profile user:', error);

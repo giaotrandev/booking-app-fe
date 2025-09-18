@@ -98,7 +98,7 @@ const contactItemList = [
   },
 ];
 const socialItemList = {
-  title: 'follow us',
+  title: 'Follow us',
   icons: [
     {
       image: {

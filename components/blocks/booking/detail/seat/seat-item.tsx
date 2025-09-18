@@ -45,12 +45,12 @@ const SeatItem = ({
           <Icon
             name="seat"
             className={cn(
-              'hocus:fill-pj-green pointer-events-auto h-auto max-w-100 min-w-10 cursor-pointer transition-[fill]',
+              'hocus:fill-pj-green-medium pointer-events-auto h-auto max-w-100 min-w-10 cursor-pointer transition-[fill]',
               isHasUpperDeck
                 ? 'w-[60%] md:w-[34%] lg:w-[42%]'
                 : 'w-[60%] md:w-[34%] lg:w-[60%]',
               status === SeatStatus.AVAILABLE &&
-                (selected ? 'fill-pj-green' : 'fill-pj-grey-light'),
+                (selected ? 'fill-pj-green-medium' : 'fill-pj-grey-light'),
               (status === SeatStatus.RESERVED ||
                 status === SeatStatus.BOOKED) &&
                 'pointer-events-none fill-black',

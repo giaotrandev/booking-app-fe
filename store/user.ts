@@ -64,7 +64,7 @@ const useUserStore = create<AuthState & Actions>()(
 
       setPreviewAvatar: url => {
         set(state => {
-          if (!state.user) return state; // Kiểm tra nếu không có user thì không thay đổi
+          if (!state.user) return state;
           return {
             user: { ...state.user, previewAvatar: url },
           };

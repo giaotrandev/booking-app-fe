@@ -21,7 +21,9 @@ const Providers = ({ children }: ProvidersProps) => {
       <ToastProvider>
         <div id="site-wrapper">
           {/* <Tracking /> */}
-          <RouteLoadingProvider>{children}</RouteLoadingProvider>
+          {/* <RouteLoadingProvider> */}
+          {children}
+          {/* </RouteLoadingProvider> */}
         </div>
       </ToastProvider>
       {/* </GoogleReCaptchaProvider> */}

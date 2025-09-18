@@ -32,7 +32,7 @@ const UserMenuList = ({}: UserMenuListProps) => {
         <li
           key={index}
           className={cn(
-            'border-b-pj-grey px-4 py-2 lg:border-b',
+            'border-b-pj-grey-lightest px-4 py-3 lg:border-b',
             !matches && index === userMenuItems.length - 1
               ? 'border-none'
               : 'border-b',

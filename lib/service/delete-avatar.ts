@@ -23,7 +23,6 @@ export const deleteAvatar = async (req: DeleteAvatarProps) => {
       // next: { revalidate: 300 },
     });
     const responseData = await res.json();
-    console.log(responseData);
     if (!res.ok || !responseData.success) {
       throw new Error(responseData.message || 'Delete avatar failed');
     }

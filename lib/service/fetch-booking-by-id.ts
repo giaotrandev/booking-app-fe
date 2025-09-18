@@ -27,7 +27,7 @@ export async function fetchBookingByBookingId(bookingId: string) {
       };
     }
     const commonData = response.data;
-    const convertData = await convertBookingItem(commonData);
+    const convertData = convertBookingItem(commonData);
     return {
       error: false,
       data: convertData,

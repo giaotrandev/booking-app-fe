@@ -15,7 +15,7 @@ const ServiceRenderBlock = () => {
               <span>SERVICES</span>
             </Typography>
           </h2>
-          <Stroke className="w-51" />
+          {/* <Stroke className="w-51" /> */}
         </div>
       </Container>
     </section>

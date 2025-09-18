@@ -1,10 +1,9 @@
-import { fetchProfileInformation } from '#/lib/service/fetch-profile-information';
-import { AccountRenderBlock } from './render';
+// // import { AccountRenderBlock } from './render';
 
-interface AccountBlockProps {}
+// interface AccountBlockProps {}
 
-const AccountBlock = async ({}: AccountBlockProps) => {
-  return <AccountRenderBlock />;
-};
+// const AccountBlock = async ({}: AccountBlockProps) => {
+//   return <AccountRenderBlock />;
+// };
 
-export { AccountBlock };
+// export { AccountBlock };

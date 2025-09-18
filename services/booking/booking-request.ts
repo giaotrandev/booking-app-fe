@@ -65,7 +65,7 @@ export interface BookingRequestProps {
   id: string;
   tripId: string;
   userId?: string;
-  createdAt?: string;
+  createdAt: string;
   passengerName: string;
   passengerEmail: string;
   passengerPhone: string;
@@ -76,10 +76,13 @@ export interface BookingRequestProps {
   paymentStatus: PaymentStatusRequest;
   totalPrice: string;
   finalPrice: string;
+  basePrice: string;
+  specialPrice?: string;
   arrivalTime: string;
   departureTime: string;
   vehicle?: VehicleItemRequestProps;
   route?: BookingRouteItemRequestProps;
   seats: BookingSeatItemRequestProps[];
   updatedAt: string;
+  totalSeats?: number;
 }

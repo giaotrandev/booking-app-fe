@@ -16,17 +16,13 @@ const IntroductionContent = ({
         <Typography
           asChild
           variant="small-label"
-          className="font-sans font-medium uppercase"
+          className="font-medium uppercase"
         >
           <h1>{title}/</h1>
         </Typography>
       )}
       {description && (
-        <Typography
-          asChild
-          variant="h1"
-          className="text-pj-red font-sans font-bold"
-        >
+        <Typography asChild variant="h1" className="text-pj-red font-bold">
           <h2>{description}</h2>
         </Typography>
       )}

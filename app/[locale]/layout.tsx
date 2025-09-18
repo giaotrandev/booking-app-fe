@@ -1,11 +1,5 @@
 import { typographyVariants } from '#/components/ui/typography';
-import {
-  fontArchivoBlack,
-  fontArmata,
-  fontMontserrat,
-  fontRoboto,
-  fontSans,
-} from '#/lib/font';
+import { fontGabriela, fontStrada } from '#/lib/font';
 import { cn } from '#/lib/utilities/cn';
 import { Providers } from '#/providers';
 import { PageProps } from '#/types/global';
@@ -38,12 +32,9 @@ const LocaleLayout = async (props: LocaleLayoutProps) => {
       <body
         suppressHydrationWarning
         className={cn(
-          fontSans.variable,
-          fontArmata.variable,
-          fontArchivoBlack.variable,
-          fontMontserrat.variable,
-          fontRoboto.variable,
-          'relative font-sans antialiased',
+          fontStrada.variable,
+          fontGabriela.variable,
+          'font-strada relative antialiased',
           'bg-white text-black',
           typographyVariants({ variant: 'body' }),
         )}
