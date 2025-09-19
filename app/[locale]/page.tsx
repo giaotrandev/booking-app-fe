@@ -4,6 +4,7 @@ import { HeroBlock } from '#/components/blocks/hero';
 import { ImageWithTextRenderBlock } from '#/components/blocks/image-with-text/render';
 import ServiceRenderBlock from '#/components/blocks/service/render';
 import { TeaserRenderBlock } from '#/components/blocks/teaser/render';
+import { TestimonialSliderBlock } from '#/components/blocks/testimonial-slider';
 import { Layout } from '#/components/layout';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { homePagePath } from '#/lib/constant';
@@ -31,6 +32,7 @@ const HomePage = async (props: PageProps) => {
       {/* <ServiceRenderBlock /> */}
       <ImageWithTextRenderBlock />
       <FAQRenderBlock />
+      <TestimonialSliderBlock />
       <FeaturedArticlesRenderBlock />
     </Layout>
   );

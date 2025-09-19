@@ -8,9 +8,8 @@ import { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import { createContext, CSSProperties, ReactNode, useContext } from 'react';
-import { Button } from '../ui/button';
-import { Container } from '../ui/container';
 import { ButtonIcon } from '../ui/button-icon';
+import Fade from 'embla-carousel-fade';
 
 interface ResponsiveNumberProps {
   mobile?: number;
@@ -45,12 +44,16 @@ interface SliderAbstractProps {
   slidesPerView?: number | ResponsiveNumberProps;
   gap?: number | ResponsiveNumberProps;
   navigationClassName?: string;
+  fade?: boolean;
+  overlayTwoSide?: boolean;
+  arrowsClassName?: string;
 }
 
 const SliderAbstract = ({
   children,
   className = '',
   containerClassName = '',
+  arrowsClassName = '',
   showProgress,
   showArrows,
   autoplay,
@@ -59,22 +62,18 @@ const SliderAbstract = ({
   wrapperClassName = '',
   navigationClassName,
   gap = 8,
+  fade,
+  overlayTwoSide,
 }: SliderAbstractProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       watchDrag: emblaApi => isScrollable(emblaApi),
       ...options,
     },
-    autoplay
-      ? [
-          Autoplay({
-            ...autoplay,
-            stopOnInteraction: true,
-            stopOnMouseEnter: true,
-            stopOnFocusIn: true,
-          }),
-        ]
-      : [],
+    [
+      ...(autoplay ? [Autoplay({ ...autoplay })] : []),
+      ...(fade ? [Fade()] : []),
+    ],
   );
   const { translate } = useTranslate();
   const { selectedIndex, scrollSnaps, onDotButtonClick } =
@@ -151,26 +150,30 @@ const SliderAbstract = ({
             {children}
           </div>
         </SliderContext.Provider>
-        <div
-          style={{
-            background:
-              'linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)',
-          }}
-          className={cn(
-            'ease-ev-easing absolute top-0 left-0 z-10 h-full w-19.5 rotate-180 transition-opacity duration-300 lg:w-27',
-            prevBtnDisabled && 'opacity-0',
-          )}
-        />
-        <div
-          style={{
-            background:
-              'linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)',
-          }}
-          className={cn(
-            'ease-ev-easing absolute top-0 right-0 z-10 h-full w-19.5 transition-opacity duration-300 lg:w-27',
-            nextBtnDisabled && 'opacity-0',
-          )}
-        />
+        {overlayTwoSide && (
+          <>
+            <div
+              style={{
+                background:
+                  'linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)',
+              }}
+              className={cn(
+                'ease-ev-easing absolute top-0 left-0 z-10 h-full w-19.5 rotate-180 transition-opacity duration-300 lg:w-27',
+                prevBtnDisabled && 'opacity-0',
+              )}
+            />
+            <div
+              style={{
+                background:
+                  'linear-gradient(270deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%)',
+              }}
+              className={cn(
+                'ease-ev-easing absolute top-0 right-0 z-10 h-full w-19.5 transition-opacity duration-300 lg:w-27',
+                nextBtnDisabled && 'opacity-0',
+              )}
+            />
+          </>
+        )}
       </div>
 
       {(showProgress || showArrows) && (
@@ -191,9 +194,14 @@ const SliderAbstract = ({
             </div>
           )}
           {showArrows && (
-            <div className="ml-auto flex items-center gap-4 lg:gap-3">
+            <div
+              className={cn(
+                'ml-auto flex items-center gap-4 lg:gap-3',
+                arrowsClassName,
+              )}
+            >
               <ButtonIcon
-                size="md"
+                size="lg"
                 icon={{ name: 'arrow-left' }}
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
@@ -203,7 +211,7 @@ const SliderAbstract = ({
                 })}
               />
               <ButtonIcon
-                size="md"
+                size="lg"
                 icon={{ name: 'arrow-right' }}
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
