@@ -1,10 +1,17 @@
 import Stroke from '#/components/common/stroke';
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
+import { getTranslate } from '#/i18n/server';
+import { ProvincesRequestProps } from '#/services/global-settings/provinces-request';
 import { BlockWrapper } from '../wrapper';
 import { TeaserList } from './list';
+export interface TeaserRenderBlockProps {
+  list: ProvincesRequestProps[];
+}
+const TeaserRenderBlock = async ({ list }: TeaserRenderBlockProps) => {
+  if (!(Array.isArray(list) && list.length > 0)) return null;
+  // const { translate } = await getTranslate();
 
-const TeaserRenderBlock = () => {
   return (
     <BlockWrapper>
       {/* <Stroke className="mb-8" /> */}
@@ -18,7 +25,7 @@ const TeaserRenderBlock = () => {
               <span className="text-pj-red">routes</span>
             </Typography>
           </h2>
-          <TeaserList list={sampleTeaserList} />
+          <TeaserList list={list} />
         </div>
       </Container>
     </BlockWrapper>

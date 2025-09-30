@@ -23,6 +23,7 @@ import { useSocketContext } from '#/providers/socket-provider';
 import Loading from '#/components/common/loading';
 import { useBookingSelection } from '#/context/booking/booking-selection-context';
 import { useRef } from 'react';
+import { useTranslate } from '#/i18n/client';
 
 export interface BookingListProps {
   list?: TripsRequestProps[];
@@ -38,7 +39,7 @@ const BookingList = ({
   fetchNextPage,
 }: BookingListProps) => {
   if (!(Array.isArray(list) && list.length > 0)) return null;
-
+  const { translate } = useTranslate();
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const { clearSelectedSeats, selectedSeats, markSeatAsUnavailable } =
     useBookingSelection();
@@ -243,7 +244,10 @@ const BookingList = ({
                       {item.image && (
                         <Image
                           src={item.image}
-                          alt={''}
+                          alt={translate({
+                            vi: `Xe khách ${item.name || ''} từ ${item.departureDestination || ''} đến ${item.arrivalDestination || ''}. Giá từ ${item.price ? formatPrice(item.price) : ''}.`,
+                            en: `Bus ${item.name || ''} from ${item.departureDestination || ''} to ${item.arrivalDestination || ''}. Price from ${item.price ? formatPrice(item.price) : ''}.`,
+                          })}
                           fill
                           className="object-cover"
                           placeholder="blur"
@@ -331,7 +335,12 @@ const BookingList = ({
                       <div className="flex flex-col items-end gap-y-2 lg:justify-end">
                         {item.seatsLeft && (
                           <Typography asChild className="text-pj-grey-light">
-                            <p>{item.seatsLeft} seats left</p>
+                            <p>
+                              {translate({
+                                vi: `còn ${item.seatsLeft} ghế`,
+                                en: `${item.seatsLeft} seats left`,
+                              })}
+                            </p>
                           </Typography>
                         )}
                         <AccordionTrigger

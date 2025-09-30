@@ -1,9 +1,9 @@
 import { Typography } from '#/components/ui/typography';
 import { Link } from '#/i18n/routing';
 import Image from 'next/image';
-import { Col } from '../../ui/col';
-import { Container } from '../../ui/container';
-import { Row } from '../../ui/row';
+import { Col } from '../../../components/ui/col';
+import { Container } from '../../../components/ui/container';
+import { Row } from '../../../components/ui/row';
 import { ContactItemProps } from './contact-item';
 import ContactList from './contact-list';
 import { blurDataUrl } from '#/lib/constant';

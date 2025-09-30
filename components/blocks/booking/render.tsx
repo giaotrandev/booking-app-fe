@@ -7,7 +7,7 @@ import {
 } from '#/services/trip/filter/bus-stop/bus-stop-request';
 import NavigationBooking, {
   NavigationBookingProps,
-} from '../../layout/filter-trip/navigation-booking/item';
+} from '../../../layouts/home-layout/filter-trip/navigation-booking/item';
 import { BookingListProps } from './list';
 import { ListWrapper } from './list-wrapper';
 import { Suspense } from 'react';

@@ -1,5 +1,5 @@
-import StandardLayout from '#/components/auth-layout';
 import { setStaticParamsLocale, getStaticParams } from '#/i18n/server';
+import StandardLayout from '#/layouts/standard-layout';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 export const metadata: Metadata = {

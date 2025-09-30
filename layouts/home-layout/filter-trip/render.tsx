@@ -11,7 +11,7 @@ import {
 } from '#/components/headless/sheet';
 import NavigationBooking, {
   NavigationBookingProps,
-} from '#/components/layout/filter-trip/navigation-booking/item';
+} from '#/layouts/home-layout/filter-trip/navigation-booking/item';
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
 import { useTranslate } from '#/i18n/client';

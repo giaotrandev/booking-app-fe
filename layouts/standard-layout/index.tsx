@@ -1,7 +1,6 @@
-// app/auth/layout.tsx
-import { LayoutMain } from '../layout/main';
-import { LayoutHeader, LayoutHeaderProps } from '../layout/header';
-import { LayoutFooter, LayoutFooterProps } from '../layout/footer/footer';
+import { LayoutMain } from '../home-layout/main';
+import { LayoutHeader, LayoutHeaderProps } from '../home-layout/header';
+import { LayoutFooter, LayoutFooterProps } from '../home-layout/footer/footer';
 import { fetchProfileInformation } from '#/lib/service/fetch-profile-information';
 
 export default async function StandardLayout({
@@ -9,10 +8,6 @@ export default async function StandardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const result = await verifyTokenAction();
-  // if (!result.valid) {
-  //   redirect('/login');
-  // }
   const userInformation = await fetchProfileInformation();
   const header: LayoutHeaderProps = {
     userInformation: userInformation,

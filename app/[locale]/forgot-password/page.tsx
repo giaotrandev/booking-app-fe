@@ -2,7 +2,7 @@ import ForgotPasswordRenderBlock from '#/components/blocks/forgot-password/rende
 import LoginRenderBlock from '#/components/blocks/login/render';
 import { FormRenderBlock } from '#/components/dynamic-form/render';
 import { FormFieldProps } from '#/components/dynamic-form/type';
-import { Layout } from '#/components/layout';
+import { Layout } from '#/layouts/home-layout';
 import { TemplateProps } from '#/components/templates';
 import { Link } from '#/i18n/routing';
 import {

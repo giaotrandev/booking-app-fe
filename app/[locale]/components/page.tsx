@@ -1,5 +1,5 @@
 // TODO: Remove this page after tested
-import { Layout } from '#/components/layout';
+import { Layout } from '#/layouts/home-layout';
 import { Template, TemplateProps } from '#/components/templates';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { PageProps } from '#/types/global';

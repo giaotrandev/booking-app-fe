@@ -1,5 +1,5 @@
 // TODO: Remove this page after tested
-import { Layout } from '#/components/layout';
+import { Layout } from '#/layouts/home-layout';
 import { Template, TemplateProps } from '#/components/templates';
 import { Button } from '#/components/ui/button';
 import { ButtonLink } from '#/components/ui/button-link';

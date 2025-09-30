@@ -5,6 +5,7 @@ export interface ProvincesResponseProps {
   latitude?: string;
   longitude?: string;
   status?: string;
+  image?: string;
 }
 export interface ProvincesResponseListProps {
   list?: ProvincesResponseProps[];

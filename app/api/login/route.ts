@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json(data, { status: 200 });
     // Handle cookies
     const setCookieHeader = res.headers.get('set-cookie');
+    console.log('do 1', setCookieHeader);
     if (setCookieHeader) {
       // Bước 1: split thành từng cookie (giữ nguyên các phần tử ; bên trong mỗi cookie)
       const cookiesRes = setCookieHeader.split(/,(?=\s*\w+=)/); // tách theo dấu "," nhưng chỉ nếu sau đó là key= (tránh split nhầm trong giá trị cookie)

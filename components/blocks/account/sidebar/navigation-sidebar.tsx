@@ -2,8 +2,8 @@ import { IconProps } from '#/components/icons';
 import {
   UserMenuLinkItem,
   UserMenuLinkItemProps,
-} from '#/components/layout/header/user-menu-link-item';
-import { userMenuItems } from '#/components/layout/header/user-menu-list';
+} from '#/layouts/home-layout/header/user-menu-link-item';
+import { userMenuItems } from '#/layouts/home-layout/header/user-menu-list';
 import { cn } from '#/lib/utilities/cn';
 import { LinkProps } from '#/types/global';
 

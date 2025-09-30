@@ -27,7 +27,6 @@ const BookingHistoryItem = ({
   totalPrice,
   seatNumbers,
 }: BookingHistoryItemProps) => {
-  console.log('id', `${id} - ${seatNumbers}`);
   const infoItems = [
     route && {
       label: 'Route',

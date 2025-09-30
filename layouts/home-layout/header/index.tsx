@@ -10,7 +10,6 @@ import { cn } from '#/lib/utilities/cn';
 import React, { useEffect, useState } from 'react';
 import { useGlobalsStore } from '#/store/globals';
 import { useUserStore } from '#/store/user';
-import { verifyTokenAction } from '#/components/auth-layout/actions/verify-token';
 import { Button } from '#/components/ui/button';
 import { UserMenu } from './user-menu';
 import { InformationProfileRequestProps } from '#/services/user/information-profile-request';
@@ -33,13 +32,15 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
     }
   };
   useEffect(() => {
-    const checkToken = async () => {
-      const result = await verifyTokenAction();
-      if (!result.valid) {
-        clearAuth();
-      }
-    };
-    checkToken();
+    // const checkToken = async () => {
+    //   const result = await verifyTokenAction();
+    //   console.log('result', result);
+    //   if (!result.valid) {
+    //     console.log('do ne', result);
+    //     clearAuth();
+    //   }
+    // };
+    // checkToken();
 
     window.addEventListener('scroll', handleScroll);
     return () => {

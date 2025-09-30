@@ -1,3 +1,4 @@
+// middleware.ts
 import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
@@ -5,10 +6,35 @@ import { routing } from './i18n/routing';
 
 const intlMiddleware = createMiddleware(routing);
 
+// atob fallback (Edge runtime có atob; Node có Buffer)
+const atobSafe = (s: string) => {
+  if (typeof atob === 'function') return atob(s);
+  if (typeof Buffer !== 'undefined')
+    return Buffer.from(s, 'base64').toString('binary');
+  throw new Error('No base64 decoder available');
+};
+
+function isTokenExpired(token: string): boolean | 'invalid' {
+  try {
+    const parts = token.split('.');
+    if (parts.length !== 3) return 'invalid';
+    // payload base64url -> base64
+    let payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    while (payload.length % 4) payload += '=';
+    const decoded = atobSafe(payload);
+    const obj = JSON.parse(decoded);
+    const exp = obj?.exp;
+    if (typeof exp !== 'number') return 'invalid';
+    const now = Math.floor(Date.now() / 1000);
+    return now >= exp; // true = expired, false = still valid
+  } catch {
+    return 'invalid';
+  }
+}
+
 export default function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const locale = pathname.split('/')[1];
-  const accessToken = request.cookies.get('at')?.value;
+  const accessToken = request.cookies.get('at')?.value ?? null;
 
   const protectedRoutes = [
     '/login',
@@ -17,15 +43,17 @@ export default function middleware(request: NextRequest) {
     '/verify-email',
   ];
 
-  // Xử lý route bắt đầu bằng locale (bỏ /en hoặc /vi để so sánh)
-  const basePath = pathname.replace(/^\/(en|vi)/, '');
+  // loại bỏ locale ở đầu nếu có (an toàn hơn cho các trường hợp /en và /en/...)
+  const basePath = pathname.replace(/^\/(en|vi)(?=\/|$)/, '');
 
-  // Redirect người đã đăng nhập tránh truy cập các route /login, /register...
-  if (protectedRoutes.includes(basePath) && !!accessToken) {
+  // Chỉ redirect khi có accessToken _và_ token còn hạn (isTokenExpired === false)
+  const atValid = accessToken && isTokenExpired(accessToken) === false;
+
+  if (protectedRoutes.includes(basePath) && atValid) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  // Nếu truy cập trực tiếp vào /en hoặc /vi (không path cụ thể), chuyển về /
+  // nếu truy cập đúng /en hoặc /vi thì chuyển về /
   if (pathname === '/en' || pathname === '/vi') {
     return NextResponse.redirect(new URL('/', request.url));
   }

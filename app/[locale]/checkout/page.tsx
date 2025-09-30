@@ -1,7 +1,6 @@
-import StandardLayout from '#/components/auth-layout';
 import { CheckoutBlock } from '#/components/blocks/checkout';
-import { TemplateProps } from '#/components/templates';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
+import StandardLayout from '#/layouts/standard-layout';
 import { BOOKING_EXPIRE_MINUTES } from '#/lib/constant';
 import { fetchBookingByBookingId } from '#/lib/service/fetch-booking-by-id';
 import { isBookingExpired } from '#/lib/utilities/is-booking-expried';

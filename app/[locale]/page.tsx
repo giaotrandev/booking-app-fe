@@ -3,9 +3,10 @@ import { FeaturedArticlesRenderBlock } from '#/components/blocks/featured-articl
 import { HeroBlock } from '#/components/blocks/hero';
 import { ImageWithTextRenderBlock } from '#/components/blocks/image-with-text/render';
 import ServiceRenderBlock from '#/components/blocks/service/render';
+import { TeaserBlock } from '#/components/blocks/teaser';
 import { TeaserRenderBlock } from '#/components/blocks/teaser/render';
 import { TestimonialSliderBlock } from '#/components/blocks/testimonial-slider';
-import { Layout } from '#/components/layout';
+import { Layout } from '#/layouts/home-layout';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { homePagePath } from '#/lib/constant';
 import { getValidRoutes } from '#/lib/helper/get-valid-routes';
@@ -28,7 +29,7 @@ const HomePage = async (props: PageProps) => {
   return (
     <Layout>
       <HeroBlock />
-      <TeaserRenderBlock />
+      <TeaserBlock />
       {/* <ServiceRenderBlock /> */}
       <ImageWithTextRenderBlock />
       <FAQRenderBlock />

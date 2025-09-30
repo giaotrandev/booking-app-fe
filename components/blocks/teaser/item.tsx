@@ -1,36 +1,30 @@
 import { Typography } from '#/components/ui/typography';
 import { blurDataUrl } from '#/lib/constant';
-import { ImageProps } from '#/types/global';
+import { ProvincesRequestProps } from '#/services/global-settings/provinces-request';
 import Image from 'next/image';
 
-export interface TeaserItemProps {
-  image?: ImageProps;
-  title?: string;
-  description?: string;
-}
-const TeaserItem = ({ image, title, description }: TeaserItemProps) => {
+export interface TeaserItemProps extends ProvincesRequestProps {}
+const TeaserItem = ({ image, name }: TeaserItemProps) => {
   return (
     <div className="flex h-full flex-col">
       <div className="relative pt-[100%]">
-        {image && image.src && (
-          <Image
-            src={image.src}
-            alt={image.alt ?? ''}
-            fill
-            className="object-cover"
-            placeholder="blur"
-            blurDataURL={blurDataUrl}
-          />
-        )}
+        <Image
+          src={image ?? '/images/placeholder.jpg'}
+          alt={name ?? ''}
+          fill
+          className="object-cover"
+          placeholder="blur"
+          blurDataURL={blurDataUrl}
+        />
       </div>
       {/* TODO: UPDATE COLOR FOR BG */}
-      <div className="bg-pj-blue flex-1 px-4 py-2.5 text-white uppercase">
+      <div className="bg-pj-orange-medium flex-1 px-4 py-2.5 text-white uppercase">
         <Typography asChild variant="h5">
-          <p>{title}</p>
+          <p>{name}</p>
         </Typography>
-        <Typography asChild>
+        {/* <Typography asChild>
           <p>{description}</p>
-        </Typography>
+        </Typography> */}
       </div>
     </div>
   );

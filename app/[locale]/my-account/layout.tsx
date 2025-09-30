@@ -1,16 +1,17 @@
-import AuthLayout from '#/components/auth-layout';
 import { NavigationSidebar } from '#/components/blocks/account/sidebar/navigation-sidebar';
 import { AccountSideBar } from '#/components/blocks/account/sidebar/user-sidebar';
 import { Col } from '#/components/ui/col';
 import { Container } from '#/components/ui/container';
 import { Row } from '#/components/ui/row';
+import AuthLayout from '#/layouts/auth-layout';
+import StandardLayout from '#/layouts/standard-layout';
 import { ReactNode } from 'react';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = async ({ children }: LayoutProps) => {
   return (
     <AuthLayout>
       <Container>

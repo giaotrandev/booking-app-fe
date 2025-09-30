@@ -20,16 +20,10 @@ const UserMenuLinkItem = ({
   hasArrowIcon,
   className,
 }: UserMenuLinkItemProps) => {
-  const { setSideUserDropDown } = useGlobalsStore();
   const pathName = usePathname();
-
-  const handleClick = () => {
-    setSideUserDropDown(false);
-  };
   return (
     <StretchedLink
       link={link}
-      onClick={handleClick}
       className={cn('group flex items-center justify-between', className)}
     >
       <span className="flex items-center">

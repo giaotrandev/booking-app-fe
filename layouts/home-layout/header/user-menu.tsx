@@ -5,7 +5,7 @@ import {
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu';
 import { Typography } from '#/components/ui/typography';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { UserMenuList } from './user-menu-list';
 import { useUserStore } from '#/store/user';
 import { useMediaQuery } from 'usehooks-ts';
@@ -14,7 +14,7 @@ import { useGlobalsStore } from '#/store/globals';
 export interface UserMenuProps {}
 
 const UserMenu = ({}: UserMenuProps) => {
-  const { sideUserDropDown, setSideUserDropDown } = useGlobalsStore();
+  const [sideUserDropDown, setSideUserDropDown] = useState<boolean>(false);
   const { user } = useUserStore();
   const matches = useMediaQuery('(min-width: 1024px)');
   useEffect(() => {
