@@ -8,7 +8,7 @@ import { ComponentProps } from 'react';
 const typographyVariants = cva([''], {
   variants: {
     variant: {
-      'big-title': 'leading-none   text-[48px] lg:text-[64px]',
+      'big-title': 'leading-none text-[48px] lg:text-[64px]',
       h1: '  leading-none text-[36px] lg:text-[48px]',
       h2: 'leading-none lg:text-[40px]',
       h3: 'font-semibold leading-none text-[28px] lg:text-[32px]',
@@ -22,7 +22,7 @@ const typographyVariants = cva([''], {
       body: 'leading-normal text-[16px]',
       'sub-body': 'leading-none text-[14px]',
       'button-label': 'font-medium leading-none text-[18px] lg:text-[20px]',
-      'small-number': '  leading-none text-[14px]',
+      'small-number': ' leading-none text-[14px]',
       // p2: 'text-[16px] leading-[22px] lg:text-[24px] lg:leading-[32px]',
       // p3: 'text-[14px] leading-[18px] lg:text-[18px] lg:leading-[26px]',
     },

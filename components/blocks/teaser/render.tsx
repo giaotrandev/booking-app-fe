@@ -10,24 +10,32 @@ export interface TeaserRenderBlockProps {
 }
 const TeaserRenderBlock = async ({ list }: TeaserRenderBlockProps) => {
   if (!(Array.isArray(list) && list.length > 0)) return null;
-  // const { translate } = await getTranslate();
-
+  const { translate } = await getTranslate();
   return (
     <BlockWrapper>
-      {/* <Stroke className="mb-8" /> */}
       <Container>
-        <div className="flex flex-col space-y-5">
-          <h2>
-            <Typography asChild variant="title" className="uppercase">
-              <span>popular </span>
-            </Typography>
-            <Typography asChild variant="title" className="uppercase">
-              <span className="text-pj-red">routes</span>
-            </Typography>
-          </h2>
-          <TeaserList list={list} />
-        </div>
+        <h2>
+          <Typography asChild variant="title" className="uppercase">
+            <span>
+              {await translate({
+                vi: 'Phổ biến ',
+                en: 'Popular ',
+              })}
+            </span>
+          </Typography>
+          <Typography asChild variant="title" className="uppercase">
+            <span className="text-pj-red">
+              {await translate({
+                vi: 'những tuyến đường',
+                en: 'routes',
+              })}
+            </span>
+          </Typography>
+        </h2>
       </Container>
+      <div className="mt-5">
+        <TeaserList list={list} />
+      </div>
     </BlockWrapper>
   );
 };

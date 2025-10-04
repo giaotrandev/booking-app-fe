@@ -13,9 +13,7 @@ import Image from 'next/image';
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '#/components/ui/use-toast';
-import { useTurnstileVerification } from '#/lib/hooks/use-turnstile-verification';
 import { dynamicFormSubmissionsAction } from '#/components/dynamic-form/action/submission';
-import { TurnstileBlock } from '#/lib/cloudflare/turnstile/turnstile-verifier';
 import { Row } from '#/components/ui/row';
 import { Col } from '#/components/ui/col';
 
@@ -27,40 +25,16 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
   const { toast } = useToast();
   const formRenderRef = useRef<{ handleReset: () => void } | null>(null);
 
-  const {
-    token,
-    canSubmit,
-    loading: turnstileLoading,
-    setLoading: setTurnstileLoading,
-    handleVerify,
-    handleLoad,
-    handleExpire,
-    handleError,
-    reset: resetTurnstile,
-  } = useTurnstileVerification();
-
   const [processing, setProcessing] = useState<boolean>(false);
+
   const handleSubmit = async (formData: Record<string, any>) => {
-    if (!token) {
-      toast({
-        title: 'Verification required',
-        description: 'Please complete the verification.',
-        variant: 'error',
-      });
-      return;
-    }
-
-    const currentToken = token;
-
     try {
       setProcessing(true);
 
       const result = await dynamicFormSubmissionsAction({
-        token: currentToken,
+        token: '', // ⚡️ không cần token turnstile nữa
         data: formData,
-        // baseUrl: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
       });
-      resetTurnstile();
 
       if (!result.success) {
         toast({
@@ -70,6 +44,8 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
         });
         return;
       }
+
+      // ✅ lưu user vào store
       useUserStore.getState().setAuth({
         user: {
           id: result.data.data.id,
@@ -137,7 +113,7 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
               isLoginLayout
               submitButton={{ label: 'Sign in' }}
               onSubmit={handleSubmit}
-              processing={processing || turnstileLoading || !canSubmit}
+              processing={processing}
             />
             <div className="mt-3 flex justify-center lg:absolute lg:right-0 lg:bottom-27.5">
               <ButtonLink
@@ -149,13 +125,6 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
                 <Link href="/forgot-password" />
               </ButtonLink>
             </div>
-            <TurnstileBlock
-              show={true}
-              onVerify={handleVerify}
-              onLoad={handleLoad}
-              onExpire={handleExpire}
-              onError={handleError}
-            />
           </div>
           <div className="mt-3 flex flex-col justify-center gap-y-3 lg:mt-4 lg:gap-y-4">
             <ButtonLink

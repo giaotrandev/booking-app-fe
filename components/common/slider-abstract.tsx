@@ -8,8 +8,10 @@ import { EmblaCarouselType, EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 import useEmblaCarousel from 'embla-carousel-react';
 import { createContext, CSSProperties, ReactNode, useContext } from 'react';
-import { ButtonIcon } from '../ui/button-icon';
+import { ButtonIcon, buttonIconVariants } from '../ui/button-icon';
 import Fade from 'embla-carousel-fade';
+import { VariantProps } from 'class-variance-authority';
+import { Container } from '../ui/container';
 
 interface ResponsiveNumberProps {
   mobile?: number;
@@ -47,6 +49,7 @@ interface SliderAbstractProps {
   fade?: boolean;
   overlayTwoSide?: boolean;
   arrowsClassName?: string;
+  arrowSize?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const SliderAbstract = ({
@@ -64,6 +67,7 @@ const SliderAbstract = ({
   gap = 8,
   fade,
   overlayTwoSide,
+  arrowSize,
 }: SliderAbstractProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
@@ -177,52 +181,54 @@ const SliderAbstract = ({
       </div>
 
       {(showProgress || showArrows) && (
-        <div
-          className={cn(
-            'mt-10 flex items-center justify-between',
-            navigationClassName,
-          )}
-        >
-          {showProgress && (
-            <div className="bg-pj-grey-lightest h-1 w-full flex-1 overflow-hidden rounded-full lg:max-w-50 lg:flex-auto">
+        <Container>
+          <div
+            className={cn(
+              'mt-10 flex items-center justify-between gap-10',
+              navigationClassName,
+            )}
+          >
+            {showProgress && (
+              <div className="bg-pj-grey-lightest h-1 w-full flex-1 overflow-hidden rounded-full lg:max-w-50 lg:flex-auto">
+                <div
+                  className="bg-pj-red ease-ev-easing h-full rounded-full transition-all duration-500"
+                  style={{
+                    width: `${((selectedIndex + 1) / scrollSnaps.length) * 100}%`,
+                  }}
+                />
+              </div>
+            )}
+            {showArrows && (
               <div
-                className="bg-pj-red ease-ev-easing h-full rounded-full transition-all duration-500"
-                style={{
-                  width: `${((selectedIndex + 1) / scrollSnaps.length) * 100}%`,
-                }}
-              />
-            </div>
-          )}
-          {showArrows && (
-            <div
-              className={cn(
-                'ml-auto flex items-center gap-4 lg:gap-3',
-                arrowsClassName,
-              )}
-            >
-              <ButtonIcon
-                size="lg"
-                icon={{ name: 'arrow-left' }}
-                onClick={onPrevButtonClick}
-                disabled={prevBtnDisabled}
-                aria-label={translate({
-                  en: 'previous slide',
-                  vi: 'Slide trước',
-                })}
-              />
-              <ButtonIcon
-                size="lg"
-                icon={{ name: 'arrow-right' }}
-                onClick={onNextButtonClick}
-                disabled={nextBtnDisabled}
-                aria-label={translate({
-                  en: 'next slide',
-                  vi: 'Slide sau',
-                })}
-              />
-            </div>
-          )}
-        </div>
+                className={cn(
+                  'ml-auto flex items-center gap-4 lg:gap-3',
+                  arrowsClassName,
+                )}
+              >
+                <ButtonIcon
+                  size={arrowSize || 'lg'}
+                  icon={{ name: 'arrow-left' }}
+                  onClick={onPrevButtonClick}
+                  disabled={prevBtnDisabled}
+                  aria-label={translate({
+                    en: 'previous slide',
+                    vi: 'Slide trước',
+                  })}
+                />
+                <ButtonIcon
+                  size={arrowSize || 'lg'}
+                  icon={{ name: 'arrow-right' }}
+                  onClick={onNextButtonClick}
+                  disabled={nextBtnDisabled}
+                  aria-label={translate({
+                    en: 'next slide',
+                    vi: 'Slide sau',
+                  })}
+                />
+              </div>
+            )}
+          </div>
+        </Container>
       )}
     </div>
   );
@@ -246,8 +252,8 @@ const Slide = ({ children, className, width, index }: SlideProps) => {
     bigDesktop: 'var(--dynamic-slide-size-big-desktop)',
   };
 
-  const responsiveWidths: ResponsiveStringProps =
-    typeof width === 'string'
+  const responsiveWidths: ResponsiveStringProps = width
+    ? typeof width === 'string'
       ? {
           mobile: width,
           tablet: width,
@@ -256,11 +262,12 @@ const Slide = ({ children, className, width, index }: SlideProps) => {
         }
       : {
           ...defaultWidths,
-          //   bigDesktop: `calc(${width?.bigDesktop} + var(--dynamic-gap-big-desktop))`,
-          //   desktop: `calc(${width?.desktop} + var(--dynamic-gap-desktop))`,
-          //   tablet: `calc(${width?.tablet} + var(--dynamic-gap-tablet))`,
-          //   mobile: `calc(${width?.mobile} + var(--dynamic-gap-mobile))`,
-        };
+          bigDesktop: `calc(${width?.bigDesktop} + var(--dynamic-gap-big-desktop))`,
+          desktop: `calc(${width?.desktop} + var(--dynamic-gap-desktop))`,
+          tablet: `calc(${width?.tablet} + var(--dynamic-gap-tablet))`,
+          mobile: `calc(${width?.mobile} + var(--dynamic-gap-mobile))`,
+        }
+    : defaultWidths;
 
   return (
     <div

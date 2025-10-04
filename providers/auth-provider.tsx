@@ -27,16 +27,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       const result = await verifyTokenAction();
+      console.log('reuslt', result);
       if (result.shouldRedirect) {
+        console.log('do');
         clearAuth();
         router.replace('/'); // 👈 chỉ redirect trong 3 case đặc biệt
         return;
       }
+      console.log('doooo');
       setTokenInfo(result);
     } catch (err) {
-      //   console.error('verifyTokenAction error:', err);
-      clearAuth();
-      router.replace('/');
+      // eslint-disable-next-line no-console
+      console.error('verifyTokenAction error:', err);
+      // clearAuth();
+      // router.replace('/');
     } finally {
       setLoading(false);
     }

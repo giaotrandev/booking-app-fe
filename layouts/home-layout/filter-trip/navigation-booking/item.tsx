@@ -200,6 +200,7 @@ const NavigationBooking = ({
             <ButtonIcon
               size="lg"
               icon={{ name: 'swap' }}
+              colors="black"
               aria-label="swap-arrival-and-destination"
               onClick={handleSwap}
             />

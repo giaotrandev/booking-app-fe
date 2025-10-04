@@ -11,4 +11,10 @@ export const convertProvinceItem = async (
   longitude: province.longitude ?? undefined,
   status: province.status ?? undefined,
   image: province.image ?? undefined,
+  description: province.description ?? undefined,
+  distance: province.distance ?? undefined,
+  distanceUnit: province.distanceUnit ?? undefined,
+  minPrice: province.minPrice ?? undefined,
+  maxPrice: province.maxPrice ?? undefined,
+  estimatedDuration: province.estimatedDuration ?? undefined,
 });

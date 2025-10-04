@@ -17,12 +17,11 @@ export const generateStaticParams = getStaticParams;
 const RegisterPage = async ({ params }: PageProps) => {
   const { locale } = await params;
   setStaticParamsLocale(locale);
-  const { translate } = await getTranslate();
 
   return (
-    <div>
+    <section>
       <RegisterRenderBlock fields={formFields} />
-    </div>
+    </section>
   );
 };
 

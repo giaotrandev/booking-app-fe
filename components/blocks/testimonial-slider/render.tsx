@@ -33,6 +33,7 @@ const TestimonialSliderRenderBlock =
                   align: 'start',
                 }}
                 gap={0}
+                arrowSize="xl"
                 autoplay={{ playOnInit: true, delay: 5000 }}
                 fade
                 showArrows

@@ -6,6 +6,8 @@ import { PageProps } from '#/types/global';
 import { getMessages } from 'next-intl/server';
 import { i18n } from '#/i18n/config';
 import { notFound } from 'next/navigation';
+import { BotIdClient } from 'botid/client';
+
 import Script from 'next/script';
 import { PropsWithChildren } from 'react';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
@@ -29,12 +31,22 @@ const LocaleLayout = async (props: LocaleLayoutProps) => {
 
   return (
     <html lang={locale} suppressHydrationWarning className="scroll-smooth">
+      <head>
+        <BotIdClient
+          protect={[
+            {
+              path: '/*',
+              method: 'POST',
+            },
+          ]}
+        />
+      </head>
       <body
         suppressHydrationWarning
         className={cn(
           fontStrada.variable,
           fontGabriela.variable,
-          'font-strada relative antialiased',
+          'font-strada bg-pj-grey-medium relative antialiased',
           'bg-white text-black',
           typographyVariants({ variant: 'body' }),
         )}

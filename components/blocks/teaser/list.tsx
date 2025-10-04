@@ -17,15 +17,21 @@ const TeaserList = ({ list }: TeaserListProps) => {
         tablet: 24,
         mobile: 12,
       }}
-      slidesPerView={{
-        mobile: 3,
-        desktop: 3.5,
-      }}
       showArrows
       showProgress
+      overlayTwoSide
+      className="px-5 lg:px-30"
     >
       {list.map((item, key) => (
-        <Slide key={key} className={cn(key % 2 !== 0 && 'pt-4 lg:pt-8')}>
+        <Slide
+          width={{
+            desktop: '390px',
+            tablet: '390px',
+            mobile: '282px',
+          }}
+          key={key}
+          className={cn(key % 2 !== 0 && 'pt-4 lg:pt-8')}
+        >
           <TeaserItem {...item} />
         </Slide>
       ))}

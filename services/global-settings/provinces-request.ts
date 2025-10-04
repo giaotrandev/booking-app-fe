@@ -8,6 +8,12 @@ export interface ProvincesRequestProps {
   longitude?: string;
   status?: string;
   image?: string;
+  description?: string;
+  distanceUnit?: string;
+  distance?: number;
+  minPrice?: number;
+  maxPrice?: number;
+  estimatedDuration?: number;
 }
 
 // export interface ProvincesRequestProps extends ProvincesResponseProps {}

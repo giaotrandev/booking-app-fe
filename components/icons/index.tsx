@@ -17,9 +17,11 @@ import Eye from './eye';
 import FaceHuman from './face-human';
 import { Hamburger } from './hamburger';
 import HidePassword from './hide-password';
+import Lock from './lock';
 import Logout from './logout';
 import Password from './password';
 import Phone from './phone';
+import Plane from './plane';
 import Print from './print';
 import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
@@ -63,6 +65,8 @@ const icons = {
   logout: Logout,
   user: User,
   password: Password,
+  plane: Plane,
+  lock: Lock,
 };
 
 export type IconNamesProps = keyof typeof icons;

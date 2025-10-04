@@ -24,7 +24,10 @@ const VerifyEmailPage = async ({ params }: PageProps) => {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <p className="font-semibold text-red-600">
-          Token is missing in the URL.
+          {await translate({
+            vi: 'Mã thông báo bị thiếu trong URL.',
+            en: 'Token is missing in the URL.',
+          })}
         </p>
       </div>
     );

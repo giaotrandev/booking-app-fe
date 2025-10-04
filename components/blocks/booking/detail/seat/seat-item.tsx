@@ -23,7 +23,6 @@ const SeatItem = ({
   deckId,
   rowId,
 }: SeatItemProps) => {
-  // TODO: PRICE
   const { selectSeat, isSeatSelected } = useBookingSelection();
 
   if (!(status || number || price)) return null;

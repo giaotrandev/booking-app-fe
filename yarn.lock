@@ -1530,6 +1530,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+botid@^1.5.7:
+  version "1.5.7"
+  resolved "https://registry.yarnpkg.com/botid/-/botid-1.5.7.tgz#a44eb2f336a2fb58d57fef02ff068e0b31e29910"
+  integrity sha512-cPQl0aoz5WvC4uhhNqb1EFeAVaRO7Hmq0fWRGag5sh1BH+DPnyaoZ6LZ5clXyeW2Qml2MBnrxgnta71I5z5WoQ==
+
 brace-expansion@^1.1.7:
   version "1.1.12"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.12.tgz#ab9b454466e5a8cc3a187beaad580412a9c5b843"

@@ -1,4 +1,4 @@
-import { format, parseISO, isValid } from 'date-fns';
+import { format, parseISO, isValid, intervalToDuration } from 'date-fns';
 import { enUS, vi } from 'date-fns/locale';
 //"17:45"
 export const formatUtcTime = (isoString?: string) => {
@@ -86,3 +86,28 @@ export const formatFullDateWithWeekday = (
     locale: locale === 'vi' ? vi : enUS,
   });
 };
+
+// console.log(formatDuration(300)); // "5h"
+// console.log(formatDuration(180)); // "3h"
+// console.log(formatDuration(210)); // "3h30m"
+export function formatDuration(
+  minutes: number,
+  locale: 'en' | 'vi' = 'en',
+): string {
+  if (!minutes) return '';
+
+  const { hours = 0, minutes: mins = 0 } = intervalToDuration({
+    start: 0,
+    end: minutes * 60 * 1000,
+  });
+
+  // Define short labels per locale
+  const labels = {
+    en: { h: 'h', m: 'm' },
+    vi: { h: 'g', m: 'p' },
+  }[locale];
+
+  if (mins === 0) return `${hours}${labels.h}`;
+  if (hours === 0) return `${mins}${labels.m}`;
+  return `${hours}${labels.h}-${mins}${labels.m}`;
+}

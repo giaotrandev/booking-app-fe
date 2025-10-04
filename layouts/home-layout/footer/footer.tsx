@@ -41,7 +41,7 @@ const LayoutFooter = ({}: LayoutFooterProps) => {
                 <li key={index}>
                   <Link
                     href={item.url}
-                    className='hocus-visible:text-pj-blue hocus-visible:transition-[color] before:bg-pj-blue hocus-visible:before:scale-100 hocus-visible:before:origin-left relative before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-[""]'
+                    className='hocus-visible:text-pj-red hocus-visible:transition-[color] before:bg-pj-red hocus-visible:before:scale-100 hocus-visible:before:origin-left relative before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-[""]'
                   >
                     {item.text}
                   </Link>
@@ -73,6 +73,15 @@ const LayoutFooter = ({}: LayoutFooterProps) => {
             </div>
           </Col>
         </Row>
+        <div className="mt-10 flex w-full items-center justify-center">
+          <Typography
+            asChild
+            className="text-pj-grey-light"
+            variant="small-number"
+          >
+            <p>Copyright © 2025 Vietnam Roadtrip, All rights reserved</p>
+          </Typography>
+        </div>
       </Container>
     </footer>
   );
@@ -81,20 +90,28 @@ const LayoutFooter = ({}: LayoutFooterProps) => {
 export { LayoutFooter };
 const contactItemList = [
   {
-    title: 'Hotline',
+    title: 'Hotline: Monday - Sunday (8:30 - 23:00)',
     icon: 'phone',
-    content: 'Monday - Sunday (8:30 - 23:00)',
+    content: {
+      url: 'tel:0963606075',
+      text: '0963606075',
+    },
   },
   {
     title: 'Email',
     icon: 'email',
-    content: 'giaotrandev@gmail.com',
+    content: {
+      url: 'mailto:giaotrandev@gmail.com',
+      text: 'giaotrandev@gmail.com',
+    },
   },
   {
     title: 'Address',
     icon: 'address',
-    content:
-      '277 Bis Au Duong Lan Street, Rach Ong Ward, District 8, Ho Chi Minh City, Vietnam',
+    content: {
+      url: 'https://www.google.com/maps/search/?api=1&query=277+Bis+Au+Duong+Lan,+Rach+Ong,+District+8,+Ho+Chi+Minh+City,+Vietnam',
+      text: 'Chung cu ngoc phuong nam',
+    },
   },
 ];
 const socialItemList = {

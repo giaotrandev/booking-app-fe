@@ -53,6 +53,7 @@ export interface ButtonProps
   text?: string;
   icon?: IconProps;
   iconClassName?: string;
+  iconPosition?: 'left' | 'right';
 }
 
 const Button = ({
@@ -65,6 +66,7 @@ const Button = ({
   icon,
   iconClassName,
   asChild = false,
+  iconPosition,
   ...props
 }: ButtonProps) => {
   const Comp = asChild ? Slot : 'button';
@@ -80,7 +82,12 @@ const Button = ({
     >
       {children && <Slottable>{children}</Slottable>}
       {text && (
-        <ButtonContent text={text} icon={icon} iconClassName={iconClassName} />
+        <ButtonContent
+          text={text}
+          icon={icon}
+          iconPosition={iconPosition ?? 'left'}
+          iconClassName={iconClassName}
+        />
       )}
     </Comp>
   );

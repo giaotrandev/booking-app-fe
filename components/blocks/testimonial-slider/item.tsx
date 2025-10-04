@@ -18,7 +18,7 @@ const TestimonialSliderItem = ({
 }: TestimonialSliderItemProps) => {
   return (
     <div className="flex w-full justify-between">
-      <div className="hidden lg:block lg:w-[32%]">
+      <div className="hidden lg:block lg:w-[35%]">
         {image && image.src && (
           <div className="relative pt-[calc((474/384)*100%)]">
             <Image

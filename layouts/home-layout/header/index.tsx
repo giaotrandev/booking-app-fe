@@ -23,7 +23,9 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { sidenavOpen, sideFilterOpen } = useGlobalsStore();
   const { isLoggedIn, clearAuth } = useUserStore();
-
+  const filteredMenu = isLoggedIn
+    ? menu
+    : menu.filter(item => item.url !== '/my-account/my-booking');
   const handleScroll = () => {
     if (window.scrollY > 0) {
       setIsScrolled(true);
@@ -32,16 +34,6 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
     }
   };
   useEffect(() => {
-    // const checkToken = async () => {
-    //   const result = await verifyTokenAction();
-    //   console.log('result', result);
-    //   if (!result.valid) {
-    //     console.log('do ne', result);
-    //     clearAuth();
-    //   }
-    // };
-    // checkToken();
-
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -78,7 +70,7 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
             </Link>
           </div>
           <div className="hidden lg:flex">
-            <LayoutHeaderMenu list={menu.slice(0, -2)} />
+            <LayoutHeaderMenu list={filteredMenu.slice(0, -2)} />
           </div>
           <div className="hidden lg:inline-block">
             <ul className="flex w-auto shrink-0 grow-0 basis-auto space-x-2">
@@ -134,7 +126,7 @@ const menu: LinkProps[] = [
   },
   {
     text: 'My Booking',
-    url: '/my-booking',
+    url: '/my-account/my-booking',
   },
   {
     text: 'About us',

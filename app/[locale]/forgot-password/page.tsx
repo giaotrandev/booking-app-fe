@@ -26,9 +26,9 @@ const LoginPage = async ({ params }: PageProps) => {
   const { translate } = await getTranslate();
 
   return (
-    <div>
+    <section>
       <ForgotPasswordRenderBlock fields={formFields} />
-    </div>
+    </section>
   );
 };
 
