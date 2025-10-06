@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
     const data = await res.json();
     return NextResponse.json(data);
   } catch (error) {
-    // console.log('error', error);
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       { message: 'Error fetching print ticket' },
       { status: 500 },

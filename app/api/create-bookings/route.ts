@@ -30,6 +30,8 @@ export async function POST(req: NextRequest) {
     });
     return response;
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       {
         success: false,

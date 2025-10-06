@@ -48,6 +48,8 @@ const InformationRender = ({ tripId }: InformationRenderProps) => {
       const bookingId = response;
       router.push(`/checkout?bookingId=${bookingId}`);
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error refreshing token:', error);
       toast({
         title: 'Đặt vé thất bại',
         description: 'Đã có lỗi xảy ra. Vui lòng thử lại sau.',

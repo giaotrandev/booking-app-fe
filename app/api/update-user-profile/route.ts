@@ -32,6 +32,8 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       { success: false, message: 'Internal server error', data: null },
       { status: 500 },

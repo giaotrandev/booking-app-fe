@@ -27,7 +27,9 @@ function isTokenExpired(token: string): boolean | 'invalid' {
     if (typeof exp !== 'number') return 'invalid';
     const now = Math.floor(Date.now() / 1000);
     return now >= exp; // true = expired, false = still valid
-  } catch {
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', err);
     return 'invalid';
   }
 }

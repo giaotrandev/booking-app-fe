@@ -3,7 +3,6 @@ import { LayoutMain } from '../home-layout/main';
 import { LayoutHeader, LayoutHeaderProps } from '../home-layout/header';
 import { LayoutFooter, LayoutFooterProps } from '../home-layout/footer/footer';
 import { fetchProfileInformation } from '#/lib/service/fetch-profile-information';
-import { AuthProvider } from '#/providers/auth-provider';
 
 export default async function AuthLayout({
   children,

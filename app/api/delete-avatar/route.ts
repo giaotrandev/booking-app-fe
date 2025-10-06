@@ -32,7 +32,8 @@ export async function DELETE(req: NextRequest) {
     const data = await backendRes.json();
     return NextResponse.json(data, { status: backendRes.status });
   } catch (error) {
-    console.error(error);
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       { success: false, message: 'Internal server error', data: null },
       { status: 500 },

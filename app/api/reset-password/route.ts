@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json(data, { status: res.status });
   } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', err);
     return NextResponse.json(
       {
         success: false,

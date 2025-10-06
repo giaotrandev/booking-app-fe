@@ -1,7 +1,6 @@
 'use client';
 import { Typography } from '#/components/ui/typography';
 import { blurDataUrl } from '#/lib/constant';
-import { ProvincesRequestProps } from '#/services/global-settings/provinces-request';
 import Image from 'next/image';
 import { useTranslate } from '#/i18n/client';
 import { formatPrice } from '#/lib/utilities/format-price';
@@ -9,6 +8,10 @@ import { Icon } from '#/components/icons';
 import { Button } from '#/components/ui/button';
 import { formatDuration } from '#/lib/utilities/format-time';
 import { useLocale } from 'next-intl';
+import { ProvincesRequestProps } from '#/services/provinces/provinces-request';
+import { sanitizeTitle } from '#/lib/utilities/sanitize-title';
+import { format } from 'date-fns';
+import { StretchedLink } from '#/components/common/stretched-link';
 
 export interface TeaserItemProps extends ProvincesRequestProps {}
 const TeaserItem = ({
@@ -16,13 +19,39 @@ const TeaserItem = ({
   name,
   minPrice = 300000,
   code,
+  sourceProvince,
+  destinationProvince,
   estimatedDuration,
   description = 'Tuyến đường kết nối An Giang và Thành phố Hồ Chí Minh, thời gian di chuyển khoảng 4-5 giờ',
 }: TeaserItemProps) => {
   const locale = useLocale();
   const { translate } = useTranslate();
+
+  // 🧩 Tạo URL động cho booking
+  const params = new URLSearchParams();
+
+  if (sourceProvince?.name) {
+    params.append('from', sanitizeTitle(sourceProvince.name));
+  }
+  if (destinationProvince?.name) {
+    params.append('to', sanitizeTitle(destinationProvince.name));
+  }
+
+  const today = new Date();
+  const threeDaysLater = new Date(today);
+  threeDaysLater.setDate(today.getDate() + 3);
+
+  params.append('departureDate', format(today, 'yyyy-MM-dd'));
+  params.append('arrivalDate', format(threeDaysLater, 'yyyy-MM-dd'));
+
+  const bookingUrl = `/booking?${params.toString()}`;
   return (
-    <div className="bg-pj-grey-lightest group/button border-pj-grey-lightest relative block cursor-pointer overflow-hidden rounded-[24px] border pt-[calc((369/280)*100%)] shadow-[0px_5.49px_27.47px_0px_#3939390A] lg:rounded-[30px] lg:pt-[calc((498/388)*100%)]">
+    <StretchedLink
+      link={{
+        url: bookingUrl,
+      }}
+      className="bg-pj-grey-lightest group/button border-pj-grey-lightest relative block cursor-pointer overflow-hidden rounded-[24px] border pt-[calc((369/280)*100%)] shadow-[0px_5.49px_27.47px_0px_#3939390A] lg:rounded-[30px] lg:pt-[calc((498/388)*100%)]"
+    >
       <Image
         src={image ?? '/images/hero.webp'}
         alt={name ?? ''}
@@ -133,8 +162,7 @@ const TeaserItem = ({
           </div>
         </div>
       </div>
-      {/* {image && ( */}
-    </div>
+    </StretchedLink>
   );
 };
 

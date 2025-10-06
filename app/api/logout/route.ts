@@ -44,6 +44,8 @@ export async function POST() {
     cookieStore.delete('at');
     return NextResponse.json(data, { status: res.status });
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       {
         success: false,

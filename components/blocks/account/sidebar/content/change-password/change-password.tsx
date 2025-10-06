@@ -43,6 +43,8 @@ const ChangePassword = ({}: ChangePasswordProps) => {
         });
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error refreshing token:', error);
       toast({
         title: 'Error changing password',
         description:

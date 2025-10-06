@@ -31,7 +31,7 @@ export async function getTripDetailAction(tripId: string) {
     };
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.error(err);
+    // console.error(err);
     return {
       error: true,
       message: 'Unknown error occurred (exception)',

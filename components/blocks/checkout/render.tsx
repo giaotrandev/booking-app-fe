@@ -126,6 +126,8 @@ const CheckoutBlockRender = ({
               localStorage.setItem(`qr-${id}`, JSON.stringify(response.data));
             }
           } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error('Error refreshing token:', error);
             // console.error('Failed to fetch QR Code:', error);
             dataReady = true; // Vẫn set ready để tránh loading vô tận
           }

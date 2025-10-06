@@ -86,6 +86,8 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
       setOpenBookingDetails(true);
       setBookingHistoryId(id);
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error refreshing token:', error);
       toast({
         title: 'Failed to fetch ticket details',
         description:
@@ -133,6 +135,8 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
         setShowModalConfirmCancel(false);
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error('Error refreshing token:', error);
       toast({
         title: 'Failed to cancel ticket',
         description:

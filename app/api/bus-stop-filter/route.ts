@@ -58,6 +58,8 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       { message: 'Internal server error' },
       { status: 500 },

@@ -46,14 +46,11 @@ export async function GET() {
       const cookiesRes = setCookieHeader.split(/,(?=\s*\w+=)/);
       cookiesRes.forEach(cookie => {
         response.headers.append('Set-Cookie', cookie.trim());
-
         // 👉 Lấy value của at
         if (cookie.trim().startsWith('at=')) {
           accessToken = cookie.trim().split(';')[0].split('=')[1];
         }
       });
-
-      console.log('cookiesRes', cookiesRes);
     }
 
     // ⚡️ Gắn accessToken vào payload trả về
@@ -66,6 +63,7 @@ export async function GET() {
       { status: 200, headers: response.headers },
     );
   } catch (err) {
+    // eslint-disable-next-line no-console
     console.error('Error refreshing token:', err);
     return NextResponse.json(
       { success: false, message: 'Error refreshing token' },

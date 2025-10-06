@@ -3,12 +3,13 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
+import { useIsMounted } from 'usehooks-ts';
+
 import {
   verifyTokenAction,
   VerifyTokenResult,
 } from '#/layouts/auth-layout/actions/verify-token';
 import { useUserStore } from '#/store/user';
-
 type AuthContextType = {
   loading: boolean;
   tokenInfo: VerifyTokenResult | null;
@@ -22,23 +23,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { clearAuth } = useUserStore();
+  const isMounted = useIsMounted();
 
   async function checkToken() {
     setLoading(true);
     try {
       const result = await verifyTokenAction();
-      console.log('reuslt', result);
       if (result.shouldRedirect) {
-        console.log('do');
         clearAuth();
         router.replace('/'); // 👈 chỉ redirect trong 3 case đặc biệt
         return;
       }
-      console.log('doooo');
       setTokenInfo(result);
     } catch (err) {
       // eslint-disable-next-line no-console
-      console.error('verifyTokenAction error:', err);
+      console.error('Error refreshing token:', err);
+      // eslint-disable-next-line no-console
+      // console.error('verifyTokenAction error:', err);
       // clearAuth();
       // router.replace('/');
     } finally {
@@ -47,8 +48,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
-    checkToken();
-  }, []);
+    if (isMounted()) checkToken(); // 👈 chỉ chạy sau khi mount hoàn tất
+  }, [isMounted]);
 
   return (
     <AuthContext.Provider
@@ -62,13 +63,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     </AuthContext.Provider>
   );
 }
-
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  //   if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
-  if (!ctx) {
-    console.error('useAuth must be used inside <AuthProvider>');
-    return { loading: false, tokenInfo: null, refetch: async () => {} };
-  }
-  return ctx;
+  // Nếu provider chưa mount, return giá trị tạm mà KHÔNG log lỗi
+  return ctx ?? { loading: true, tokenInfo: null, refetch: async () => {} };
 }

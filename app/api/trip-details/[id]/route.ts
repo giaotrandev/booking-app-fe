@@ -15,6 +15,8 @@ export async function GET(
     const data = await res.json();
     return NextResponse.json(data);
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error refreshing token:', error);
     return NextResponse.json(
       { message: 'Error fetching trip details' },
       { status: 500 },

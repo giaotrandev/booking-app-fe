@@ -176,6 +176,7 @@ const BookingBlock = () => {
       pickUpFilterList={pickUpFilterList}
       fetchNextPage={fetchNextPage}
       hasNextPage={hasNextPage ?? false}
+      isLoading={isLoading}
       isFetchingNextPage={isFetchingNextPage}
     />
   );

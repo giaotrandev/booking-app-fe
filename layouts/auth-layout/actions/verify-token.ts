@@ -11,7 +11,7 @@ function isTokenExpired(token: string): boolean | 'invalid' {
     const exp = decodedPayload.exp;
     const now = Math.floor(Date.now() / 1000);
     return now >= exp;
-  } catch {
+  } catch (err) {
     return 'invalid';
   }
 }
@@ -28,11 +28,8 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('at')?.value ?? null;
   const refreshToken = cookieStore.get('rt')?.value ?? null;
-
   const isDev = process.env.NODE_ENV === 'development';
   const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_BASE_URL!;
-
-  // ❌ Không có AT và cũng không có RT → về home
   if (!accessToken && !refreshToken) {
     return {
       valid: false,
@@ -42,9 +39,7 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
       shouldRedirect: true,
     };
   }
-
   const atStatus = accessToken ? isTokenExpired(accessToken) : true;
-  // ✅ Nếu AT còn sống → ok
   if (atStatus === false) {
     return {
       valid: true,
@@ -53,8 +48,6 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
       refreshToken,
     };
   }
-
-  // 🔄 Nếu AT hỏng/hết hạn nhưng có RT → thử refresh
   if (refreshToken) {
     try {
       const res = await fetch(`${baseURL}/api/refresh-access-token`, {
@@ -84,7 +77,6 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
           };
         }
       }
-
       // 👇 Trường hợp 3: refresh thất bại
       return {
         valid: false,
@@ -94,6 +86,7 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
         shouldRedirect: true,
       };
     } catch (err) {
+      console.error('Error do ne', err);
       return {
         valid: false,
         expired: true,
@@ -103,8 +96,6 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
       };
     }
   }
-
-  // 👉 AT hết hạn, không có RT → cũng phải redirect
   return {
     valid: false,
     expired: true,

@@ -30,7 +30,6 @@ export const useBookingHistory = (params: {
         ...params,
         page: String(pageParam),
       });
-      console.log(res);
       const rawBookings = res?.data?.data ?? [];
       const meta = res?.data?.meta;
 

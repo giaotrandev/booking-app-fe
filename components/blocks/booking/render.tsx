@@ -1,5 +1,6 @@
 import EmptyContent from '#/components/common/empty-content';
 import FilterAccordion from '#/components/common/filter/filter-accordion-list';
+import Loading from '#/components/common/loading';
 import { Container } from '#/components/ui/container';
 import {
   DropoffPointsRequestProps,
@@ -18,6 +19,7 @@ export interface BookingRenderBlockProps extends NavigationBookingProps {
   isFetchingNextPage?: boolean;
   pickUpFilterList?: PickUpPointRequestProps[];
   dropOffFilterList?: DropoffPointsRequestProps[];
+  isLoading?: boolean;
 }
 const BookingRenderBlock = ({
   arrivalList,
@@ -25,10 +27,14 @@ const BookingRenderBlock = ({
   bookingList,
   pickUpFilterList,
   dropOffFilterList,
+  isLoading,
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
 }: BookingRenderBlockProps) => {
+  const availableList =
+    bookingList?.filter(trip => (trip.seatsLeft ?? 0) > 0) ?? [];
+  const isEmpty = !availableList?.length && !isLoading;
   return (
     <section>
       <Container>
@@ -57,17 +63,21 @@ const BookingRenderBlock = ({
             </div>
             <div className="w-full flex-1 xl:pl-14">
               <div className="bg-pj-grey-lightest p-6">
-                {Array.isArray(bookingList) && bookingList.length > 0 ? (
+                {isLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loading content="Đang tải những chuyến đi..." />
+                  </div>
+                ) : isEmpty ? (
+                  <div className="rounded-xl bg-white py-4">
+                    <EmptyContent />
+                  </div>
+                ) : (
                   <ListWrapper
-                    list={bookingList}
+                    list={availableList}
                     fetchNextPage={fetchNextPage}
                     hasNextPage={hasNextPage}
                     isFetchingNextPage={isFetchingNextPage}
                   />
-                ) : (
-                  <div className="rounded-xl bg-white py-4">
-                    <EmptyContent />
-                  </div>
                 )}
               </div>
             </div>
@@ -77,5 +87,5 @@ const BookingRenderBlock = ({
     </section>
   );
 };
-
+// .filter(item => item.seatsLeft !== 0)
 export { BookingRenderBlock };

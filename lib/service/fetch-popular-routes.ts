@@ -1,6 +1,6 @@
 'use server';
 
-import { convertProvinceList } from '#/services/global-settings/province-list';
+import { convertProvinceList } from '#/services/provinces/province-list';
 
 export async function getPopularRoutes(limit: number = 2) {
   const isDev = process.env.NODE_ENV === 'development';

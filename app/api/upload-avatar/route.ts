@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(data, { status: backendRes.status });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error);
     return NextResponse.json(
       { success: false, message: 'Internal server error', data: null },
