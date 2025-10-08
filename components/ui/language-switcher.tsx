@@ -13,8 +13,6 @@ import {
 import { Typography } from './typography';
 import { Icon } from '../icons';
 import { usePathname } from '#/i18n/routing';
-import { useSearchParams } from 'next/navigation';
-import { ButtonContent } from './button-content';
 
 export function LanguageSwitcher() {
   const currentLocale = useCurrentLocale();
@@ -62,40 +60,21 @@ export function LanguageSwitcher() {
       >
         <CollapsibleTrigger
           className={cn(
-            'group/button pointer-events-auto inline-flex h-8 flex-nowrap items-center px-2.75 text-left text-black uppercase lg:h-8 lg:cursor-pointer lg:px-3.75',
-            'disabled:pointer-events-none disabled:opacity-50 data-[state=open]:[&_[data-slot="icon"]]:-rotate-180',
+            'group pointer-events-auto inline-flex h-8 flex-nowrap items-center space-x-2 px-2.75 text-left text-black uppercase lg:h-10 lg:cursor-pointer lg:px-3.75',
+            'disabled:pointer-events-none disabled:opacity-50 lg:space-x-3 data-[state=open]:[&_[data-slot="icon"]]:-rotate-180',
           )}
         >
-          <span className="relative flex items-center overflow-hidden">
-            <span
-              className={cn(
-                'lg:group-hocus-visible/button:-translate-y-full flex items-center gap-x-2 transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]',
-              )}
-            >
-              <Typography asChild variant="button-label" className="block">
-                <span>{languages[currentLocale]}</span>
-              </Typography>
-              <Icon
-                data-slot="icon"
-                name="chevron-down"
-                className="ease-ev-easing h-4 w-4 origin-center fill-black stroke-black transition-[rotate] duration-300"
-              />
-            </span>
-
-            <span
-              className={cn(
-                'lg:group-hocus-visible/button:translate-y-0 absolute inset-0 flex translate-y-full items-center gap-x-2 transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]',
-              )}
-            >
-              <Typography asChild variant="button-label" className="block">
-                <span>{languages[currentLocale]}</span>
-              </Typography>
-              <Icon
-                data-slot="icon"
-                name="chevron-down"
-                className="ease-ev-easing h-4 w-4 origin-center fill-black stroke-black transition-[rotate] duration-300"
-              />
-            </span>
+          <span className="block w-auto shrink-0 grow-0 basis-auto">
+            <Typography asChild variant="button-label" className="block">
+              <span>{languages[currentLocale]}</span>
+            </Typography>
+          </span>
+          <span className="block w-auto shrink-0 grow-0 basis-auto">
+            <Icon
+              data-slot="icon"
+              name="chevron-down"
+              className="ease-ev-easing h-4 w-4 origin-center fill-black stroke-black transition-[rotate] duration-300"
+            />
           </span>
         </CollapsibleTrigger>
         <CollapsibleContent className="data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down data-[state=closed]:duration-300 data-[state=open]:duration-300">

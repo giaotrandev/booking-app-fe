@@ -48,10 +48,8 @@ const NavigationBooking = ({
   isInSpeacialLayout,
 }: NavigationBookingProps) => {
   const isTablet = useMediaQuery('(min-width: 767px)');
-  const isDesktop = useMediaQuery('(min-width: 1023px)');
 
   const { translate } = useTranslate();
-  const locale = useCurrentLocale();
 
   const { setFilterOpen } = useGlobalsStore();
   const router = useRouter();
@@ -77,7 +75,13 @@ const NavigationBooking = ({
   const [destinationPlaceholder, setDestinationPlaceholder] = useState(
     translate({ vi: 'Điểm đến', en: 'Destination Point' }),
   );
-
+  const hasSearched =
+    sourceProvinceLabel === sanitizeTitle(selectedArrival?.label || '') &&
+    destinationProvinceLabel ===
+      sanitizeTitle(selectedDestination?.label || '') &&
+    departureDate ===
+      (dateRange?.from ? format(dateRange.from, 'yyyy-MM-dd') : '') &&
+    arrivalDate === (dateRange?.to ? format(dateRange.to, 'yyyy-MM-dd') : '');
   const handleSwap = () => {
     if (!selectedArrival && !selectedDestination) {
       const tmp = arrivalPlaceholder;
@@ -258,15 +262,37 @@ const NavigationBooking = ({
                 type="button"
                 disabled={processing}
                 className={cn(
-                  'relative h-14 w-full rounded-xl border px-4 py-3 text-left lg:h-12',
+                  'relative h-14 w-full cursor-pointer rounded-xl border px-3 py-3 text-left lg:h-12',
                   'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
                 )}
                 onClick={() => setIsDatePickerOpen(true)}
               >
+                <Typography
+                  asChild
+                  variant="small-label"
+                  className={cn(
+                    'absolute top-0.5 left-3 text-[10px] text-zinc-500 transition-opacity',
+                    dateRange?.from && dateRange?.to
+                      ? 'opacity-100'
+                      : 'opacity-0',
+                  )}
+                >
+                  <span>
+                    {translate({ vi: 'Từ', en: 'From' })} |{' '}
+                    {translate({ vi: 'Đến', en: 'To' })}
+                  </span>
+                </Typography>
                 <div className="flex items-center justify-between gap-x-2">
                   <div className="flex flex-1 items-center gap-x-2">
                     <Typography asChild className="text-nowrap">
-                      <span className="text-zinc-500">
+                      <span
+                        className={cn(
+                          '',
+                          dateRange?.from && dateRange?.to
+                            ? 'text-black'
+                            : 'text-zinc-500',
+                        )}
+                      >
                         {dateRange?.from
                           ? format(dateRange.from, dateFormat)
                           : translate({
@@ -277,7 +303,14 @@ const NavigationBooking = ({
                     </Typography>
                     <span className="text-gray-400">|</span>
                     <Typography asChild className="text-nowrap">
-                      <span className="text-zinc-500">
+                      <span
+                        className={cn(
+                          '',
+                          dateRange?.from && dateRange?.to
+                            ? 'text-black'
+                            : 'text-zinc-500',
+                        )}
+                      >
                         {dateRange?.to
                           ? format(dateRange.to, dateFormat)
                           : translate({
@@ -287,7 +320,15 @@ const NavigationBooking = ({
                       </span>
                     </Typography>
                   </div>
-                  <Icon name="date" className="fill-pj-gray-light h-4 w-4" />
+                  <Icon
+                    name="date"
+                    className={cn(
+                      'h-4 w-4',
+                      dateRange?.from && dateRange?.to
+                        ? 'fill-black'
+                        : 'fill-pj-gray-light',
+                    )}
+                  />
                 </div>
               </button>
             </PopoverTrigger>
@@ -329,12 +370,13 @@ const NavigationBooking = ({
           <Button
             text={
               processing
-                ? translate({ vi: 'Đang tìm chuyến', en: 'Searching trips...' })
-                : translate({ vi: 'Tìm chuyến', en: 'Search trips' })
+                ? translate({ vi: 'Đang tìm chuyến', en: 'Searching...' })
+                : translate({ vi: 'Tìm chuyến', en: 'Search' })
             }
             className="w-full lg:min-h-12 lg:w-auto"
             disabled={
               processing ||
+              hasSearched ||
               !selectedArrival ||
               !selectedDestination ||
               !dateRange?.from ||

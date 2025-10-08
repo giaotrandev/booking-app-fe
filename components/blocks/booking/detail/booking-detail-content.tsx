@@ -32,7 +32,7 @@ const BookingDetailContent = ({
   const [isFullConflictSeats, setIsFullConflictSeats] =
     useState<boolean>(false);
   const [conflictSeats, setConflictSeats] = useState<string[]>([]);
-
+  const [isBooking, setIsBooking] = useState(false);
   const {
     selectedSeats,
     totalPrice,
@@ -131,7 +131,9 @@ const BookingDetailContent = ({
             </div>
           )}
 
-          {activeTab === 3 && <InformationRender tripId={id} />}
+          {activeTab === 3 && (
+            <InformationRender tripId={id} setIsBooking={setIsBooking} />
+          )}
 
           <div className="mt-4 flex flex-wrap justify-between">
             <div
@@ -148,6 +150,7 @@ const BookingDetailContent = ({
                   en: 'Back',
                 })}
                 variant="small"
+                disabled={isBooking}
                 onClick={() => setActiveTab(prev => Math.max(1, prev - 1))}
               />
             </div>
@@ -169,12 +172,13 @@ const BookingDetailContent = ({
 
               <Button
                 type={activeTab === 3 ? 'submit' : 'button'}
-                text={translate({
-                  vi: 'Tiếp tục',
-                  en: 'Continue',
-                })}
+                text={
+                  isBooking
+                    ? translate({ vi: 'Đang xử lý...', en: 'Processing...' })
+                    : translate({ vi: 'Tiếp tục', en: 'Continue' })
+                }
                 variant="small"
-                disabled={isContinueDisabled}
+                disabled={isContinueDisabled || isBooking}
                 onClick={handleActionButtonNext}
               />
             </div>

@@ -9,15 +9,21 @@ import { createBooking } from '#/lib/service/create-booking';
 import { useUserStore } from '#/store/user';
 import { useRouter } from '#/i18n/routing';
 import { useTranslate } from '#/i18n/client';
+import { useState } from 'react';
 
 export interface InformationRenderProps {
   tripId: string;
+  setIsBooking: (value: boolean) => void;
 }
 
-const InformationRender = ({ tripId }: InformationRenderProps) => {
+const InformationRender = ({
+  tripId,
+  setIsBooking,
+}: InformationRenderProps) => {
   const { toast } = useToast();
   const router = useRouter();
   const { translate } = useTranslate();
+  // const [isBooking, setIsBooking] = useState(false);
   const {
     isSubmit,
     setIsSubmit,
@@ -46,6 +52,7 @@ const InformationRender = ({ tripId }: InformationRenderProps) => {
     }
 
     try {
+      setIsBooking(true);
       const availableSeatIds = getAvailableSeats().map(seat => seat.id);
 
       const response = await createBooking({
@@ -73,6 +80,7 @@ const InformationRender = ({ tripId }: InformationRenderProps) => {
         }),
         variant: 'destructive',
       });
+      setIsBooking(false); // 🚦 tắt loading
     }
   };
 

@@ -44,7 +44,6 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { sidenavOpen, sideFilterOpen } = useGlobalsStore();
   const { isLoggedIn } = useUserStore();
-  console.log('do', isLoggedIn);
   const filteredMenu = isLoggedIn
     ? menu
     : menu.filter(item => item.url !== '/my-account/my-booking');
@@ -98,7 +97,7 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
             <div
               className={cn(
                 'absolute right-[calc(100%+8px)]',
-                isLoggedIn ? 'top-3' : 'top-0',
+                isLoggedIn ? 'top-1' : 'top-0',
               )}
             >
               <LanguageSwitcher />
