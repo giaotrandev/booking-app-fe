@@ -51,7 +51,7 @@ const RadioGroupItem = ({
         id={id}
         data-slot="radio-group-item"
         className={cn(
-          'peer border-pj-grey size-4 flex-none rounded-[50%] border',
+          'peer border-pj-gray size-4 flex-none rounded-[50%] border',
           'data-[state=checked]:border-pj-blue [&[aria-invalid=true]]:border-pj-orange',
           'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
           // 'lg:hocus-visible:border-pj-input-focus',
@@ -90,7 +90,7 @@ const RadioGroupItem = ({
                 <Typography
                   asChild
                   variant={labelVariant}
-                  className="text-pj-grey-light"
+                  className="text-pj-gray-light"
                 >
                   <p>{label}</p>
                 </Typography>

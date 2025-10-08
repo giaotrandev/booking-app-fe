@@ -14,7 +14,7 @@ const BookingInfoItem = ({
 }: BookingInfoItemProps) => {
   return (
     <div className="flex flex-col">
-      <Typography className="text-pj-grey" asChild>
+      <Typography className="text-pj-gray" asChild>
         <p>{label}</p>
       </Typography>
       <Typography

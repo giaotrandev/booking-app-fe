@@ -69,7 +69,7 @@ const Accordion = ({
                     <Typography
                       asChild
                       variant="small-label"
-                      className="text-pj-grey-light uppercase"
+                      className="text-pj-gray-light uppercase"
                     >
                       <p>{item.title}</p>
                     </Typography>

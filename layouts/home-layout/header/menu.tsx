@@ -1,13 +1,13 @@
 'use client';
 import { StretchedLink } from '#/components/common/stretched-link';
 import { Button } from '#/components/ui/button';
+import { useTranslate } from '#/i18n/client';
 import { usePathname } from '#/i18n/routing';
 import { useLogout } from '#/lib/hooks/use-handle-logout';
 import { useGlobalsStore } from '#/store/globals';
 import { useUserStore } from '#/store/user';
 import { LinkProps } from '#/types/global';
 import { ItemMenu } from './item-menu';
-import { UserMenu } from './user-menu';
 
 export interface LayoutHeaderMenuProps {
   list?: LinkProps[];
@@ -15,6 +15,8 @@ export interface LayoutHeaderMenuProps {
 
 const LayoutHeaderMenu = ({ list }: LayoutHeaderMenuProps) => {
   const pathname = usePathname();
+  const { translate } = useTranslate();
+
   if (!(Array.isArray(list) && list.length > 0)) {
     return null;
   }
@@ -51,7 +53,10 @@ const LayoutHeaderMenu = ({ list }: LayoutHeaderMenuProps) => {
                 }}
                 onClick={() => setSidenavOpen(false)}
               >
-                Login
+                {translate({
+                  vi: 'Đăng nhập',
+                  en: 'Login',
+                })}
               </StretchedLink>
             </Button>
           )}

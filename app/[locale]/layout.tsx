@@ -46,7 +46,7 @@ const LocaleLayout = async (props: LocaleLayoutProps) => {
         className={cn(
           fontStrada.variable,
           fontGabriela.variable,
-          'font-strada bg-pj-grey-medium relative antialiased',
+          'font-strada bg-pj-gray-medium relative antialiased',
           'bg-white text-black',
           typographyVariants({ variant: 'body' }),
         )}

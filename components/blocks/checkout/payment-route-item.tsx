@@ -12,7 +12,7 @@ const PaymentRouteItem = ({ route, time }: PaymentRouteItemProps) => {
       <Typography asChild variant="h5" className="font-medium">
         <p>{route}</p>
       </Typography>
-      <Typography asChild variant="small-label" className="text-pj-grey-light">
+      <Typography asChild variant="small-label" className="text-pj-gray-light">
         <p>{time}</p>
       </Typography>
     </div>

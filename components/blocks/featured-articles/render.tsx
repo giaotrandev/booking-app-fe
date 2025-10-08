@@ -7,7 +7,7 @@ import FeaturedArticleList from './list';
 
 const FeaturedArticlesRenderBlock = () => {
   return (
-    <BlockWrapper className="bg-pj-grey-lightest">
+    <BlockWrapper className="bg-pj-gray-lightest">
       {/* <div className="mb-6">
         <Stroke />
       </div> */}
@@ -25,7 +25,7 @@ const FeaturedArticlesRenderBlock = () => {
             <Typography
               asChild
               variant="sub-body"
-              className="text-pj-grey-light"
+              className="text-pj-gray-light"
             >
               <p>
                 Vietnam is a beautiful country in Southeast Asia, known for its

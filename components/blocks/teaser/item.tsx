@@ -50,7 +50,7 @@ const TeaserItem = ({
       link={{
         url: bookingUrl,
       }}
-      className="bg-pj-grey-lightest group/button border-pj-grey-lightest relative block cursor-pointer overflow-hidden rounded-[24px] border pt-[calc((369/280)*100%)] shadow-[0px_5.49px_27.47px_0px_#3939390A] lg:rounded-[30px] lg:pt-[calc((498/388)*100%)]"
+      className="bg-pj-gray-lightest group/button border-pj-gray-lightest relative block cursor-pointer overflow-hidden rounded-[24px] border pt-[calc((369/280)*100%)] shadow-[0px_5.49px_27.47px_0px_#3939390A] lg:rounded-[30px] lg:pt-[calc((498/388)*100%)]"
     >
       <Image
         src={image ?? '/images/hero.webp'}
@@ -120,7 +120,7 @@ const TeaserItem = ({
                     <p>{description}</p>
                   </Typography>
                 )}
-                <div className="bg-pj-grey-lightest mt-3 h-px w-full" />
+                <div className="bg-pj-gray-lightest mt-3 h-px w-full" />
                 <div className="mt-3 flex flex-col gap-y-3">
                   {minPrice && (
                     <Typography asChild variant="small-label">

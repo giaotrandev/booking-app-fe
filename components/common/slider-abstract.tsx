@@ -189,7 +189,7 @@ const SliderAbstract = ({
             )}
           >
             {showProgress && (
-              <div className="bg-pj-grey-lightest h-1 w-full flex-1 overflow-hidden rounded-full lg:max-w-50 lg:flex-auto">
+              <div className="bg-pj-gray-lightest h-1 w-full flex-1 overflow-hidden rounded-full lg:max-w-50 lg:flex-auto">
                 <div
                   className="bg-pj-red ease-ev-easing h-full rounded-full transition-all duration-500"
                   style={{

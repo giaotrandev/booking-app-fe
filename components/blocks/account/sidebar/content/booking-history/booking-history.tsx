@@ -6,14 +6,17 @@ import { useBookingHistory } from '#/lib/hooks/use-history-booking-list';
 import { useHistoryBookingStore } from '#/store/history-booking-store';
 import { useCallback, useEffect, useRef } from 'react';
 import Loading from '#/components/common/loading';
+import { useTranslate } from '#/i18n/client'; // 👈 thêm hook i18n client
 
 interface BookingHistoryBlockProps {}
 
-const BookingHistoryBlock = ({}: BookingHistoryBlockProps) => {
+export const BookingHistoryBlock = ({}: BookingHistoryBlockProps) => {
+  const { translate } = useTranslate(); // 👈 dùng translate client-side
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useBookingHistory({});
   const { bookings, setBookings } = useHistoryBookingStore();
   const loaderRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (data?.pages) {
       const merged = data.pages.flatMap(page => page.bookings);
@@ -23,6 +26,7 @@ const BookingHistoryBlock = ({}: BookingHistoryBlockProps) => {
       setBookings(uniqueBookings);
     }
   }, [data, setBookings]);
+
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries;
@@ -46,13 +50,21 @@ const BookingHistoryBlock = ({}: BookingHistoryBlockProps) => {
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [handleObserver]);
+
   return (
     <div>
       <div className="flex flex-col gap-y-4">
         <IntroductionContent
-          title="Personal Settings"
-          description="My booking"
+          title={translate({
+            vi: 'Cài đặt cá nhân',
+            en: 'Personal Settings',
+          })}
+          description={translate({
+            vi: 'Đơn đặt vé của tôi',
+            en: 'My booking',
+          })}
         />
+
         {Array.isArray(bookings) && bookings.length > 0 && (
           <div className="flex flex-col gap-y-4 lg:gap-y-3">
             {bookings.map(item => (
@@ -63,15 +75,20 @@ const BookingHistoryBlock = ({}: BookingHistoryBlockProps) => {
           </div>
         )}
       </div>
+
       {/* Intersection observer target */}
       <div ref={loaderRef} className="h-px" />
+
       {hasNextPage && isFetchingNextPage && (
         <div className="flex justify-center">
-          <Loading content="Loading more booking history list" />
+          <Loading
+            content={translate({
+              vi: 'Đang tải thêm lịch sử đặt vé...',
+              en: 'Loading more booking history list...',
+            })}
+          />
         </div>
       )}
     </div>
   );
 };
-
-export { BookingHistoryBlock };

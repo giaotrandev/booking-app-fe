@@ -37,7 +37,7 @@ const ContactItem = ({ icon, content }: ContactItemProps) => {
       <Typography
         asChild
         className={cn(
-          'text-pj-grey-light',
+          'text-pj-gray-light',
           'group-hocus-visible:text-pj-red group-hocus-visible:transition-[color] before:bg-pj-red group-hocus-visible:before:scale-100 group-hocus-visible:before:origin-left relative before:absolute before:bottom-0 before:h-px before:w-full before:origin-right before:scale-x-0 before:transition-transform before:content-[""]',
         )}
       >

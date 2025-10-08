@@ -1,8 +1,11 @@
+'use client';
+
 import RangeSlider, { RangeSliderProps } from './range-slider';
 import CheckboxGroupFilter from './checkbox-group-filter';
 import RadioGroupFilter from './radio-group-filter';
 import { useFilterStore } from '#/store/filter-store';
 import { OptionType } from '#/types/global';
+import { useTranslate } from '#/i18n/client';
 import { maxPriceDefault, minPriceDefault } from '#/lib/constant';
 
 type FilterType = 'checkbox' | 'radio' | 'range-price' | 'range-time';
@@ -29,8 +32,11 @@ const FilterItem = ({
   step,
 }: FilterAccordionItemProps) => {
   const { filters, setFilter } = useFilterStore();
+  const { translate } = useTranslate();
+
   // 👇 Giá trị hiện tại từ store
   const selected = filters[filterKey];
+
   const handleSelectionChange = (newValues: string[]) => {
     const selectedOptions = options.filter(opt =>
       newValues.includes(opt.value),
@@ -43,6 +49,7 @@ const FilterItem = ({
     setFilter(filterKey, [minVal, maxVal]);
     onChange?.([minVal, maxVal]);
   };
+
   switch (filterType) {
     case 'checkbox':
       return (
@@ -53,6 +60,7 @@ const FilterItem = ({
           onChange={handleSelectionChange}
         />
       );
+
     case 'radio':
       return (
         <RadioGroupFilter
@@ -61,6 +69,7 @@ const FilterItem = ({
           onChange={val => handleSelectionChange([val])}
         />
       );
+
     case 'range-price':
       return (
         <RangeSlider
@@ -69,21 +78,22 @@ const FilterItem = ({
           min={min}
           max={max}
           step={step}
-          titleFrom="Min"
-          titleTo="Max"
+          titleFrom={translate({ vi: 'Giá tối thiểu', en: 'Min' })}
+          titleTo={translate({ vi: 'Giá tối đa', en: 'Max' })}
           priceGap={priceGap}
           rangeSliderOnChange={handleRangeChange}
         />
       );
+
     case 'range-time':
       return (
         <RangeSlider
-          titleFrom="From"
-          titleTo="To"
+          titleFrom={translate({ vi: 'Từ', en: 'From' })}
+          titleTo={translate({ vi: 'Đến', en: 'To' })}
           initialMax={initialMax}
           initialMin={initialMin}
           min={0}
-          max={1425} // 23 * 60 + 45 = 1380 + 45 = 1425  - (23:45)
+          max={1425} // 23 * 60 + 45 = 1380 + 45 = 1425 (23:45)
           step={15}
           priceGap={priceGap}
           formatValue={val => {
@@ -110,6 +120,7 @@ const FilterItem = ({
           rangeSliderOnChange={handleRangeChange}
         />
       );
+
     default:
       return null;
   }

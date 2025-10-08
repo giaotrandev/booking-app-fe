@@ -1,7 +1,7 @@
 'use client';
 
-import { useRouter, usePathname } from 'next/navigation';
 import { useToast } from '#/components/ui/use-toast';
+import { usePathname, useRouter } from '#/i18n/routing';
 import { useUserStore } from '#/store/user';
 import { protectedRoutes } from '../constant';
 

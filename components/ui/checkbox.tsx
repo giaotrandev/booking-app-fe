@@ -36,7 +36,7 @@ const Checkbox = ({ className, label, ...props }: CheckboxProps) => {
         <Typography
           asChild
           variant="small-label"
-          className="text-pj-grey-light"
+          className="text-pj-gray-light"
         >
           <span>{label}</span>
         </Typography>

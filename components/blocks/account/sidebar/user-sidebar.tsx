@@ -13,10 +13,15 @@ const AccountSideBar = ({}: AccountSideBarProps) => {
     <div className="flex flex-col items-center justify-center gap-y-3 rounded-md bg-white p-6 lg:p-8">
       <UserAvatar
         urlAvatar={user?.avatarUrl}
-        userName={user?.name
-          .split(' ')
-          .map(word => word[0].toUpperCase())
-          .join('')}
+        userName={
+          user?.name
+            ? user.name
+                .trim()
+                .split(/\s+/) // tách theo khoảng trắng liên tục
+                .map(word => word[0]?.toUpperCase() ?? '') // kiểm tra undefined
+                .join('')
+            : ''
+        }
         avatarClassName="lg:size-24"
         titleFallBack="h3"
       />

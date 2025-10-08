@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -22,7 +22,6 @@ import { useToast } from '#/components/ui/use-toast';
 import { useSocketContext } from '#/providers/socket-provider';
 import Loading from '#/components/common/loading';
 import { useBookingSelection } from '#/context/booking/booking-selection-context';
-import { useRef } from 'react';
 import { useTranslate } from '#/i18n/client';
 
 export interface BookingListProps {
@@ -41,8 +40,7 @@ const BookingList = ({
   if (!(Array.isArray(list) && list.length > 0)) return null;
   const { translate } = useTranslate();
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const { clearSelectedSeats, selectedSeats, markSeatAsUnavailable } =
-    useBookingSelection();
+  const { clearSelectedSeats, markSeatAsUnavailable } = useBookingSelection();
   const [accordionValue, setAccordionValue] = useState<string>('');
   const [tripDetails, setTripDetails] = useState<TripsRequestProps>();
   const [loadingTripId, setLoadingTripId] = useState<string>('');
@@ -57,18 +55,13 @@ const BookingList = ({
       const newItems = list.length - previousListLength;
       setNewItemsCount(newItems);
       setPreviousListLength(list.length);
-
-      // Reset animation state after animation completes
-      setTimeout(() => {
-        setNewItemsCount(0);
-      }, 600); // Match animation duration
+      setTimeout(() => setNewItemsCount(0), 600);
     }
   }, [list, previousListLength]);
 
   const updateSeatStatus = (seatNumber: string, newStatus: SeatStatus) => {
     setTripDetails(prevTrip => {
       if (!prevTrip) return prevTrip;
-
       const updatedDecks = prevTrip.decks?.map(deck => ({
         ...deck,
         rows: deck.rows?.map(row => ({
@@ -78,11 +71,7 @@ const BookingList = ({
           ),
         })),
       }));
-
-      return {
-        ...prevTrip,
-        decks: updatedDecks,
-      };
+      return { ...prevTrip, decks: updatedDecks };
     });
   };
 
@@ -91,7 +80,6 @@ const BookingList = ({
     openAccordionItem: boolean,
   ) => {
     if (openAccordionItem) setLoadingTripId(tripId);
-
     try {
       const res = await getTripDetailAction(tripId);
       if (
@@ -125,16 +113,9 @@ const BookingList = ({
         })),
       }));
 
-      setTripDetails({
-        ...trip,
-        decks: initialDecks,
-      });
+      setTripDetails({ ...trip, decks: initialDecks });
 
-      // Socket logic
-      if (!socket || !socket.connected) {
-        // console.warn('Socket chưa sẵn sàng.');
-        return;
-      }
+      if (!socket || !socket.connected) return;
 
       if (openAccordionItem) {
         socket.emit(
@@ -159,16 +140,18 @@ const BookingList = ({
           },
         );
       } else {
-        socket.emit(
-          'leaveTripRoom',
-          tripId,
-          (response: { success: boolean; error?: string }) => {},
-        );
+        socket.emit('leaveTripRoom', tripId, () => {});
       }
     } catch (err) {
       toast({
-        title: 'Lỗi kết nối thời gian thực',
-        description: 'Không thể thiết lập kết nối thời gian thực.',
+        title: translate({
+          vi: 'Lỗi kết nối thời gian thực',
+          en: 'Real-time connection error',
+        }),
+        description: translate({
+          vi: 'Không thể thiết lập kết nối thời gian thực.',
+          en: 'Unable to establish real-time connection.',
+        }),
         variant: 'destructive',
       });
     } finally {
@@ -176,7 +159,7 @@ const BookingList = ({
     }
   };
 
-  // Optimized intersection observer
+  // Infinite scroll
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries;
@@ -193,18 +176,16 @@ const BookingList = ({
       rootMargin: '0px 0px -10% 0px',
       threshold: 0,
     });
-
     if (loaderRef.current) observer.observe(loaderRef.current);
-
     return () => {
       if (loaderRef.current) observer.unobserve(loaderRef.current);
     };
   }, [handleObserver]);
+
   useEffect(() => {
-    if (!accordionValue) {
-      clearSelectedSeats(); // 👈 accordion đã đóng => reset ghế
-    }
+    if (!accordionValue) clearSelectedSeats();
   }, [accordionValue]);
+
   return (
     <div className="space-y-6">
       <Accordion
@@ -230,13 +211,13 @@ const BookingList = ({
                   'animate-in slide-in-from-bottom-4 fade-in duration-500',
               )}
               style={{
-                // Stagger animation cho các item mới
                 animationDelay: isNewItem
                   ? `${(index - (list.length - newItemsCount)) * 100}ms`
                   : '0ms',
               }}
             >
-              <div className={cn('flex flex-col lg:flex-row lg:p-5')}>
+              <div className="flex flex-col lg:flex-row lg:p-5">
+                {/* Image */}
                 <div className="w-full lg:max-w-[229px]">
                   <div className="relative overflow-hidden rounded-t-xl pt-[78%] lg:h-full lg:rounded-xl lg:pt-[100%]">
                     {item.image && (
@@ -254,6 +235,8 @@ const BookingList = ({
                     )}
                   </div>
                 </div>
+
+                {/* Trip info */}
                 <div className="flex flex-1 flex-col p-4 lg:py-0 lg:pr-0 lg:pl-4">
                   {(item.name || item.price) && (
                     <div className="flex flex-row items-center justify-between gap-x-2">
@@ -261,7 +244,7 @@ const BookingList = ({
                         <Typography
                           asChild
                           variant="h3"
-                          className="text-pj-grey text-[20px]"
+                          className="text-pj-gray text-[20px]"
                         >
                           <h2>{item.name}</h2>
                         </Typography>
@@ -277,12 +260,15 @@ const BookingList = ({
                       )}
                     </div>
                   )}
+
                   {item.description && (
-                    <Typography asChild className="text-pj-grey-light">
+                    <Typography asChild className="text-pj-gray-light">
                       <h2>{item.description}</h2>
                     </Typography>
                   )}
+
                   <div className="flex flex-col lg:mt-auto lg:flex-row lg:justify-between lg:gap-x-2">
+                    {/* Time info */}
                     {(item.arrivalTime ||
                       item.departureTime ||
                       item.arrivalDestination ||
@@ -304,11 +290,11 @@ const BookingList = ({
 
                             {item.arrivalTime && item.departureTime && (
                               <div className="my-2 flex items-center gap-x-2 pl-1 lg:my-0">
-                                <div className="bg-pj-grey-light h-4 w-px lg:h-10" />
+                                <div className="bg-pj-gray-light h-4 w-px lg:h-10" />
                                 <Typography
                                   asChild
                                   variant="sub-label"
-                                  className="text-pj-grey-light"
+                                  className="text-pj-gray-light"
                                 >
                                   <p>
                                     {getTimeDifference(
@@ -319,6 +305,7 @@ const BookingList = ({
                                 </Typography>
                               </div>
                             )}
+
                             {(item.arrivalTime || item.arrivalDestination) && (
                               <TimeItem
                                 time={item.arrivalTime}
@@ -329,17 +316,20 @@ const BookingList = ({
                         )}
                       </div>
                     )}
+
+                    {/* Book button */}
                     <div className="flex flex-col items-end gap-y-2 lg:justify-end">
                       {item.seatsLeft && (
-                        <Typography asChild className="text-pj-grey-light">
+                        <Typography asChild className="text-pj-gray-light">
                           <p>
                             {translate({
-                              vi: `còn ${item.seatsLeft} ghế`,
+                              vi: `Còn ${item.seatsLeft} ghế`,
                               en: `${item.seatsLeft} seats left`,
                             })}
                           </p>
                         </Typography>
                       )}
+
                       <AccordionTrigger
                         onClick={() => {
                           const isOpen = accordionValue === value;
@@ -355,14 +345,24 @@ const BookingList = ({
                           }),
                           'group/button',
                         )}
+                        disabled={loadingTripId === item.id}
                       >
                         <ButtonContent
                           text={
                             loadingTripId === item.id
-                              ? 'Loading...'
+                              ? translate({
+                                  vi: 'Đang mở...',
+                                  en: 'Loading...',
+                                })
                               : accordionValue !== value
-                                ? 'Book'
-                                : 'Close'
+                                ? translate({
+                                    vi: 'Đặt vé',
+                                    en: 'Book',
+                                  })
+                                : translate({
+                                    vi: 'Đóng',
+                                    en: 'Close',
+                                  })
                           }
                         />
                       </AccordionTrigger>
@@ -370,10 +370,16 @@ const BookingList = ({
                   </div>
                 </div>
               </div>
+
               <AccordionContent>
                 {loadingTripId === item.id ? (
                   <div className="px-5 pb-5">
-                    <Loading content="Đang tải chi tiết chuyến đi..." />
+                    <Loading
+                      content={translate({
+                        vi: 'Đang tải chi tiết chuyến đi...',
+                        en: 'Loading trip details...',
+                      })}
+                    />
                   </div>
                 ) : tripDetails ? (
                   <BookingDetailWrapper
@@ -390,11 +396,16 @@ const BookingList = ({
         })}
       </Accordion>
 
-      {/* Intersection observer target */}
+      {/* Infinite scroll loader */}
       <div ref={loaderRef} className="h-px" />
       {hasNextPage && isFetchingNextPage && (
         <div className="flex justify-center">
-          <Loading content="Loading more trips..." />
+          <Loading
+            content={translate({
+              vi: 'Đang tải thêm chuyến đi...',
+              en: 'Loading more trips...',
+            })}
+          />
         </div>
       )}
     </div>

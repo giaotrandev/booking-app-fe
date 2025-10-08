@@ -1,3 +1,5 @@
+'use client';
+
 import { Icon } from '#/components/icons';
 import { Col } from '#/components/ui/col';
 import { Row } from '#/components/ui/row';
@@ -13,6 +15,7 @@ import { blurDataUrl } from '#/lib/constant';
 import { UncheckedQrCodeItemRequestProps } from '#/services/QrCode/details/unchecked-qrcode-request';
 import { Button } from '#/components/ui/button';
 import { Link } from '#/i18n/routing';
+import { useTranslate } from '#/i18n/client';
 
 interface PaymentTicketProps
   extends Omit<BookingRequestProps, 'seats' | 'createdAt' | 'basePrice'> {
@@ -29,6 +32,8 @@ const PaymentTicket = ({
   updatedAt,
   isHaveQrCode,
 }: PaymentTicketProps) => {
+  const { translate } = useTranslate();
+
   return (
     <div className="flex flex-col gap-y-6 lg:gap-y-8">
       <div className="rounded-xl bg-white p-5">
@@ -37,7 +42,7 @@ const PaymentTicket = ({
           updatedAt={updatedAt}
           isHaveQrCode={isHaveQrCode}
         />
-        <div className="border-pj-grey-light mx-auto my-5 w-full border-t border-dashed" />
+        <div className="border-pj-gray-light mx-auto my-5 w-full border-t border-dashed" />
         <div className="relative flex w-full items-center justify-between">
           <div>
             <PaymentRouteItem
@@ -59,15 +64,41 @@ const PaymentTicket = ({
           </div>
         </div>
       </div>
+
       {Array.isArray(seats) && seats.length > 0 && (
         <Row className="gap-y-6 lg:gap-x-8 lg:gap-y-8">
           {seats.map((item, index) => {
             const infoItems = [
-              { title: 'Passenger name', content: item.passengerName },
-              { title: 'Passenger email', content: item.passengerEmail },
-              { title: 'Passenger phone', content: item.passengerPhone },
-              { title: 'Passenger note', content: item?.passengerNote },
+              {
+                title: translate({
+                  vi: 'Họ tên hành khách',
+                  en: 'Passenger name',
+                }),
+                content: item.passengerName,
+              },
+              {
+                title: translate({
+                  vi: 'Email hành khách',
+                  en: 'Passenger email',
+                }),
+                content: item.passengerEmail,
+              },
+              {
+                title: translate({
+                  vi: 'Số điện thoại hành khách',
+                  en: 'Passenger phone',
+                }),
+                content: item.passengerPhone,
+              },
+              {
+                title: translate({
+                  vi: 'Ghi chú hành khách',
+                  en: 'Passenger note',
+                }),
+                content: item?.passengerNote,
+              },
             ];
+
             return (
               <Col
                 className={cn(
@@ -83,27 +114,37 @@ const PaymentTicket = ({
                         asChild
                         className="text-pj-red font-medium uppercase"
                       >
-                        <p>{`Seat: ${item.seat?.seatNumber}`}</p>
+                        <p>
+                          {translate({
+                            vi: `Ghế: ${item.seat?.seatNumber}`,
+                            en: `Seat: ${item.seat?.seatNumber}`,
+                          })}
+                        </p>
                       </Typography>
                     </div>
                     <div className="flex items-center gap-x-2">
                       <Button
-                        icon={{
-                          name: 'print',
-                        }}
+                        icon={{ name: 'print' }}
                         colors="none"
-                        text="Print ticket"
+                        text={translate({
+                          vi: 'In vé',
+                          en: 'Print ticket',
+                        })}
                         shape="tag"
                         className="p-0 text-black lg:text-[16px]"
                       />
                     </div>
                   </div>
                 )}
+
                 {Array.isArray(infoItems) && infoItems.length > 0 && (
-                  <div className="bg-pj-grey-lightest rounded-[8px] p-4">
+                  <div className="bg-pj-gray-lightest rounded-[8px] p-4">
                     {infoItems.some(item => !!item.content) && (
                       <InfoList
-                        title="Passenger information"
+                        title={translate({
+                          vi: 'Thông tin hành khách',
+                          en: 'Passenger information',
+                        })}
                         titleColor="red"
                         list={infoItems
                           .filter(item => item.content)
@@ -116,14 +157,20 @@ const PaymentTicket = ({
                     )}
                   </div>
                 )}
+
                 {item.qrCodeImage && (
                   <div className="flex flex-col items-center justify-center gap-y-3">
                     <Typography
                       asChild
                       variant="sub-label"
-                      className="text-pj-grey-light w-full text-start"
+                      className="text-pj-gray-light w-full text-start"
                     >
-                      <p>* Click the QR code to download.</p>
+                      <p>
+                        {translate({
+                          vi: '* Nhấn vào mã QR để tải xuống.',
+                          en: '* Click the QR code to download.',
+                        })}
+                      </p>
                     </Typography>
                     <div className="w-full max-w-60">
                       <Link

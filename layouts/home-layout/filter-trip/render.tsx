@@ -14,11 +14,13 @@ import NavigationBooking, {
 } from '#/layouts/home-layout/filter-trip/navigation-booking/item';
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
-import { useTranslate } from '#/i18n/client';
+import { useChangeLocale, useCurrentLocale, useTranslate } from '#/i18n/client';
 import { cn } from '#/lib/utilities/cn';
 import { useGlobalsStore } from '#/store/globals';
 import { Suspense, useEffect } from 'react';
 import { useMediaQuery } from 'usehooks-ts';
+import { i18n } from '#/i18n/config';
+import { languages } from '#/lib/constant';
 
 export interface LayoutFilterTripProps extends NavigationBookingProps {}
 const LayoutFilterTrip = ({
@@ -26,6 +28,8 @@ const LayoutFilterTrip = ({
   destinationList,
 }: LayoutFilterTripProps) => {
   const { translate } = useTranslate();
+  const currentLocale = useCurrentLocale();
+  const { isChangingLocale, changeLocale } = useChangeLocale();
   const isDesktop = useMediaQuery('(min-width: 1023px)');
   const { sideFilterOpen, setFilterOpen } = useGlobalsStore();
   const onOpenChange = (open: boolean) => {
@@ -61,7 +65,32 @@ const LayoutFilterTrip = ({
         </Suspense>
       </div>
       {/* Mobile */}
-      <div className="fixed right-5 bottom-5 z-[1090] lg:hidden">
+      <div className="fixed right-5 bottom-5 z-[1090] flex flex-col gap-y-2 lg:hidden">
+        <div>
+          {i18n.locales
+            .filter(locale => locale !== currentLocale)
+            .map((locale, key) => {
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => {
+                    changeLocale({ locale });
+                  }}
+                  disabled={isChangingLocale}
+                  className="bg-pj-red lg:hocus-visible:text-pj-red lg:ease-ev-easing inline-flex h-10 w-10 items-center justify-center rounded-[50%] text-center text-white disabled:cursor-not-allowed disabled:opacity-50 lg:cursor-pointer lg:transition-[color] lg:duration-300"
+                >
+                  <Typography
+                    asChild
+                    variant="button-label"
+                    className="flex-none"
+                  >
+                    <span>{languages[locale]}</span>
+                  </Typography>
+                </button>
+              );
+            })}
+        </div>
         <Sheet open={sideFilterOpen} onOpenChange={onOpenChange}>
           <SheetTrigger asChild>
             <button

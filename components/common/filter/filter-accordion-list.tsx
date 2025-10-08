@@ -9,7 +9,6 @@ import {
   PickUpPointRequestProps,
 } from '#/services/trip/filter/bus-stop/bus-stop-request';
 import { useFilterStore } from '#/store/filter-store';
-import { useRouter, useSearchParams } from 'next/navigation';
 import {
   maxPriceDefault,
   maxTimeDefault,
@@ -20,6 +19,10 @@ import { FilterItemProps } from '#/layouts/home-layout/filter-trip/navigation-bo
 import { sanitizeTitle } from '#/lib/utilities/sanitize-title';
 import { useDebounce } from '#/lib/hooks/use-debounce';
 import { formatTime } from '#/lib/utilities/format-time';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from '#/i18n/routing';
+import { useTranslate } from '#/i18n/client';
+
 export interface FilterAccordionListProps {
   pickUpFilterList?: PickUpPointRequestProps[];
   dropOffFilterList?: DropoffPointsRequestProps[];
@@ -31,7 +34,7 @@ const FilterAccordionList = ({
   const { filters } = useFilterStore();
   const router = useRouter();
   const searchParams = useSearchParams();
-
+  const { translate } = useTranslate();
   // ✅ So sánh để biết người dùng đã filter chưa
   const isPriceFiltered =
     filters.price[0] !== minPriceDefault ||
@@ -114,7 +117,10 @@ const FilterAccordionList = ({
       ? [
           {
             filterKey: 'pickup',
-            title: 'Pick-up points',
+            title: translate({
+              vi: 'Điểm đón',
+              en: 'Pick-up points',
+            }),
             filterType: 'checkbox',
             optionList: pickUpFilterList.map(item => ({
               id: item.id,
@@ -129,7 +135,10 @@ const FilterAccordionList = ({
       ? [
           {
             filterKey: 'dropoff',
-            title: 'Drop-off point',
+            title: translate({
+              vi: 'Điểm trả',
+              en: 'Drop-off point',
+            }),
             filterType: 'checkbox',
             optionList: dropOffFilterList.map(item => ({
               id: item.id,
@@ -142,7 +151,10 @@ const FilterAccordionList = ({
       : []),
     {
       filterKey: 'price',
-      title: 'Price',
+      title: translate({
+        vi: 'Giá vé',
+        en: 'Price',
+      }),
       filterType: 'range-price',
       initialMin: isPriceFiltered ? filters.price[0] : minPriceDefault,
       initialMax: isPriceFiltered ? filters.price[1] : maxPriceDefault,
@@ -153,7 +165,10 @@ const FilterAccordionList = ({
     },
     {
       filterKey: 'time',
-      title: 'Departure time',
+      title: translate({
+        vi: 'Giờ khởi hành',
+        en: 'Departure time',
+      }),
       filterType: 'range-time',
       initialMin: isTimeFiltered ? filters.time[0] : minTimeDefault,
       initialMax: isTimeFiltered ? filters.time[1] : maxTimeDefault,

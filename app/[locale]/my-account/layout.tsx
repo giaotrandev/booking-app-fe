@@ -5,6 +5,7 @@ import { Container } from '#/components/ui/container';
 import { Row } from '#/components/ui/row';
 import AuthLayout from '#/layouts/auth-layout';
 import StandardLayout from '#/layouts/standard-layout';
+import { AuthProvider } from '#/providers/auth-provider';
 import { ReactNode } from 'react';
 
 interface LayoutProps {
@@ -13,21 +14,23 @@ interface LayoutProps {
 
 const Layout = async ({ children }: LayoutProps) => {
   return (
-    <AuthLayout>
-      <Container>
-        <Row className="bg-pj-grey-lightest gap-y-4 px-8 py-10 lg:gap-y-0 lg:p-10">
-          <Col className="col-span-full lg:col-span-3">
-            <div className="flex flex-col gap-y-4">
-              <AccountSideBar />
-              <NavigationSidebar />
-            </div>
-          </Col>
-          <Col className="col-span-full lg:col-span-8 lg:col-start-5">
-            {children}
-          </Col>
-        </Row>
-      </Container>
-    </AuthLayout>
+    <AuthProvider>
+      <AuthLayout>
+        <Container>
+          <Row className="bg-pj-gray-lightest gap-y-4 px-8 py-10 lg:gap-y-0 lg:p-10">
+            <Col className="col-span-full lg:col-span-3">
+              <div className="flex flex-col gap-y-4">
+                <AccountSideBar />
+                <NavigationSidebar />
+              </div>
+            </Col>
+            <Col className="col-span-full lg:col-span-8 lg:col-start-5">
+              {children}
+            </Col>
+          </Row>
+        </Container>
+      </AuthLayout>
+    </AuthProvider>
   );
 };
 

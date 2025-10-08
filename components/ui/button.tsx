@@ -16,26 +16,26 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'px-4.5 py-1.75 uppercase',
+        default: 'px-4.5 h-10 uppercase',
         big: 'py-2.5 w-full lg:max-w-74 uppercase',
         'with-shadow':
           'text-black font-normal py-3 px-4.5 shadow-[0px_4px_4px_0px_#00000040]',
         special: 'w-full lg:max-w-74 py-2.25 px-8',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         small: 'px-4 py-2 text-[14px] lg:text-[16px]',
-        outline: 'px-4 py-1.25 border border-pj-red text-pj-red',
+        outline: 'px-4 h-10 border border-pj-red text-pj-red',
       },
       colors: {
         none: '',
         red: 'bg-pj-red',
         black: 'bg-black',
-        grey: 'bg-pj-grey',
+        gray: 'bg-pj-gray',
         blue: 'bg-pj-blue',
       },
       shape: {
         default: 'rounded-[10px]',
         tag: 'rounded-[24px]',
-        special: 'border border-pj-grey-light rounded-[25px]',
+        special: 'border border-pj-gray-light rounded-[25px]',
       },
     },
     defaultVariants: {

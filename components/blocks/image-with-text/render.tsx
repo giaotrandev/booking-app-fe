@@ -66,7 +66,7 @@ const ImageWithTextRenderBlock = async ({}: ImageWithTextRenderBlockProps) => {
     <Container className="px-0 lg:px-0">
       <div className="flex flex-col gap-y-12.5 lg:flex-row lg:gap-y-0">
         <div className="relative order-2 px-5 pb-12 lg:order-1 lg:w-[55.833%] lg:py-20 lg:pr-0 lg:pl-30">
-          <div className="bg-pj-grey-lightest absolute bottom-0 left-0 h-[59.919%] w-full lg:top-0 lg:bottom-0 lg:h-full lg:w-[89.179%]" />
+          <div className="bg-pj-gray-lightest absolute bottom-0 left-0 h-[59.919%] w-full lg:top-0 lg:bottom-0 lg:h-full lg:w-[89.179%]" />
           <div className="ml-auto w-full">
             <div className="relative pt-[calc((737/675)*100%)]">
               <Image

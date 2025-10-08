@@ -26,7 +26,7 @@ const CardImageWithTextItem = ({
         <Typography asChild variant="h3">
           <h2>{title}</h2>
         </Typography>
-        <Typography asChild className="text-pj-grey-light w-full">
+        <Typography asChild className="text-pj-gray-light w-full">
           <p>{description}</p>
         </Typography>
       </div>

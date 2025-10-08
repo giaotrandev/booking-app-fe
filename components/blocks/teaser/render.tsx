@@ -18,7 +18,7 @@ const TeaserRenderBlock = async ({ list }: TeaserRenderBlockProps) => {
           <Typography asChild variant="title" className="uppercase">
             <span>
               {await translate({
-                vi: 'Phổ biến ',
+                vi: 'Những tuyến đường ',
                 en: 'Popular ',
               })}
             </span>
@@ -26,7 +26,7 @@ const TeaserRenderBlock = async ({ list }: TeaserRenderBlockProps) => {
           <Typography asChild variant="title" className="uppercase">
             <span className="text-pj-red">
               {await translate({
-                vi: 'những tuyến đường',
+                vi: 'Phổ biến ',
                 en: 'routes',
               })}
             </span>

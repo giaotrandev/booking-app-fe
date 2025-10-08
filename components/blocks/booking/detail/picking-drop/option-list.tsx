@@ -62,7 +62,7 @@ const OptionItemList = ({
                   {option.locationName}
                 </p>
               </Typography>
-              <Typography asChild className="text-pj-grey" variant="sub-label">
+              <Typography asChild className="text-pj-gray" variant="sub-label">
                 <p>{option.address}</p>
               </Typography>
             </label>

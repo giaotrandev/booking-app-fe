@@ -18,7 +18,12 @@ const TestimonialSliderRenderBlock =
         <Container>
           <h2>
             <Typography asChild variant="title" className="uppercase">
-              <span>What customers say about </span>
+              <span>
+                {translate({
+                  vi: 'Những khách hàng nói gì về ',
+                  en: 'What customers say about ',
+                })}{' '}
+              </span>
             </Typography>
             <Typography asChild variant="title" className="uppercase">
               <span className="text-pj-red">Vietnam Road Trip</span>

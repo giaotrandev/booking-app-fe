@@ -35,7 +35,7 @@ import { Button } from '../ui/button';
 import { Icon } from '../icons';
 // import { CloudflareTurnstileWidget } from '#/lib/cloudflare/turnstile/widget';
 // import { useTheme } from 'next-themes';
-import { useCurrentLocale } from '#/i18n/client';
+import { useCurrentLocale, useTranslate } from '#/i18n/client';
 import { useBookingSelection } from '#/context/booking/booking-selection-context';
 import { useUserStore } from '#/store/user';
 import { UserAvatar } from '../ui/user-avatar';
@@ -81,6 +81,7 @@ const FormRenderBlock = forwardRef<
     },
     ref,
   ) => {
+    const { translate } = useTranslate();
     const isDesktop = useMediaQuery('(min-width: 1024px)');
     const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
     const formRef = useRef<HTMLFormElement | null>(null);
@@ -437,7 +438,12 @@ const FormRenderBlock = forwardRef<
                                   variant="sub-label"
                                   className="mt-1 ml-4.5"
                                 >
-                                  <p>Ex. user123@abc.com</p>
+                                  <p>
+                                    {translate({
+                                      vi: 'Ví dụ: user123@abc.com',
+                                      en: 'Ex. user123@abc.com',
+                                    })}
+                                  </p>
                                 </Typography>
                               </div>
                             )}
@@ -531,17 +537,35 @@ const FormRenderBlock = forwardRef<
                                   text={
                                     isAvatar
                                       ? previewImageArray.length > 0
-                                        ? 'Change Avatar'
-                                        : 'Upload Avatar'
+                                        ? translate({
+                                            vi: 'Thay đổi ảnh đại diện',
+                                            en: 'Change Avatar',
+                                          })
+                                        : translate({
+                                            vi: 'Tải ảnh đại diện lên',
+                                            en: 'Upload Avatar',
+                                          })
                                       : hasFiles
-                                        ? 'Change Files'
-                                        : 'Upload Files'
+                                        ? translate({
+                                            vi: 'Thay đổi tệp',
+                                            en: 'Change Files',
+                                          })
+                                        : translate({
+                                            vi: 'Tải tệp lên',
+                                            en: 'Upload Files',
+                                          })
                                   }
                                 />
                                 <Typography className="text-pj-input text-center text-sm">
                                   {isAvatar
-                                    ? `JPG, PNG up to 5MB${multiple ? ', multiple files allowed' : ''}`
-                                    : `Select ${multiple ? 'files' : 'a file'} to upload`}
+                                    ? translate({
+                                        vi: `JPG, PNG dung lượng tối đa 5MB${multiple ? ', cho phép nhiều tệp' : ''}`,
+                                        en: `JPG, PNG up to 5MB${multiple ? ', multiple files allowed' : ''}`,
+                                      })
+                                    : translate({
+                                        vi: `Chọn ${multiple ? 'các tệp' : 'một tệp'} để tải lên`,
+                                        en: `Select ${multiple ? 'files' : 'a file'} to upload`,
+                                      })}
                                 </Typography>
                               </div>
                             </FormControl>
@@ -747,7 +771,7 @@ const FormRenderBlock = forwardRef<
                                           typographyVariants({
                                             variant: 'small-label',
                                           }),
-                                          'text-pj-grey-light cursor-pointer',
+                                          'text-pj-gray-light cursor-pointer',
                                           processing &&
                                             'pointer-events-none opacity-50',
                                         )}
@@ -819,7 +843,7 @@ const FormRenderBlock = forwardRef<
                                         typographyVariants({
                                           variant: 'small-label',
                                         }),
-                                        'text-pj-grey-light cursor-pointer',
+                                        'text-pj-gray-light cursor-pointer',
                                         processing &&
                                           'pointer-events-none opacity-50',
                                       )}
@@ -997,7 +1021,7 @@ const FormRenderBlock = forwardRef<
                                     <div className="absolute top-1/2 right-0 -translate-1/2">
                                       <Icon
                                         name="date"
-                                        className="fill-pj-grey-light h-5 w-5"
+                                        className="fill-pj-gray-light h-5 w-5"
                                       />
                                     </div>
                                   </>

@@ -1,4 +1,5 @@
 'use client';
+
 import { FormRenderBlock } from '#/components/dynamic-form/render';
 import { FormFieldProps } from '#/components/dynamic-form/type';
 import { useRef, useState } from 'react';
@@ -6,61 +7,121 @@ import { IntroductionContent } from '../introduction-content';
 import { changePassword } from '#/lib/service/change-password';
 import { useUserStore } from '#/store/user';
 import { useToast } from '#/components/ui/use-toast';
+import { useTranslate } from '#/i18n/client'; // 👈 thêm i18n hook client
 
 interface ChangePasswordProps {}
 
-const ChangePassword = ({}: ChangePasswordProps) => {
+export const ChangePassword = ({}: ChangePasswordProps) => {
   const [processing, setProcessing] = useState<boolean>(false);
   const formRenderRef = useRef<{ handleReset: () => void } | null>(null);
 
   const { user } = useUserStore();
   const { toast } = useToast();
+  const { translate } = useTranslate(); // 👈 lấy hàm translate client-side
 
   const handleChangePassword = async (formData: Record<string, any>) => {
     setProcessing(true);
-    let data = { ...formData };
     try {
       if (!user) return;
-      const responseCancel = await changePassword({
-        currentPassword: data.currentPassword,
-        newPassword: data.newPassword,
-        confirmPassword: data.confirmPassword,
+      const response = await changePassword({
+        currentPassword: formData.currentPassword,
+        newPassword: formData.newPassword,
+        confirmPassword: formData.confirmPassword,
       });
-      if (responseCancel?.success) {
+
+      if (response?.success) {
         toast({
-          title: 'Password changed successfully',
-          description: 'Your password has been updated.',
+          title: translate({
+            vi: 'Đổi mật khẩu thành công',
+            en: 'Password changed successfully',
+          }),
+          description: translate({
+            vi: 'Mật khẩu của bạn đã được cập nhật.',
+            en: 'Your password has been updated.',
+          }),
           variant: 'success',
         });
-        if (formRenderRef.current) {
-          formRenderRef.current.handleReset();
-        }
+
+        formRenderRef.current?.handleReset?.();
       } else {
         toast({
-          title: 'Failed to change password',
-          description: responseCancel?.message || 'Please try again later.',
+          title: translate({
+            vi: 'Không thể đổi mật khẩu',
+            en: 'Failed to change password',
+          }),
+          description:
+            response?.message ||
+            translate({
+              vi: 'Vui lòng thử lại sau.',
+              en: 'Please try again later.',
+            }),
           variant: 'destructive',
         });
       }
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error refreshing token:', error);
+      console.error('Error changing password:', error);
       toast({
-        title: 'Error changing password',
-        description:
-          'There was an error processing your request. Please try again.',
+        title: translate({
+          vi: 'Lỗi khi đổi mật khẩu',
+          en: 'Error changing password',
+        }),
+        description: translate({
+          vi: 'Đã xảy ra lỗi trong quá trình xử lý. Vui lòng thử lại.',
+          en: 'There was an error processing your request. Please try again.',
+        }),
         variant: 'destructive',
       });
     } finally {
       setProcessing(false);
     }
   };
+
+  const formFields: FormFieldProps[] = [
+    {
+      id: 'change-password',
+      name: 'currentPassword',
+      type: 'password',
+      label: translate({
+        vi: 'Mật khẩu hiện tại',
+        en: 'Current password',
+      }),
+      required: true,
+    },
+    {
+      id: 'change-password-password',
+      name: 'newPassword',
+      type: 'password',
+      label: translate({
+        vi: 'Mật khẩu mới',
+        en: 'New password',
+      }),
+      required: true,
+    },
+    {
+      id: 'change-password-confirm-password',
+      name: 'confirmPassword',
+      type: 'password',
+      label: translate({
+        vi: 'Xác nhận mật khẩu mới',
+        en: 'Confirm new password',
+      }),
+      required: true,
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-y-4">
       <IntroductionContent
-        title="Personal Settings"
-        description="Change password"
+        title={translate({
+          vi: 'Cài đặt cá nhân',
+          en: 'Personal Settings',
+        })}
+        description={translate({
+          vi: 'Đổi mật khẩu',
+          en: 'Change password',
+        })}
       />
+
       <div className="rounded-md bg-white px-6 py-10">
         <div className="w-full">
           <FormRenderBlock
@@ -70,7 +131,10 @@ const ChangePassword = ({}: ChangePasswordProps) => {
             className="py-3.75"
             onSubmit={handleChangePassword}
             submitButton={{
-              label: 'Save changes',
+              label: translate({
+                vi: 'Lưu thay đổi',
+                en: 'Save changes',
+              }),
             }}
             processing={processing}
             buttonClassName="mt-4"
@@ -80,28 +144,3 @@ const ChangePassword = ({}: ChangePasswordProps) => {
     </div>
   );
 };
-
-export { ChangePassword };
-const formFields: FormFieldProps[] = [
-  {
-    id: 'change-password',
-    name: 'currentPassword',
-    type: 'password',
-    label: 'Current password',
-    required: true,
-  },
-  {
-    id: 'change-password-password',
-    name: 'newPassword',
-    type: 'password',
-    label: 'New password',
-    required: true,
-  },
-  {
-    id: 'change-password-confirm-password',
-    name: 'confirmPassword',
-    type: 'password',
-    label: 'Confirm new password',
-    required: true,
-  },
-];

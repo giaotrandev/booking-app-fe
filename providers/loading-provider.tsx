@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 import { LoadingPage } from '#/components/common/loading-page';
+import { usePathname } from '#/i18n/routing';
 
 export function RouteLoadingProvider({
   children,
@@ -13,10 +13,8 @@ export function RouteLoadingProvider({
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // bật loading khi pathname thay đổi
     setIsLoading(true);
 
-    // tắt loading sau 300ms để tránh flicker
     const timeout = setTimeout(() => setIsLoading(false), 300);
 
     return () => clearTimeout(timeout);

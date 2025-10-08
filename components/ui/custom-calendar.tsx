@@ -37,12 +37,12 @@ const CustomCalendar = ({
       showOutsideDays={showOutsideDays}
       className={cn('', className)}
       classNames={{
-        root: 'text-[16px] rounded-xl border  bg-white relative',
+        root: 'text-[16px] rounded-xl border bg-white relative',
         day: cn(
           // 'h-10 grow shrink-0 basis-[0%] rounded',
           // 'lg:[&:not([aria-selected=true])]:hocus-visible:bg-pj-input-focus/5',
           // 'relative m-0 inline-flex lg:w-8 lg:h-8 items-center justify-center p-0',
-          'relative m-0 w-full justify-center inline-flex lg:w-8 lg:h-8 items-center justify-center p-0',
+          'relative m-0 w-5 h-5 aspect-square justify-center inline-flex md:w-7 md:h-7 items-center justify-center p-0',
           // grow shrink-0 basis-[0%]
           'aria-selected:opacity-100 font-normal',
         ),
@@ -66,8 +66,8 @@ const CustomCalendar = ({
         dropdown_root: 'relative inline-flex items-center',
         month_caption: 'flex justify-center items-center h-10',
         // months: 'relative',
-        month: 'p-2',
-        months: 'flex flex-col space-y-4 lg:flex-row  lg:space-y-0',
+        month: 'p-2 w-full md:w-1/2',
+        months: 'flex flex-col space-y-4 md:flex-row  lg:space-y-0',
         month_grid: 'w-full border-collapse space-y-1 mt-4',
         nav: 'pointer-events-none absolute left-0 top-2 flex w-full justify-between',
         week: 'grid grid-cols-7  lg:flex lg:flex-nowrap mt-2',

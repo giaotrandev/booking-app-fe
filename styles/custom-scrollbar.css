@@ -6,7 +6,7 @@
 
   /* Track */
   ::-webkit-scrollbar-track {
-    @apply bg-pj-grey-lightest rounded-[100px];
+    @apply bg-pj-gray-lightest rounded-[100px];
   }
 
   /* Handle */

@@ -8,7 +8,7 @@ export interface FAQItemProps {
 
 const FAQItem = ({ description, className }: FAQItemProps) => {
   return (
-    <Typography asChild className={cn('text-pj-grey-light', className)}>
+    <Typography asChild className={cn('text-pj-gray-light', className)}>
       <p>{description}</p>
     </Typography>
   );

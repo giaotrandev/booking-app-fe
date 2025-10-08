@@ -7,6 +7,7 @@ import { InformationProfileRequestProps } from '#/services/user/information-prof
 import { useUserStore } from '#/store/user';
 import { useState } from 'react';
 import { IntroductionContent } from '../introduction-content';
+import { useTranslate } from '#/i18n/client'; // thêm dòng này
 
 interface ProfileContentSidebarProps {
   userInformation?: InformationProfileRequestProps;
@@ -15,6 +16,8 @@ interface ProfileContentSidebarProps {
 const ProfileContentSidebar = ({
   userInformation,
 }: ProfileContentSidebarProps) => {
+  const { translate } = useTranslate();
+
   const { user, setUser } = useUserStore();
   const [processing, setProcessing] = useState<boolean>(false);
   if (!user) return null;
@@ -100,17 +103,29 @@ const ProfileContentSidebar = ({
 
   return (
     <div className="flex flex-col gap-y-4">
-      <IntroductionContent title="Personal Settings" description="Account" />
+      <IntroductionContent
+        title={translate({
+          vi: 'Cài đặt cá nhân',
+          en: 'Personal Settings',
+        })}
+        description={translate({
+          vi: 'Tài khoản',
+          en: 'Account',
+        })}
+      />
       <div className="rounded-md bg-white px-6 py-10">
         <div className="w-full">
           <FormRenderBlock
-            fields={formFields}
+            fields={formFields(translate)}
             containerClassName="-mx-3 -my-3.75"
             className="px-3 py-3.75"
             isLoginLayout
             onSubmit={handleSubmitForm}
             submitButton={{
-              label: 'Save changes',
+              label: translate({
+                vi: 'Lưu thay đổi',
+                en: 'Save changes',
+              }),
             }}
             processing={processing}
             initialDefaultValues={defaultValues}
@@ -123,40 +138,52 @@ const ProfileContentSidebar = ({
 };
 
 export { ProfileContentSidebar };
-const formFields: FormFieldProps[] = [
+
+const formFields = (translate: any): FormFieldProps[] => [
   {
     id: '67b46cf06293d92354c09802',
     name: 'avatar',
     width: 100,
-    // multiple: true,
     type: 'custom-file',
   },
   {
     id: 'firstname',
     name: 'firstName',
     type: 'text',
-    label: 'First name',
+    label: translate({
+      vi: 'Tên',
+      en: 'First name',
+    }),
     width: 50,
   },
   {
     id: 'lastname',
     name: 'lastName',
     type: 'text',
-    label: 'Last name',
+    label: translate({
+      vi: 'Họ',
+      en: 'Last name',
+    }),
     width: 50,
   },
   {
     id: 'phone-number',
     name: 'phoneNumber',
     type: 'text',
-    label: 'Phone number',
+    label: translate({
+      vi: 'Số điện thoại',
+      en: 'Phone number',
+    }),
     width: 50,
   },
   {
     id: 'address',
     name: 'address',
     type: 'text',
-    label: 'Address',
+    label: translate({
+      vi: 'Địa chỉ',
+      en: 'Address',
+    }),
     width: 50,
   },
   {
@@ -167,25 +194,42 @@ const formFields: FormFieldProps[] = [
       {
         id: '67b53c440c32252cb540c1b3',
         value: 'MALE',
-        label: 'Male',
+        label: translate({
+          vi: 'Nam',
+          en: 'Male',
+        }),
       },
-
       {
         id: '67b53c4c0c32252cb540c1b5',
         value: 'FEMALE',
-        label: 'Female',
+        label: translate({
+          vi: 'Nữ',
+          en: 'Female',
+        }),
       },
     ],
     type: 'radio',
-    label: 'Gender',
-    placeholder: 'Gender',
+    label: translate({
+      vi: 'Giới tính',
+      en: 'Gender',
+    }),
+    placeholder: translate({
+      vi: 'Giới tính',
+      en: 'Gender',
+    }),
   },
   {
     id: 'birthday',
     name: 'birthday',
     type: 'date',
-    label: 'Birthday',
-    placeholder: 'Birthday',
+    label: translate({
+      vi: 'Ngày sinh',
+      en: 'Birthday',
+    }),
+    placeholder: translate({
+      vi: 'Ngày sinh',
+      en: 'Birthday',
+    }),
     width: 50,
   },
 ];

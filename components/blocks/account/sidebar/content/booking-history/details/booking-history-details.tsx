@@ -22,12 +22,15 @@ import { useToast } from '#/components/ui/use-toast';
 import { useSearchParams } from 'next/navigation';
 import { StatusTag } from '../status-tag';
 import { cancelBooking } from '#/lib/service/cancel-booking';
+import { useTranslate } from '#/i18n/client';
 
 interface BookingHistoryDetailsProps {
   id: string;
 }
 
 const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
+  const { translate } = useTranslate();
+
   const [openBookingDetails, setOpenBookingDetails] = useState<boolean>(false);
   const [booking, setBooking] = useState<BookingRequestProps | null>(null);
   const [showModalConfirmCancel, setShowModalConfirmCancel] =
@@ -149,11 +152,37 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
       setIsProcessingCancel(false);
     }
   };
+  const notes = [
+    translate({
+      vi: 'Vui lòng có mặt tại bến xe ít nhất 15 phút trước giờ khởi hành để làm thủ tục lên xe.',
+      en: 'Please arrive at the bus station at least 15 minutes before departure for check-in.',
+    }),
+    translate({
+      vi: 'Mang theo CMND/hộ chiếu và vé điện tử khi lên xe.',
+      en: 'Bring your ID card/passport and e-ticket when boarding.',
+    }),
+    translate({
+      vi: 'Hành lý xách tay: tối đa 7kg; Hành lý ký gửi: tối đa 20kg.',
+      en: 'Carry-on luggage: maximum 7kg; Checked baggage: maximum 20kg.',
+    }),
+    translate({
+      vi: 'Liên hệ hotline 1900-xxxx để được hỗ trợ khi cần.',
+      en: 'Contact hotline 1900-xxxx for assistance if needed.',
+    }),
+    translate({
+      vi: 'Vé có thể hủy miễn phí trước 4 giờ so với giờ khởi hành.',
+      en: 'Tickets can be canceled free of charge up to 4 hours before departure.',
+    }),
+  ];
+
   return (
     <>
       <div className="flex flex-wrap gap-3">
         <Button
-          text="View Details"
+          text={translate({
+            vi: 'Xem chi tiết',
+            en: 'View Details',
+          })}
           variant="small"
           asChild
           onClick={() => handleOpenBookingHistoryDetail(id)}
@@ -164,12 +193,16 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
           />
         </Button>
         <Button
-          text="Print Ticket"
+          text={translate({
+            vi: 'In vé',
+            en: 'Print Ticket',
+          })}
           variant="outline"
           colors="none"
           className="py-2 text-[14px] lg:text-[16px]"
         />
       </div>
+
       {openBookingDetails && (
         <Notification
           onClose={handleCloseDetails}
@@ -218,7 +251,10 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                   <div className="flex flex-col gap-y-2 p-4 text-white lg:p-6">
                     <div className="flex items-center gap-x-3">
                       <Typography asChild variant="h5">
-                        <h1>{`Ticket ID: ${bookingId}`}</h1>
+                        <h1>{`${translate({
+                          vi: 'Mã vé:',
+                          en: 'Ticket ID:',
+                        })} ${bookingId}`}</h1>
                       </Typography>
                       {status && <StatusTag status={status} />}
                     </div>
@@ -255,7 +291,7 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                             <div className="flex w-1/2 justify-end pr-4 lg:w-full lg:justify-center lg:pr-0">
                               <Typography
                                 asChild
-                                className="bg-pj-grey-lightest rounded-[20px] px-3 py-1 font-bold lg:px-4 lg:py-2"
+                                className="bg-pj-gray-lightest rounded-[20px] px-3 py-1 font-bold lg:px-4 lg:py-2"
                               >
                                 <p>
                                   {getTimeDifference(
@@ -295,24 +331,41 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                         <div className="text-pj-ye flex items-center gap-x-2 font-bold">
                           <Icon name="user" className="size-5" />
                           <Typography asChild variant="h6">
-                            <span>User information</span>
+                            <span>
+                              {translate({
+                                vi: 'Thông tin người dùng',
+                                en: 'User Information',
+                              })}
+                            </span>
                           </Typography>
                         </div>
                         <div className="mt-2 flex flex-col gap-y-3">
                           {passengerName && (
-                            <InfoItem content={passengerName} title="Name" />
+                            <InfoItem
+                              content={passengerName}
+                              title={translate({ vi: 'Họ tên', en: 'Name' })}
+                            />
                           )}
                           {passengerEmail && (
-                            <InfoItem content={passengerEmail} title="Email" />
+                            <InfoItem
+                              content={passengerEmail}
+                              title={translate({ vi: 'Email', en: 'Email' })}
+                            />
                           )}
                           {passengerPhone && (
                             <InfoItem
                               content={passengerPhone}
-                              title="Phone number"
+                              title={translate({
+                                vi: 'Số điện thoại',
+                                en: 'Phone number',
+                              })}
                             />
                           )}
                           {passengerNote && (
-                            <InfoItem content={passengerNote} title="Note" />
+                            <InfoItem
+                              content={passengerNote}
+                              title={translate({ vi: 'Ghi chú', en: 'Note' })}
+                            />
                           )}
                         </div>
                       </div>
@@ -322,20 +375,29 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                     <Row className="gap-x-4">
                       {(vehicle?.vehicleName ||
                         (Array.isArray(seats) && seats.length > 0)) && (
-                        <Col className="bg-pj-grey-lightest col-span-full flex flex-col gap-y-3 rounded-[8px] p-5 lg:col-span-6">
+                        <Col className="bg-pj-gray-lightest col-span-full flex flex-col gap-y-3 rounded-[8px] p-5 lg:col-span-6">
                           <InfoItem
                             content="Vietnam Roadtrip"
-                            title="Bus Service Provider"
+                            title={translate({
+                              vi: 'Nhà xe',
+                              en: 'Bus Service Provider',
+                            })}
                           />
                           {vehicle?.vehicleName && (
                             <InfoItem
-                              title="Bus type"
+                              title={translate({
+                                vi: 'Loại xe',
+                                en: 'Bus type',
+                              })}
                               content={vehicle.vehicleName}
                             />
                           )}
                           {Array.isArray(seats) && seats.length > 0 && (
                             <InfoItem
-                              title="Seat numbers"
+                              title={translate({
+                                vi: 'Số ghế',
+                                en: 'Seat numbers',
+                              })}
                               content={seats
                                 .map(seat => seat.seatNumber)
                                 .join(', ')}
@@ -346,28 +408,49 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                       {((totalSeats && totalPrice) ||
                         finalPrice ||
                         paymentStatus) && (
-                        <Col className="bg-pj-grey-lightest col-span-full flex flex-col gap-y-3 rounded-[8px] p-5 lg:col-span-6">
+                        <Col className="bg-pj-gray-lightest col-span-full flex flex-col gap-y-3 rounded-[8px] p-5 lg:col-span-6">
                           {totalSeats && totalPrice && (
                             <InfoItem
-                              title={`Price tickets (x${totalSeats})`}
+                              title={translate({
+                                vi: `Giá vé (x${totalSeats})`,
+                                en: `Price tickets (x${totalSeats})`,
+                              })}
                               content={formatPrice(Number(totalPrice))}
                             />
                           )}
-                          <InfoItem title="Discount" content={formatPrice(0)} />
+                          <InfoItem
+                            title={translate({
+                              vi: 'Giảm giá',
+                              en: 'Discount',
+                            })}
+                            content={formatPrice(0)}
+                          />
                           {finalPrice && (
                             <InfoItem
-                              title="Total price"
+                              title={translate({
+                                vi: 'Tổng giá',
+                                en: 'Total price',
+                              })}
                               content={formatPrice(Number(finalPrice))}
                               contentClassName="text-pj-red"
                             />
                           )}
                           <InfoItem
-                            title="Payment method"
-                            content="Account Transfer"
+                            title={translate({
+                              vi: 'Phương thức thanh toán',
+                              en: 'Payment method',
+                            })}
+                            content={translate({
+                              vi: 'Chuyển khoản ngân hàng',
+                              en: 'Account Transfer',
+                            })}
                           />
                           {paymentStatus && (
                             <InfoItem
-                              title="Payment status"
+                              title={translate({
+                                vi: 'Trạng thái thanh toán',
+                                en: 'Payment status',
+                              })}
                               content={paymentStatus}
                               contentClassName={
                                 paymentStatus === 'COMPLETED'
@@ -381,12 +464,13 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                         </Col>
                       )}
                     </Row>
+
                     <div className="flex justify-center gap-x-4">
                       <Button
                         icon={{
                           name: 'print',
                         }}
-                        text="Print ticket"
+                        text={translate({ vi: 'In vé', en: 'Print ticket' })}
                         iconClassName="w-6 h-6 stroke-white"
                       />
                       <Button
@@ -396,7 +480,10 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                         colors="none"
                         variant="outline"
                         asChild
-                        text="Contact Support"
+                        text={translate({
+                          vi: 'Liên hệ hỗ trợ',
+                          en: 'Contact Support',
+                        })}
                         iconClassName="w-6 h-6 stroke-pj-red fill-white"
                       >
                         <Link href="tel:0963606075" />
@@ -405,7 +492,7 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                         icon={{
                           name: 'x-mark',
                         }}
-                        text="Cancel ticket"
+                        text={translate({ vi: 'Hủy vé', en: 'Cancel ticket' })}
                         iconClassName="w-6 h-6 stroke-white"
                         onClick={handleCancelTicket}
                         disabled={
@@ -417,6 +504,7 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                         }
                       />
                     </div>
+
                     {/* Notes */}
                     <div className="border-pj-orange-medium bg-pj-yellow-dark rounded-[8px] border px-7 py-5">
                       <Typography
@@ -424,7 +512,12 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                         variant="h6"
                         className="text-pj-brown mb-2 font-semibold"
                       >
-                        <p>Important note list:</p>
+                        <p>
+                          {translate({
+                            vi: 'Danh sách lưu ý quan trọng:',
+                            en: 'Important note list:',
+                          })}
+                        </p>
                       </Typography>
                       <ul className="space-y-2">
                         {notes.map((note, idx) => (
@@ -445,6 +538,7 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
             })()}
         </Notification>
       )}
+
       {showModalConfirmCancel && (
         <Notification
           onClose={handleCloseModalCancel}
@@ -456,21 +550,27 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
           <div className="flex flex-col items-center justify-center rounded-xl bg-white p-6">
             <div className="mb-4 flex items-center justify-between">
               <Typography variant="h4" className="flex-1 text-center">
-                Discard Changes
+                {translate({ vi: 'Hủy thay đổi', en: 'Discard Changes' })}
               </Typography>
             </div>
             <Typography
               variant="sub-body"
               className="mb-6 text-center text-gray-600"
             >
-              Are you sure you want to discard the changes?
+              {translate({
+                vi: 'Bạn có chắc chắn muốn hủy thay đổi không?',
+                en: 'Are you sure you want to discard the changes?',
+              })}
             </Typography>
             <div className="flex w-full gap-x-3">
               <div className="w-1/2">
                 <Button
                   type="button"
                   onClick={handleCloseModalCancel}
-                  text="Keep Ticket"
+                  text={translate({
+                    vi: 'Giữ vé',
+                    en: 'Keep Ticket',
+                  })}
                   colors="none"
                   variant="outline"
                   className="w-full"
@@ -481,7 +581,11 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
                 <Button
                   type="button"
                   onClick={handleConfirmCancel}
-                  text={isProcessingCancel ? 'Cancelling...' : 'Cancel Ticket'}
+                  text={
+                    isProcessingCancel
+                      ? translate({ vi: 'Đang hủy...', en: 'Cancelling...' })
+                      : translate({ vi: 'Hủy vé', en: 'Cancel Ticket' })
+                  }
                   className="w-full"
                   disabled={isProcessingCancel}
                 />
@@ -495,11 +599,3 @@ const BookingHistoryDetails = ({ id }: BookingHistoryDetailsProps) => {
 };
 
 export { BookingHistoryDetails };
-
-const notes = [
-  'Please arrive at the bus station at least 15 minutes before departure for check-in.',
-  'Bring your ID card/passport and e-ticket when boarding.',
-  'Carry-on luggage: maximum 7kg; Checked baggage: maximum 20kg.',
-  'Contact hotline 1900-xxxx for assistance if needed.',
-  'Tickets can be canceled free of charge up to 4 hours before departure.',
-];

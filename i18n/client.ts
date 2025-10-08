@@ -28,6 +28,7 @@ const useChangeLocale = () => {
     pathname?: string;
   }) => {
     startTransition(() => {
+      console.log('pathname', pathname);
       router.replace(pathname, { locale });
     });
   };

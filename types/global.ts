@@ -5,6 +5,10 @@ import {
   HTMLAttributeAnchorTarget,
   SVGProps,
 } from 'react';
+// export interface CollectionProps {
+//   name: keyof NonNullable<Config['collections']>;
+//   path: string;
+// }
 
 export interface PageProps {
   params: Promise<{
@@ -21,6 +25,13 @@ export interface FileProps {
   id?: number;
   type?: 'file';
 }
+
+export interface LocalizationProps {
+  collectionName?: string;
+  locale?: LocaleProps;
+  uri?: string;
+}
+
 export interface StaticParamsProps extends Pick<PageProps, 'params'> {}
 
 export type SvgProps = SVGProps<SVGSVGElement>;

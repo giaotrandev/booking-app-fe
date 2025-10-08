@@ -4,7 +4,7 @@ import { FormRenderBlock } from '#/components/dynamic-form/render';
 import { FormFieldProps } from '#/components/dynamic-form/type';
 import { useToast } from '#/components/ui/use-toast';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '#/i18n/routing';
 import { useRef, useState } from 'react';
 
 export interface ResetPasswordProps {

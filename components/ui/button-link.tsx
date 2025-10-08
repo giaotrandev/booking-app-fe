@@ -21,8 +21,8 @@ const buttonVariants = cva(
       colors: {
         none: '',
         blue: 'text-pj-blue',
-        grey: 'text-pj-grey-medium',
-        'grey-light': 'text-pj-grey-light',
+        gray: 'text-pj-gray-medium',
+        'gray-light': 'text-pj-gray-light',
       },
     },
     defaultVariants: {
@@ -65,8 +65,8 @@ const ButtonLink = ({
           className={cn(
             'group-hocus-visible/button:-translate-y-[110%] relative inline-block transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)] before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:content-[""]',
             colors == 'blue' && 'before:bg-pj-blue',
-            colors == 'grey' && 'before:bg-pj-grey',
-            colors == 'grey-light' && 'before:bg-pj-grey-light',
+            colors == 'gray' && 'before:bg-pj-gray',
+            colors == 'gray-light' && 'before:bg-pj-gray-light',
           )}
         >
           {text}
@@ -75,8 +75,8 @@ const ButtonLink = ({
           className={cn(
             'group-hocus-visible/button:translate-y-0 absolute inset-0 flex translate-y-full items-center justify-center transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)] before:absolute before:bottom-0 before:left-0 before:h-px before:w-full before:content-[""]',
             colors == 'blue' && 'before:bg-pj-blue',
-            colors == 'grey' && 'before:bg-pj-grey',
-            colors == 'grey-light' && 'before:bg-pj-grey-light',
+            colors == 'gray' && 'before:bg-pj-gray',
+            colors == 'gray-light' && 'before:bg-pj-gray-light',
           )}
         >
           {text}

@@ -11,6 +11,7 @@ import { OptionsPaymentProps, PaymentMethodList } from './payment-method-list';
 import { PaymentMethodMobile } from './payment-method-mobile';
 import { InfoList } from './info-list';
 import { useState } from 'react';
+import { useTranslate } from '#/i18n/client';
 
 interface PaymentPendingProps
   extends Omit<BookingRequestProps, 'createdAt' | 'basePrice'> {
@@ -39,6 +40,7 @@ const PaymentPending = ({
   finalPrice,
 }: PaymentPendingProps) => {
   const [selectedMethod, setSelectedMethod] = useState<string>('');
+  const { translate } = useTranslate();
 
   const pickupText = pickupPoint
     ? `${pickupPoint.name || ''} - ${pickupPoint.address || ''}, ${pickupPoint.ward || ''}, ${pickupPoint.district || ''}, ${pickupPoint.province || ''}`
@@ -47,39 +49,74 @@ const PaymentPending = ({
     ? `${dropingPoint.name || ''} - ${dropingPoint.address || ''}, ${dropingPoint.ward || ''}, ${dropingPoint.district || ''}, ${dropingPoint.province || ''}`
     : '';
   const infoItems = [
-    { title: 'Passenger name', content: passengerName },
-    { title: 'Passenger email', content: passengerEmail },
-    { title: 'Passenger phone', content: passengerPhone },
-    { title: 'Passenger note', content: passengerNote },
+    {
+      title: translate({ vi: 'Tên hành khách', en: 'Passenger name' }),
+      content: passengerName,
+    },
+    {
+      title: translate({ vi: 'Email', en: 'Passenger email' }),
+      content: passengerEmail,
+    },
+    {
+      title: translate({ vi: 'Số điện thoại', en: 'Passenger phone' }),
+      content: passengerPhone,
+    },
+    {
+      title: translate({ vi: 'Ghi chú', en: 'Passenger note' }),
+      content: passengerNote,
+    },
   ];
+
   const seatsNumber = seats?.map(item => item.seatNumber).join(', ');
   const busInfoItems = [
-    { title: 'Bus Type', content: vehicle?.vehicleName },
-    { title: 'Bus capacity', content: vehicle?.vehicleCapacity },
-    { title: 'Number of seats purchased', content: seats.length },
-    { title: 'Seat Number', content: seatsNumber },
-    { title: 'Route from', content: route?.sourceProvince?.name },
     {
-      title: 'Departure Time',
+      title: translate({ vi: 'Loại xe', en: 'Bus Type' }),
+      content: vehicle?.vehicleName,
+    },
+    {
+      title: translate({ vi: 'Sức chứa', en: 'Bus capacity' }),
+      content: vehicle?.vehicleCapacity,
+    },
+    {
+      title: translate({
+        vi: 'Số ghế đã mua',
+        en: 'Number of seats purchased',
+      }),
+      content: seats.length,
+    },
+    {
+      title: translate({ vi: 'Số ghế', en: 'Seat Number' }),
+      content: seatsNumber,
+    },
+    {
+      title: translate({ vi: 'Điểm đi', en: 'Route from' }),
+      content: route?.sourceProvince?.name,
+    },
+    {
+      title: translate({ vi: 'Giờ khởi hành', en: 'Departure Time' }),
       content: `${formatUtcTime(departureTime)} - ${formatUtcDate(departureTime)}`,
     },
-    { title: 'Route to', content: route?.destinationProvince?.name },
     {
-      title: 'Arrival Time',
+      title: translate({ vi: 'Điểm đến', en: 'Route to' }),
+      content: route?.destinationProvince?.name,
+    },
+    {
+      title: translate({ vi: 'Giờ đến', en: 'Arrival Time' }),
       content: `${formatUtcTime(arrivalTime)} - ${formatUtcDate(arrivalTime)}`,
     },
     {
-      title: 'Pick up point',
+      title: translate({ vi: 'Điểm đón', en: 'Pick up point' }),
       content: pickupText,
     },
     {
-      title: 'Drop off point',
+      title: translate({ vi: 'Điểm trả', en: 'Drop off point' }),
       content: dropoffText,
     },
   ];
+
   const priceInfoItems = [
     {
-      title: 'Your total price',
+      title: translate({ vi: 'Tổng giá vé', en: 'Your total price' }),
       content: formatPrice(finalPrice),
     },
   ];
@@ -88,9 +125,14 @@ const PaymentPending = ({
     <Row className="gap-y-4 lg:gap-x-10">
       <Col className="col-span-full hidden flex-col gap-y-4 lg:col-span-4 lg:flex">
         <Typography asChild variant="h3">
-          <h1>Please select your payment method</h1>
+          <h1>
+            {translate({
+              vi: 'Vui lòng chọn phương thức thanh toán',
+              en: 'Please select your payment method',
+            })}
+          </h1>
         </Typography>
-        <div className="border-pj-grey-light flex flex-col gap-y-4 rounded-xl border p-3">
+        <div className="border-pj-gray-light flex flex-col gap-y-4 rounded-xl border p-3">
           <PaymentMethodList
             options={paymentList}
             onChange={setSelectedMethod}
@@ -109,7 +151,10 @@ const PaymentPending = ({
         <div className="flex flex-col gap-y-4">
           {infoItems.some(item => !!item.content) && (
             <InfoList
-              title="Your trip information"
+              title={translate({
+                vi: 'Thông tin hành khách',
+                en: 'Your trip information',
+              })}
               titleColor="red"
               list={infoItems
                 .filter(item => item.content)
@@ -121,7 +166,10 @@ const PaymentPending = ({
           )}
           {busInfoItems.some(item => !!item.content) && (
             <InfoList
-              title="Your bus information"
+              title={translate({
+                vi: 'Thông tin xe',
+                en: 'Your bus information',
+              })}
               titleColor="blue"
               list={busInfoItems
                 .filter(item => item.content)
@@ -132,7 +180,7 @@ const PaymentPending = ({
             />
           )}
           <InfoList
-            title="Total Price"
+            title={translate({ vi: 'Tổng giá', en: 'Total Price' })}
             titleColor="green"
             list={priceInfoItems}
             infoContentClassName="text-pj-red lg:text-[18px]"

@@ -1,5 +1,4 @@
 import { WrapperBookingHistoryBlock } from '#/components/blocks/account/sidebar/content/booking-history/wrapper-history';
-import { notFound } from 'next/navigation';
 
 interface MyBookingProps {}
 

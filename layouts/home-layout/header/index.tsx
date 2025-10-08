@@ -13,6 +13,8 @@ import { useUserStore } from '#/store/user';
 import { Button } from '#/components/ui/button';
 import { UserMenu } from './user-menu';
 import { InformationProfileRequestProps } from '#/services/user/information-profile-request';
+import { useTranslate } from '#/i18n/client';
+import { LanguageSwitcher } from '#/components/ui/language-switcher';
 
 export interface LayoutHeaderProps {
   sidenav?: LayoutHeaderSidenavProps;
@@ -20,9 +22,29 @@ export interface LayoutHeaderProps {
 }
 
 const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
+  const { translate } = useTranslate();
+  const menu: LinkProps[] = [
+    { text: translate({ vi: 'Trang chủ', en: 'Home' }), url: '/' },
+    {
+      text: translate({ vi: 'Khuyến mãi', en: 'Promotion' }),
+      url: '/promotion',
+    },
+    {
+      text: translate({ vi: 'Vé của tôi', en: 'My Booking' }),
+      url: '/my-account/my-booking',
+    },
+    {
+      text: translate({ vi: 'Về chúng tôi', en: 'About us' }),
+      url: '/about-us',
+    },
+    { text: translate({ vi: 'Đăng nhập', en: 'Login' }), url: '/login' },
+    { text: translate({ vi: 'Đăng ký', en: 'Register' }), url: '/register' },
+  ];
+
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const { sidenavOpen, sideFilterOpen } = useGlobalsStore();
-  const { isLoggedIn, clearAuth } = useUserStore();
+  const { isLoggedIn } = useUserStore();
+  console.log('do', isLoggedIn);
   const filteredMenu = isLoggedIn
     ? menu
     : menu.filter(item => item.url !== '/my-account/my-booking');
@@ -72,8 +94,16 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
           <div className="hidden lg:flex">
             <LayoutHeaderMenu list={filteredMenu.slice(0, -2)} />
           </div>
-          <div className="hidden lg:inline-block">
-            <ul className="flex w-auto shrink-0 grow-0 basis-auto space-x-2">
+          <div className="relative hidden lg:inline-block">
+            <div
+              className={cn(
+                'absolute right-[calc(100%+8px)]',
+                isLoggedIn ? 'top-3' : 'top-0',
+              )}
+            >
+              <LanguageSwitcher />
+            </div>
+            <ul className="relative flex w-auto shrink-0 grow-0 basis-auto space-x-2">
               {isLoggedIn ? (
                 <li className="relative block">
                   <UserMenu />
@@ -92,8 +122,9 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
                         asChild
                         variant={isSecondLast ? 'outline' : 'default'}
                         colors={isSecondLast ? 'none' : 'red'}
+                        className="uppercase"
                       >
-                        <Link href="/login" />
+                        <Link href={isSecondLast ? '/register' : '/login'} />
                       </Button>
                     </li>
                   );
@@ -103,6 +134,9 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
           </div>
           <div className="flex items-center lg:hidden">
             {/* <UserMenu /> */}
+            <div className="fixed top-4 right-14">
+              <LanguageSwitcher />
+            </div>
             <LayoutHeaderSidenav {...sidenav} list={menu.slice(0, -2)} />
           </div>
         </div>
@@ -115,29 +149,3 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
 };
 
 export { LayoutHeader };
-const menu: LinkProps[] = [
-  {
-    text: 'Home',
-    url: '/',
-  },
-  {
-    text: 'Promotion',
-    url: '/promotion',
-  },
-  {
-    text: 'My Booking',
-    url: '/my-account/my-booking',
-  },
-  {
-    text: 'About us',
-    url: '/about-us',
-  },
-  {
-    text: 'Sign in',
-    url: '/login',
-  },
-  {
-    text: 'Register',
-    url: '/register',
-  },
-];

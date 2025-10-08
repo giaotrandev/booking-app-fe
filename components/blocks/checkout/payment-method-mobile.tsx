@@ -50,11 +50,11 @@ const PaymentMethodMobile = ({
   const handleMethodChange = (value: string) => {
     onChange?.(value);
 
-    // Nếu đã chọn method thì hiển thị QR code
+    // Khi người dùng chọn phương thức thanh toán, hiển thị mã QR
     if (value) {
       setSidenavOpen(false);
       setTimeout(() => {
-        setShowQRCode(true); // Mở modal sau khi Sheet đã đóng
+        setShowQRCode(true);
       }, 300);
     }
   };
@@ -76,19 +76,17 @@ const PaymentMethodMobile = ({
     <>
       <Sheet open={sidenavOpen} onOpenChange={onOpenChange}>
         <SheetTrigger asChild>
-          {/* <button type="button" className="inline-flex cursor-pointer">
-            <span className="sr-only">
-              {translate({
-                vi: 'Sidenav öffnen',
-                en: 'Open sidenav',
-              })}
-            </span>
-          </button> */}
-          <Button type="button" variant="big" text="Select payment methods" />
+          <Button
+            type="button"
+            variant="big"
+            text={translate({
+              vi: 'Chọn phương thức thanh toán',
+              en: 'Select payment methods',
+            })}
+          />
         </SheetTrigger>
         <SheetContent
           side="bottom"
-          // onInteractOutside={event => event.preventDefault()}
           className="pointer-events-none z-1095 flex h-137.5 w-full flex-col overflow-x-hidden bg-white outline-hidden data-[state=closed]:duration-300 data-[state=open]:duration-300"
           overlay={{ className: 'z-1094 bg-black/40' }}
         >
@@ -96,27 +94,34 @@ const PaymentMethodMobile = ({
             <SheetTitle></SheetTitle>
             <SheetDescription></SheetDescription>
           </SheetHeader>
-          <div className="border-b-pj-grey-lightest relative flex w-full border-b px-4 py-3">
+
+          <div className="border-b-pj-gray-lightest relative flex w-full border-b px-4 py-3">
             <Typography asChild className="mx-auto font-medium" variant="title">
-              <p>Select payment method</p>
+              <p>
+                {translate({
+                  vi: 'Chọn phương thức thanh toán',
+                  en: 'Select payment method',
+                })}
+              </p>
             </Typography>
             <SheetClose className="bg-pj-white absolute top-3 right-4 cursor-pointer">
               <Icon className="h-8 w-8 stroke-black" name="x-mark" />
             </SheetClose>
           </div>
+
           <div className="flex-1 overflow-y-auto">
             <div className="pointer-events-auto px-4 py-10">
-              {/* <PaymentMethodList options={options} onChange={onChange} /> */}
-
               <PaymentMethodList
                 options={options}
                 onChange={handleMethodChange}
               />
             </div>
           </div>
+
           <SheetFooter></SheetFooter>
         </SheetContent>
       </Sheet>
+
       {showQRCode && (
         <PaymentQRCodeMobile
           isOpenModal={showQRCode}

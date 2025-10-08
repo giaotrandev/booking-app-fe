@@ -8,7 +8,11 @@ import { fetchProvinces } from '#/lib/service/fetch-provinces';
 import { convertProvinceList } from '#/services/global-settings/province-list';
 import { ProvincesRequestProps } from '#/services/global-settings/provinces-request';
 import { convertToSelectOptions } from '#/lib/utilities/convert-to-select-options';
-interface LayoutProps extends PropsWithChildren {}
+import { LocalizationProps } from '#/types/global';
+// import { Localizations } from '#/components/common/localizations';
+interface LayoutProps extends PropsWithChildren {
+  // localizations?: LocalizationProps[];
+}
 
 const Layout = async ({ children }: LayoutProps) => {
   const currentLocale = await getCurrentLocale();
@@ -23,6 +27,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
   return (
     <>
+      {/* <Localizations list={localizations} /> */}
       <LayoutHeader {...header} />
       <LayoutFilterTrip
         arrivalList={convertToSelectOptions(resProvinces)}

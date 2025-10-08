@@ -20,12 +20,12 @@ const TimeItem = ({ destination, time, className }: TimeItemProps) => {
           <p>{formatUtcTime(time)}</p>
         </Typography>
       )}
-      <div className="bg-pj-grey-light hidden h-px w-10 flex-none lg:block" />
+      <div className="bg-pj-gray-light hidden h-px w-10 flex-none lg:block" />
       {destination && (
         <Typography
           asChild
           variant="sub-label"
-          className="text-pj-grey-light line-clamp-1 lg:line-clamp-none"
+          className="text-pj-gray-light line-clamp-1 lg:line-clamp-none"
         >
           <p>{destination}</p>
         </Typography>

@@ -19,46 +19,62 @@ export const generateStaticParams = getStaticParams;
 const LoginPage = async (props: PageProps) => {
   const params = await props.params;
   const { locale } = params;
+  const { translate } = await getTranslate();
 
   setStaticParamsLocale(locale);
 
   return (
     <div>
-      <LoginRenderBlock fields={formFields} />
+      <LoginRenderBlock
+        fields={[
+          {
+            id: 'login-email',
+            name: 'email',
+            type: 'email',
+            label: await translate({
+              vi: 'Email',
+              en: 'Email',
+            }),
+            required: true,
+          },
+          {
+            id: 'login-password',
+            name: 'password',
+            type: 'password',
+            label: await translate({
+              vi: 'Mật khẩu',
+              en: 'Password',
+            }),
+            required: true,
+          },
+          {
+            id: 'login-remember-me',
+            name: 'rememberMe',
+            required: false,
+            options: [
+              {
+                id: 'rememberMe-1',
+                value: true,
+                label: await translate({
+                  vi: 'Ghi nhớ đăng nhập',
+                  en: 'Remember me',
+                }),
+              },
+            ],
+            type: 'checkbox',
+            label: await translate({
+              vi: 'Ghi nhớ đăng nhập',
+              en: 'Remember me',
+            }),
+            placeholder: await translate({
+              vi: 'Ghi nhớ đăng nhập',
+              en: 'Remember me',
+            }),
+          },
+        ]}
+      />
     </div>
   );
 };
 
 export default LoginPage;
-
-const formFields: FormFieldProps[] = [
-  {
-    id: 'login-email',
-    name: 'email',
-    type: 'email',
-    label: 'Email',
-    required: true,
-  },
-  {
-    id: 'login-password',
-    name: 'password',
-    type: 'password',
-    label: 'Password',
-    required: true,
-  },
-  {
-    id: 'login-remember-me',
-    name: 'rememberMe',
-    required: false,
-    options: [
-      {
-        id: 'rememberMe-1',
-        value: true,
-        label: 'Remember me',
-      },
-    ],
-    type: 'checkbox',
-    label: 'Remember me',
-    placeholder: 'Remember me',
-  },
-];

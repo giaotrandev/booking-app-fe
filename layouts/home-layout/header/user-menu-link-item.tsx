@@ -2,10 +2,9 @@
 import { StretchedLink } from '#/components/common/stretched-link';
 import { Icon, IconProps } from '#/components/icons';
 import { Typography } from '#/components/ui/typography';
+import { usePathname } from '#/i18n/routing';
 import { cn } from '#/lib/utilities/cn';
-import { useGlobalsStore } from '#/store/globals';
 import { LinkProps } from '#/types/global';
-import { usePathname } from 'next/navigation';
 
 export interface UserMenuLinkItemProps {
   link: LinkProps;

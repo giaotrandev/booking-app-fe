@@ -24,7 +24,7 @@ const InfoList = ({
   return (
     <div
       className={cn(
-        'border-pj-grey-light flex flex-col gap-y-3 rounded-xl border p-4',
+        'border-pj-gray-light flex flex-col gap-y-3 rounded-xl border p-4',
         className,
       )}
     >

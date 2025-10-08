@@ -13,11 +13,13 @@ import { useState, useRef } from 'react';
 import { Button } from '#/components/ui/button';
 import { Typography } from '#/components/ui/typography';
 import { useToast } from '#/components/ui/use-toast';
+import { useTranslate } from '#/i18n/client';
 
 export interface RegisterRenderBlock
   extends Pick<FormRenderBlockProps, 'fields'> {}
 
 const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
+  const { translate } = useTranslate();
   const [processing, setProcessing] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [showNotification, setShowNotification] = useState(true);
@@ -128,8 +130,14 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
           </div>
           <div className="mb-2">
             <IntroductionForm
-              title="Sign Up"
-              description="Enter information to register an account"
+              title={translate({
+                vi: 'Đăng ký',
+                en: 'Sign Up',
+              })}
+              description={translate({
+                vi: 'Nhập thông tin để tạo tài khoản',
+                en: 'Enter information to register an account',
+              })}
             />
           </div>
           <div>
@@ -138,7 +146,10 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
               fields={fields}
               containerClassName="gap-y-12 lg:gap-y-8"
               submitButton={{
-                label: 'Register',
+                label: translate({
+                  vi: 'Đăng ký',
+                  en: 'Register',
+                }),
               }}
               processing={processing}
               onSubmit={handleSubmit}
@@ -149,7 +160,10 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
               asChild
               colors="blue"
               variant="small"
-              text=" You already have an account. Go back to the homepage."
+              text={translate({
+                vi: 'Bạn đã có tài khoản? Quay lại trang đăng nhập.',
+                en: 'You already have an account. Go back to the login page.',
+              })}
               className={processing ? 'pointer-events-none opacity-50' : ''}
             >
               <Link href="/login" />
@@ -167,17 +181,28 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
           children={
             <div className="flex w-full flex-col items-center justify-center gap-y-4 rounded-xl bg-white p-6 transition-[opacity,transform]">
               <Typography asChild variant="h3" className="text-center">
-                <p>Confirm Your Account</p>
-              </Typography>
-              <Typography asChild className="text-pj-grey-light text-center">
                 <p>
-                  We’ve sent a confirmation email to the address you registered
-                  with.
-                  <br />
-                  Please check your inbox and click the link to activate your
-                  account.
+                  {translate({
+                    vi: 'Xác nhận tài khoản của bạn',
+                    en: 'Confirm Your Account',
+                  })}
                 </p>
               </Typography>
+
+              <Typography asChild className="text-pj-gray-light text-center">
+                <p>
+                  {translate({
+                    vi: 'Chúng tôi đã gửi email xác nhận đến địa chỉ bạn đã đăng ký.',
+                    en: 'We’ve sent a confirmation email to the address you registered with.',
+                  })}
+                  <br />
+                  {translate({
+                    vi: 'Vui lòng kiểm tra hộp thư và nhấp vào liên kết để kích hoạt tài khoản của bạn.',
+                    en: 'Please check your inbox and click the link to activate your account.',
+                  })}
+                </p>
+              </Typography>
+
               <Image
                 src="/images/icons/mailing.webp"
                 alt="Email confirmation"
@@ -185,26 +210,40 @@ const RegisterRenderBlock = ({ fields }: RegisterRenderBlock) => {
                 width={64}
                 height={64}
               />
+
               <div className="flex flex-col items-center lg:flex-row lg:gap-x-1">
                 <Typography
                   asChild
                   variant="sub-body"
                   className="text-center lg:text-start"
                 >
-                  <p>Didn’t receive the email? Check your spam folder or</p>
+                  <p>
+                    {translate({
+                      vi: 'Không nhận được email? Kiểm tra thư rác hoặc',
+                      en: 'Didn’t receive the email? Check your spam folder or',
+                    })}
+                  </p>
                 </Typography>
+
                 <ButtonLink
                   onClick={handleResendVerification}
                   colors="blue"
                   variant="supper-small"
-                  text="resend it"
+                  text={translate({
+                    vi: 'gửi lại',
+                    en: 'resend it',
+                  })}
                 />
               </div>
+
               <div className="flex w-full justify-center">
                 <Button
                   onClick={() => setShowNotification(false)}
                   variant="big"
-                  text="Back to login"
+                  text={translate({
+                    vi: 'Quay lại đăng nhập',
+                    en: 'Back to login',
+                  })}
                   asChild
                 >
                   <Link href="/login" />

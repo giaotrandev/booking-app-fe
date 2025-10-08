@@ -1,3 +1,5 @@
+'use client';
+
 import { Icon } from '#/components/icons';
 import { Col } from '#/components/ui/col';
 import { Row } from '#/components/ui/row';
@@ -6,16 +8,21 @@ import React from 'react';
 import SeatItem from './seat-item';
 import { cn } from '#/lib/utilities/cn';
 import { SeatConfiguration } from '#/services/trip/trips-request';
+import { useTranslate } from '#/i18n/client';
 
 export interface SeatLayoutProps extends SeatConfiguration {}
+
 const SeatLayout = ({ decks }: SeatLayoutProps) => {
+  const { translate } = useTranslate();
+
   if (!(Array.isArray(decks) && decks.length > 0)) return null;
+
   return (
     <Row className="gap-y-4 lg:grid-cols-6 lg:gap-x-4 lg:gap-y-0">
       {decks.map((deck, index) => (
         <Col
           className={cn(
-            'bg-pj-grey-lightest col-span-full rounded-xl p-4',
+            'bg-pj-gray-lightest col-span-full rounded-xl p-4',
             decks.length > 1 && 'lg:col-span-3',
           )}
           key={index}
@@ -29,12 +36,19 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
               <p>
                 {deck.deckId === 'lower'
                   ? decks.length > 1
-                    ? 'Tang duoi'
+                    ? translate({
+                        vi: 'Tầng dưới',
+                        en: 'Lower deck',
+                      })
                     : ''
-                  : 'Tầng trên'}
+                  : translate({
+                      vi: 'Tầng trên',
+                      en: 'Upper deck',
+                    })}
               </p>
             </Typography>
           )}
+
           {Array.isArray(deck.rows) && deck.rows.length > 0 && (
             <div className="flex flex-col gap-y-5">
               {deck.rows.map((row, rowIndex) => {
@@ -44,6 +58,7 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
                 const otherSeats = row.seats?.filter(
                   seat => seat.type !== 'DRIVER',
                 );
+
                 return (
                   <React.Fragment key={rowIndex}>
                     {deck.deckId === 'lower' && driverSeat && (
@@ -75,32 +90,36 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
                               variant="small-label"
                               className="lg:text-[12px]"
                             >
-                              <span>Entrance</span>
+                              <span>
+                                {translate({
+                                  vi: 'Cửa ra vào',
+                                  en: 'Entrance',
+                                })}
+                              </span>
                             </Typography>
                             <div className="h-full w-2 flex-none bg-black lg:w-px" />
                           </div>
                         </Col>
                       </Row>
                     )}
+
                     {Array.isArray(otherSeats) && otherSeats.length > 0 && (
                       <Row className="grid-cols-3 gap-5 lg:grid-cols-3">
-                        {otherSeats.map((seat, seatIndex) => {
-                          return (
-                            <Col key={seatIndex} className="col-span-1">
-                              {deck?.deckId && row?.rowId && (
-                                <SeatItem
-                                  id={seat.id}
-                                  isHasUpperDeck={decks.length > 1}
-                                  status={seat.status}
-                                  number={seat.number}
-                                  price={seat.price}
-                                  deckId={deck.deckId}
-                                  rowId={row.rowId}
-                                />
-                              )}
-                            </Col>
-                          );
-                        })}
+                        {otherSeats.map((seat, seatIndex) => (
+                          <Col key={seatIndex} className="col-span-1">
+                            {deck?.deckId && row?.rowId && (
+                              <SeatItem
+                                id={seat.id}
+                                isHasUpperDeck={decks.length > 1}
+                                status={seat.status}
+                                number={seat.number}
+                                price={seat.price}
+                                deckId={deck.deckId}
+                                rowId={row.rowId}
+                              />
+                            )}
+                          </Col>
+                        ))}
                       </Row>
                     )}
                   </React.Fragment>

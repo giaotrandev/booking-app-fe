@@ -164,7 +164,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               {toast.description && (
                 <Typography
                   asChild
-                  className="text-pj-grey-light"
+                  className="text-pj-gray-light"
                   variant="sub-body"
                 >
                   <p>{toast.description}</p>

@@ -45,7 +45,7 @@ const TestimonialSliderItem = ({
             {description && (
               <Typography
                 asChild
-                className="text-pj-grey-light w-full font-normal italic lg:max-w-147"
+                className="text-pj-gray-light w-full font-normal italic lg:max-w-147"
                 variant="label"
               >
                 <p>{description}</p>
@@ -85,7 +85,7 @@ const TestimonialSliderItem = ({
               </div>
             )}
           </div>
-          <div className="bg-pj-grey-lightest h-[1.5px] w-full" />
+          <div className="bg-pj-gray-lightest h-[1.5px] w-full" />
         </div>
       )}
     </div>

@@ -7,15 +7,15 @@ import {
 import { Button } from '#/components/ui/button';
 import { ButtonLink } from '#/components/ui/button-link';
 import { Typography } from '#/components/ui/typography';
-import { Link } from '#/i18n/routing';
+import { Link, useRouter } from '#/i18n/routing';
 import { useUserStore } from '#/store/user';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { useToast } from '#/components/ui/use-toast';
 import { dynamicFormSubmissionsAction } from '#/components/dynamic-form/action/submission';
 import { Row } from '#/components/ui/row';
 import { Col } from '#/components/ui/col';
+import { useTranslate } from '#/i18n/client';
 
 export interface LoginRenderBlockProps
   extends Pick<FormRenderBlockProps, 'fields'> {}
@@ -23,8 +23,8 @@ export interface LoginRenderBlockProps
 const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
   const router = useRouter();
   const { toast } = useToast();
+  const { translate } = useTranslate();
   const formRenderRef = useRef<{ handleReset: () => void } | null>(null);
-
   const [processing, setProcessing] = useState<boolean>(false);
 
   const handleSubmit = async (formData: Record<string, any>) => {
@@ -32,20 +32,22 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
       setProcessing(true);
 
       const result = await dynamicFormSubmissionsAction({
-        token: '', // ⚡️ không cần token turnstile nữa
+        token: '',
         data: formData,
       });
 
       if (!result.success) {
         toast({
-          title: 'Login failed',
+          title: await translate({
+            vi: 'Đăng nhập thất bại',
+            en: 'Login failed',
+          }),
           description: result.message,
           variant: 'error',
         });
         return;
       }
 
-      // ✅ lưu user vào store
       useUserStore.getState().setAuth({
         user: {
           id: result.data.data.id,
@@ -63,15 +65,27 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
 
       toast({
         variant: 'success',
-        title: 'Login successful',
-        description: 'You have successfully signed in.',
+        title: await translate({
+          vi: 'Đăng nhập thành công',
+          en: 'Login successful',
+        }),
+        description: await translate({
+          vi: 'Bạn đã đăng nhập thành công.',
+          en: 'You have successfully signed in.',
+        }),
       });
 
       router.push('/');
     } catch (error) {
       toast({
-        title: 'Login failed',
-        description: 'Something went wrong.',
+        title: await translate({
+          vi: 'Đăng nhập thất bại',
+          en: 'Login failed',
+        }),
+        description: await translate({
+          vi: 'Đã có lỗi xảy ra.',
+          en: 'Something went wrong.',
+        }),
         variant: 'error',
       });
     } finally {
@@ -101,8 +115,14 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
           </div>
           <div className="mb-4.5">
             <IntroductionForm
-              title="Sign in"
-              description="Please enter valid email and password to Sign In"
+              title={translate({
+                vi: 'Đăng nhập',
+                en: 'Sign in',
+              })}
+              description={translate({
+                vi: 'Vui lòng nhập email và mật khẩu hợp lệ để đăng nhập',
+                en: 'Please enter valid email and password to Sign In',
+              })}
             />
           </div>
           <div className="relative">
@@ -111,16 +131,24 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
               fields={fields}
               containerClassName="gap-y-8"
               isLoginLayout
-              submitButton={{ label: 'Sign in' }}
+              submitButton={{
+                label: translate({
+                  vi: 'Đăng nhập',
+                  en: 'Sign in',
+                }),
+              }}
               onSubmit={handleSubmit}
               processing={processing}
             />
             <div className="mt-3 flex justify-center lg:absolute lg:right-0 lg:bottom-27.5">
               <ButtonLink
                 asChild
-                colors="grey-light"
+                colors="gray-light"
                 className="font-normal"
-                text="Forgot Password?"
+                text={translate({
+                  vi: 'Quên mật khẩu?',
+                  en: 'Forgot Password?',
+                })}
               >
                 <Link href="/forgot-password" />
               </ButtonLink>
@@ -131,14 +159,22 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
               asChild
               colors="blue"
               variant="small"
-              text="Don't have an account ? Click to SIGN UP"
+              text={translate({
+                vi: 'Chưa có tài khoản? Nhấn để đăng ký',
+                en: "Don't have an account? Click to SIGN UP",
+              })}
             >
               <Link href="/register" />
             </ButtonLink>
             <div className="flex items-center justify-center space-x-1">
               <span className="block h-px w-12 bg-black" />
               <Typography asChild variant="h6" className="font-semibold">
-                <p>OR</p>
+                <p>
+                  {translate({
+                    vi: 'HOẶC',
+                    en: 'OR',
+                  })}
+                </p>
               </Typography>
               <span className="block h-px w-12 bg-black" />
             </div>
@@ -148,7 +184,7 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
                 colors="none"
                 shape="special"
                 variant="special"
-                className="text-pj-grey-light"
+                className="text-pj-gray-light"
                 onClick={handleSubmitWithGoogle}
               >
                 <span className="relative flex items-center overflow-hidden">
@@ -161,7 +197,12 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
                       alt="logo-google"
                     />
                     <Typography asChild variant="h6">
-                      <p>Sign in with Google</p>
+                      <p>
+                        {translate({
+                          vi: 'Đăng nhập bằng Google',
+                          en: 'Sign in with Google',
+                        })}
+                      </p>
                     </Typography>
                   </span>
                   <span className="group-hocus-visible/button:translate-y-0 absolute inset-0 flex translate-y-[130%] items-center justify-center space-x-4.5 transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]">
@@ -173,7 +214,12 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
                       alt="logo-google"
                     />
                     <Typography asChild variant="h6">
-                      <p>Sign in with Google</p>
+                      <p>
+                        {translate({
+                          vi: 'Đăng nhập bằng Google',
+                          en: 'Sign in with Google',
+                        })}
+                      </p>
                     </Typography>
                   </span>
                 </span>
@@ -192,7 +238,12 @@ const LoginRenderBlock = ({ fields }: LoginRenderBlockProps) => {
           />
           <div className="absolute bottom-25 left-7.5 hidden max-w-103.5 bg-[linear-gradient(90.4deg,_#2E2E2E_0.32%,_rgba(29,27,32,0)_98.09%)] px-2.5 py-1.5 lg:block">
             <Typography asChild variant="h1" className="text-white uppercase">
-              <p>EXPLORE NEW DESTINATION WITH US</p>
+              <p>
+                {translate({
+                  vi: 'KHÁM PHÁ NHỮNG ĐIỂM ĐẾN MỚI CÙNG CHÚNG TÔI',
+                  en: 'EXPLORE NEW DESTINATION WITH US',
+                })}
+              </p>
             </Typography>
           </div>
         </div>

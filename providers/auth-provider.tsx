@@ -1,7 +1,6 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useIsMounted } from 'usehooks-ts';
 
@@ -10,6 +9,7 @@ import {
   VerifyTokenResult,
 } from '#/layouts/auth-layout/actions/verify-token';
 import { useUserStore } from '#/store/user';
+import { useRouter } from '#/i18n/routing';
 type AuthContextType = {
   loading: boolean;
   tokenInfo: VerifyTokenResult | null;
@@ -24,7 +24,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
   const { clearAuth } = useUserStore();
   const isMounted = useIsMounted();
-
   async function checkToken() {
     setLoading(true);
     try {

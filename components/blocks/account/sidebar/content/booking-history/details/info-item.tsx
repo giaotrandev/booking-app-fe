@@ -22,7 +22,7 @@ const InfoItem = ({
   return (
     <div
       className={cn(
-        'border-b-pj-grey-light flex w-full justify-between border-b pb-2',
+        'border-b-pj-gray-light flex w-full justify-between border-b pb-2',
         className,
       )}
     >

@@ -10,14 +10,18 @@ import { ButtonIcon } from '#/components/ui/button-icon';
 import { CustomCalendar } from '#/components/ui/custom-calendar';
 import { CustomProvincesSelect } from '#/components/ui/custom-provinces-select';
 import { Typography } from '#/components/ui/typography';
+import { useTranslate } from '#/i18n/client';
 import { cn } from '#/lib/utilities/cn';
 import { sanitizeTitle } from '#/lib/utilities/sanitize-title';
 import { useGlobalsStore } from '#/store/globals';
 import { format, parseISO } from 'date-fns';
-import { useRouter, useSearchParams } from 'next/navigation';
+// import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { DateRange } from 'react-day-picker';
 import { useMediaQuery } from 'usehooks-ts';
+import { useCurrentLocale } from '#/i18n/client';
+import { useRouter } from '#/i18n/routing';
+import { useSearchParams } from 'next/navigation';
 
 const dateFormat = 'dd-MM-yyyy';
 
@@ -43,7 +47,11 @@ const NavigationBooking = ({
   buttonContainerClassName,
   isInSpeacialLayout,
 }: NavigationBookingProps) => {
+  const isTablet = useMediaQuery('(min-width: 767px)');
   const isDesktop = useMediaQuery('(min-width: 1023px)');
+
+  const { translate } = useTranslate();
+  const locale = useCurrentLocale();
 
   const { setFilterOpen } = useGlobalsStore();
   const router = useRouter();
@@ -63,10 +71,12 @@ const NavigationBooking = ({
   // Popover states
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const [arrivalPlaceholder, setArrivalPlaceholder] =
-    useState('Departure Point');
-  const [destinationPlaceholder, setDestinationPlaceholder] =
-    useState('Destination Point');
+  const [arrivalPlaceholder, setArrivalPlaceholder] = useState(
+    translate({ vi: 'Điểm xuất phát', en: 'Departure Point' }),
+  );
+  const [destinationPlaceholder, setDestinationPlaceholder] = useState(
+    translate({ vi: 'Điểm đến', en: 'Destination Point' }),
+  );
 
   const handleSwap = () => {
     if (!selectedArrival && !selectedDestination) {
@@ -186,7 +196,10 @@ const NavigationBooking = ({
                 )}
                 multiple={false}
                 placeholder={arrivalPlaceholder}
-                subPlaceholder="Departure Point"
+                subPlaceholder={translate({
+                  vi: 'Điểm xuất phát',
+                  en: 'Departure Point',
+                })}
                 value={selectedArrival}
                 onChange={value => {
                   if (!Array.isArray(value)) {
@@ -216,7 +229,10 @@ const NavigationBooking = ({
                 )}
                 multiple={false}
                 placeholder={destinationPlaceholder}
-                subPlaceholder="Destination Point"
+                subPlaceholder={translate({
+                  vi: 'Điểm đến',
+                  en: 'Destination Point',
+                })}
                 value={selectedDestination}
                 onChange={value => {
                   if (!Array.isArray(value)) {
@@ -250,26 +266,32 @@ const NavigationBooking = ({
                 <div className="flex items-center justify-between gap-x-2">
                   <div className="flex flex-1 items-center gap-x-2">
                     <Typography asChild className="text-nowrap">
-                      <span>
+                      <span className="text-zinc-500">
                         {dateRange?.from
                           ? format(dateRange.from, dateFormat)
-                          : 'Departure date'}
+                          : translate({
+                              vi: 'Từ ngày',
+                              en: 'From date',
+                            })}
                       </span>
                     </Typography>
                     <span className="text-gray-400">|</span>
                     <Typography asChild className="text-nowrap">
-                      <span>
+                      <span className="text-zinc-500">
                         {dateRange?.to
                           ? format(dateRange.to, dateFormat)
-                          : 'Departure date'}
+                          : translate({
+                              vi: 'Đến ngày',
+                              en: 'To date',
+                            })}
                       </span>
                     </Typography>
                   </div>
-                  <Icon name="date" className="fill-pj-grey-light h-4 w-4" />
+                  <Icon name="date" className="fill-pj-gray-light h-4 w-4" />
                 </div>
               </button>
             </PopoverTrigger>
-            <PopoverContent className="pointer-events-auto relative top-2 z-[9999999] w-[var(--radix-popover-trigger-width)] p-0 lg:w-auto">
+            <PopoverContent className="pointer-events-auto relative top-2 z-[9999999] w-full min-w-[250px] p-0 md:max-w-[800px]">
               {/* <CustomCalendar
                 mode="range"
                 // timeZone="UTC"
@@ -287,7 +309,7 @@ const NavigationBooking = ({
               <CustomCalendar
                 mode="range"
                 // timeZone="UTC"
-                numberOfMonths={isDesktop ? 2 : 1}
+                numberOfMonths={isTablet ? 2 : 1}
                 // className="hidden lg:block"
                 defaultMonth={dateRange?.from || new Date()}
                 selected={dateRange}
@@ -305,7 +327,11 @@ const NavigationBooking = ({
 
         <div className="w-full lg:w-auto">
           <Button
-            text={processing ? 'Searching…' : 'Search'}
+            text={
+              processing
+                ? translate({ vi: 'Đang tìm chuyến', en: 'Searching trips...' })
+                : translate({ vi: 'Tìm chuyến', en: 'Search trips' })
+            }
             className="w-full lg:min-h-12 lg:w-auto"
             disabled={
               processing ||

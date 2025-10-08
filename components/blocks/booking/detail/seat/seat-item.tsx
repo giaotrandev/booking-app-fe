@@ -49,7 +49,7 @@ const SeatItem = ({
                 ? 'w-[60%] md:w-[34%] lg:w-[42%]'
                 : 'w-[60%] md:w-[34%] lg:w-[60%]',
               status === SeatStatus.AVAILABLE &&
-                (selected ? 'fill-pj-green-medium' : 'fill-pj-grey-light'),
+                (selected ? 'fill-pj-green-medium' : 'fill-pj-gray-light'),
               (status === SeatStatus.RESERVED ||
                 status === SeatStatus.BOOKED) &&
                 'pointer-events-none fill-black',

@@ -7,10 +7,113 @@ import { Row } from '../../../components/ui/row';
 import { ContactItemProps } from './contact-item';
 import ContactList from './contact-list';
 import { blurDataUrl } from '#/lib/constant';
+import { getTranslate } from '#/i18n/server';
 
 export interface LayoutFooterProps {}
 
-const LayoutFooter = ({}: LayoutFooterProps) => {
+const LayoutFooter = async ({}: LayoutFooterProps) => {
+  const { translate } = await getTranslate();
+  const contactItemList = [
+    {
+      title: await translate({
+        vi: 'Hotline: Thứ 2 - CN (8:30 - 23:00)',
+        en: 'Hotline: Monday - Sunday (8:30 - 23:00)',
+      }),
+      icon: 'phone',
+      content: {
+        url: 'tel:0963606075',
+        text: '0963606075',
+      },
+    },
+    {
+      title: await translate({
+        vi: 'Email',
+        en: 'Email',
+      }),
+      icon: 'email',
+      content: {
+        url: 'mailto:giaotrandev@gmail.com',
+        text: 'giaotrandev@gmail.com',
+      },
+    },
+    {
+      title: await translate({
+        vi: 'Địa chỉ',
+        en: 'Address',
+      }),
+      icon: 'address',
+      content: {
+        url: 'https://www.google.com/maps/search/?api=1&query=277+Bis+Au+Duong+Lan,+Rach+Ong,+District+8,+Ho+Chi+Minh+City,+Vietnam',
+        text: await translate({
+          vi: 'Chung cư Ngọc Phương Nam',
+          en: 'Ngoc Phuong Nam Apartment',
+        }),
+      },
+    },
+  ];
+
+  const socialItemList = {
+    title: await translate({
+      vi: 'Theo dõi chúng tôi',
+      en: 'Follow us',
+    }),
+    icons: [
+      {
+        image: {
+          src: '/images/icons/Facebook.png',
+          alt: 'facebook-icon',
+          width: 32,
+          height: 32,
+        },
+      },
+      {
+        image: {
+          src: '/images/icons/Instagram.png',
+          alt: 'instagram-icon',
+          width: 32,
+          height: 32,
+        },
+      },
+      {
+        image: {
+          src: '/images/icons/LinkedIn.png',
+          alt: 'linkedin-icon',
+          width: 32,
+          height: 32,
+        },
+      },
+    ],
+  };
+
+  const linkItemList = {
+    title: await translate({
+      vi: 'Điều khoản sử dụng',
+      en: 'Terms of Use',
+    }),
+    linkList: [
+      {
+        text: await translate({
+          vi: 'Điều khoản và điều kiện',
+          en: 'Terms and Conditions',
+        }),
+        url: '#',
+      },
+      {
+        text: await translate({
+          vi: 'Chính sách bảo mật',
+          en: 'Privacy Policy',
+        }),
+        url: '#',
+      },
+      {
+        text: await translate({
+          vi: 'Chính sách cookie',
+          en: 'Cookies Policy',
+        }),
+        url: '#',
+      },
+    ],
+  };
   return (
     <footer id="site-footer" className="py-17.5">
       <Container>
@@ -76,10 +179,15 @@ const LayoutFooter = ({}: LayoutFooterProps) => {
         <div className="mt-10 flex w-full items-center justify-center">
           <Typography
             asChild
-            className="text-pj-grey-light"
+            className="text-pj-gray-light"
             variant="small-number"
           >
-            <p>Copyright © 2025 Vietnam Roadtrip, All rights reserved</p>
+            <p>
+              {await translate({
+                vi: 'Bản quyền © 2025 Vietnam Roadtrip, Đã đăng ký bản quyền.',
+                en: 'Copyright © 2025 Vietnam Roadtrip, All rights reserved.',
+              })}
+            </p>
           </Typography>
         </div>
       </Container>
@@ -88,75 +196,75 @@ const LayoutFooter = ({}: LayoutFooterProps) => {
 };
 
 export { LayoutFooter };
-const contactItemList = [
-  {
-    title: 'Hotline: Monday - Sunday (8:30 - 23:00)',
-    icon: 'phone',
-    content: {
-      url: 'tel:0963606075',
-      text: '0963606075',
-    },
-  },
-  {
-    title: 'Email',
-    icon: 'email',
-    content: {
-      url: 'mailto:giaotrandev@gmail.com',
-      text: 'giaotrandev@gmail.com',
-    },
-  },
-  {
-    title: 'Address',
-    icon: 'address',
-    content: {
-      url: 'https://www.google.com/maps/search/?api=1&query=277+Bis+Au+Duong+Lan,+Rach+Ong,+District+8,+Ho+Chi+Minh+City,+Vietnam',
-      text: 'Chung cu ngoc phuong nam',
-    },
-  },
-];
-const socialItemList = {
-  title: 'Follow us',
-  icons: [
-    {
-      image: {
-        src: '/images/icons/Facebook.png',
-        alt: 'facebook-icon',
-        width: 32,
-        height: 32,
-      },
-    },
-    {
-      image: {
-        src: '/images/icons/Instagram.png',
-        alt: 'instagram-icon',
-        width: 32,
-        height: 32,
-      },
-    },
-    {
-      image: {
-        src: '/images/icons/LinkedIn.png',
-        alt: 'linkedin-icon',
-        width: 32,
-        height: 32,
-      },
-    },
-  ],
-};
-const linkItemList = {
-  title: 'Terms of Use',
-  linkList: [
-    {
-      text: 'Terms and Conditions',
-      url: '#',
-    },
-    {
-      text: 'Privacy Policy',
-      url: '#',
-    },
-    {
-      text: 'Cookies Policy',
-      url: '#',
-    },
-  ],
-};
+// const contactItemList = [
+//   {
+//     title: 'Hotline: Monday - Sunday (8:30 - 23:00)',
+//     icon: 'phone',
+//     content: {
+//       url: 'tel:0963606075',
+//       text: '0963606075',
+//     },
+//   },
+//   {
+//     title: 'Email',
+//     icon: 'email',
+//     content: {
+//       url: 'mailto:giaotrandev@gmail.com',
+//       text: 'giaotrandev@gmail.com',
+//     },
+//   },
+//   {
+//     title: 'Address',
+//     icon: 'address',
+//     content: {
+//       url: 'https://www.google.com/maps/search/?api=1&query=277+Bis+Au+Duong+Lan,+Rach+Ong,+District+8,+Ho+Chi+Minh+City,+Vietnam',
+//       text: 'Chung cu ngoc phuong nam',
+//     },
+//   },
+// ];
+// const socialItemList = {
+//   title: 'Follow us',
+//   icons: [
+//     {
+//       image: {
+//         src: '/images/icons/Facebook.png',
+//         alt: 'facebook-icon',
+//         width: 32,
+//         height: 32,
+//       },
+//     },
+//     {
+//       image: {
+//         src: '/images/icons/Instagram.png',
+//         alt: 'instagram-icon',
+//         width: 32,
+//         height: 32,
+//       },
+//     },
+//     {
+//       image: {
+//         src: '/images/icons/LinkedIn.png',
+//         alt: 'linkedin-icon',
+//         width: 32,
+//         height: 32,
+//       },
+//     },
+//   ],
+// };
+// const linkItemList = {
+//   title: 'Terms of Use',
+//   linkList: [
+//     {
+//       text: 'Terms and Conditions',
+//       url: '#',
+//     },
+//     {
+//       text: 'Privacy Policy',
+//       url: '#',
+//     },
+//     {
+//       text: 'Cookies Policy',
+//       url: '#',
+//     },
+//   ],
+// };

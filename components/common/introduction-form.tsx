@@ -16,7 +16,7 @@ const IntroductionForm = ({
       <Typography asChild variant="h3">
         <h2>{title}</h2>
       </Typography>
-      <Typography asChild variant="label" className="text-pj-grey">
+      <Typography asChild variant="label" className="text-pj-gray">
         <p>{description}</p>
       </Typography>
     </div>

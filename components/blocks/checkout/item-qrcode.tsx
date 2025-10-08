@@ -1,11 +1,14 @@
+'use client';
+
 import { Typography } from '#/components/ui/typography';
 import { blurDataUrl } from '#/lib/constant';
 import { cn } from '#/lib/utilities/cn';
 import { formatPrice } from '#/lib/utilities/format-price';
 import { formatTimeLeft } from '#/lib/utilities/format-time-left';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '#/i18n/routing';
 import { useEffect, useState } from 'react';
+import { useTranslate } from '#/i18n/client';
 
 export interface ItemQrCodeProps {
   totalPrice: string;
@@ -24,10 +27,21 @@ const ItemQrCode = ({
 }: ItemQrCodeProps) => {
   const [timeCount, setTimeCount] = useState<number | null>(null);
   const router = useRouter();
+  const { translate } = useTranslate();
+
   const steps = [
-    'Open the MoMo app on your phone.',
-    'Use the icon_scan icon to scan the QR code.',
-    'Scan the code on this page and proceed with the payment.',
+    translate({
+      vi: 'Mở ứng dụng MoMo trên điện thoại của bạn.',
+      en: 'Open the MoMo app on your phone.',
+    }),
+    translate({
+      vi: 'Sử dụng biểu tượng quét để quét mã QR.',
+      en: 'Use the scan icon to scan the QR code.',
+    }),
+    translate({
+      vi: 'Quét mã trên trang này và tiến hành thanh toán.',
+      en: 'Scan the code on this page and proceed with the payment.',
+    }),
   ];
 
   useEffect(() => {
@@ -38,6 +52,7 @@ const ItemQrCode = ({
     const elapsedSeconds = Math.floor((now - updatedTime) / 1000);
     const remaining = 7200 - elapsedSeconds;
     setTimeCount(remaining);
+
     const timer = setInterval(() => {
       setTimeCount(prev => {
         if (prev !== null && prev <= 1) {
@@ -50,12 +65,13 @@ const ItemQrCode = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [updatedAt]);
+  }, [updatedAt, isHaveQrCode, router]);
+
   return (
     <>
       <div
         className={cn(
-          'border-pj-grey-light flex w-full flex-col items-center gap-y-2 rounded-xl border p-4',
+          'border-pj-gray-light flex w-full flex-col items-center gap-y-2 rounded-xl border p-4',
           !isHaveQrCode && 'items-end border-0 p-0',
           className,
         )}
@@ -64,19 +80,32 @@ const ItemQrCode = ({
           <div className="flex flex-wrap items-center justify-center gap-x-2">
             <div className="mt-1.25">
               <Typography asChild variant="small-label">
-                <p>Total price: </p>
+                <p>
+                  {translate({
+                    vi: 'Tổng giá:',
+                    en: 'Total price:',
+                  })}
+                </p>
               </Typography>
             </div>
             <Typography asChild variant="h3" className="text-pj-red font-bold">
               <p>{formatPrice(totalPrice)}</p>
             </Typography>
           </div>
+
           {timeCount !== null && isHaveQrCode && (
             <Typography asChild className="text-pj-orange -mt-1">
-              <p>Time left to hold the seat: {formatTimeLeft(timeCount)}</p>
+              <p>
+                {translate({
+                  vi: 'Thời gian giữ ghế còn lại:',
+                  en: 'Time left to hold the seat:',
+                })}{' '}
+                {formatTimeLeft(timeCount)}
+              </p>
             </Typography>
           )}
         </div>
+
         {isHaveQrCode && qrCode && (
           <div className="w-full">
             <div className="relative mx-auto w-full max-w-[500px] overflow-hidden pt-[100%]">
@@ -94,8 +123,14 @@ const ItemQrCode = ({
                 className="text-pj-green-medium font-medium"
                 variant="h5"
               >
-                <p>How to Pay: </p>
+                <p>
+                  {translate({
+                    vi: 'Cách thanh toán:',
+                    en: 'How to Pay:',
+                  })}
+                </p>
               </Typography>
+
               {steps.map((text, index) => (
                 <div key={index} className="flex items-center gap-x-2">
                   <div className="flex min-h-6 min-w-6 items-center justify-center rounded-full bg-gray-200 text-sm font-semibold text-black">

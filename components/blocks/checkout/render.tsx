@@ -1,45 +1,32 @@
-// Thêm loading state và tối ưu việc render
 'use client';
-import { Col } from '#/components/ui/col';
 import { Container } from '#/components/ui/container';
-import { Row } from '#/components/ui/row';
 import { Typography } from '#/components/ui/typography';
-import { formatPrice } from '#/lib/utilities/format-price';
-import { formatUtcDate, formatUtcTime } from '#/lib/utilities/format-time';
 import { BookingRequestProps } from '#/services/booking/booking-request';
 import { useEffect, useState, useMemo } from 'react';
-import { InfoList } from './info-list';
-import { OptionsPaymentProps, PaymentMethodList } from './payment-method-list';
+import { OptionsPaymentProps } from './payment-method-list';
 import { QrCodeRequestProps } from '#/services/QrCode/qr-code-request';
-import { ItemQrCode } from './item-qrcode';
 import { useSocketContext } from '#/providers/socket-provider';
 import { Notification } from '#/components/ui/notification';
 import { Icon } from '#/components/icons';
 import { cn } from '#/lib/utilities/cn';
 import { getUnCheckedQrCodeAction } from '#/lib/service/fetch-unchecked-qrcode';
-import { PaymentMethodMobile } from './payment-method-mobile';
-import { PaymentRouteItem } from './payment-route-item';
 import { PaymentPending } from './payment-pending';
 import { PaymentTicket } from './payment-ticket';
-import {
-  SeatType,
-  UncheckedQrCodeItemRequestProps,
-} from '#/services/QrCode/details/unchecked-qrcode-request';
-import Loading from '#/components/common/loading';
+import { UncheckedQrCodeItemRequestProps } from '#/services/QrCode/details/unchecked-qrcode-request';
 import { LoadingPage } from '#/components/common/loading-page';
+import { useTranslate } from '#/i18n/client';
 
 interface CheckoutBlockRenderProps extends BookingRequestProps {
   qrCode?: QrCodeRequestProps;
 }
 
-// Tạo loading state để kiểm soát việc render
 interface ComponentState {
   isHaveQrCode: boolean;
   showNotification: boolean;
   qrCodeInfoList: UncheckedQrCodeItemRequestProps[];
   showInfoTickets: boolean;
-  isDataReady: boolean; // Thêm state này để kiểm soát việc render
-  isInitialized: boolean; // Kiểm tra đã khởi tạo xong chưa
+  isDataReady: boolean;
+  isInitialized: boolean;
 }
 
 const paymentList: OptionsPaymentProps[] = [
@@ -83,7 +70,8 @@ const CheckoutBlockRender = ({
   qrCode,
   updatedAt,
 }: CheckoutBlockRenderProps) => {
-  // Sử dụng một state object để giảm số lần re-render
+  const { translate } = useTranslate();
+
   const [state, setState] = useState<ComponentState>({
     isHaveQrCode: paymentStatus !== 'COMPLETED',
     showNotification: false,
@@ -95,16 +83,13 @@ const CheckoutBlockRender = ({
 
   const { socket } = useSocketContext();
 
-  // Memoize để tránh re-render không cần thiết
   const isTicketComplete = useMemo(() => {
     return paymentStatus === 'COMPLETED' && state.isDataReady;
   }, [paymentStatus, state.isDataReady]);
 
-  // Khởi tạo dữ liệu từ localStorage trước khi component render lần đầu
   useEffect(() => {
     const initializeData = async () => {
       try {
-        // Kiểm tra cache trước
         const cached = localStorage.getItem(`qr-${id}`);
         let initialQrCodeList: UncheckedQrCodeItemRequestProps[] = [];
         let shouldShowTickets = false;
@@ -115,27 +100,22 @@ const CheckoutBlockRender = ({
           shouldShowTickets = true;
           dataReady = true;
         } else if (paymentStatus === 'COMPLETED') {
-          // Nếu payment completed nhưng chưa có cache, fetch data
           try {
             const response = await getUnCheckedQrCodeAction(id);
             if (Array.isArray(response.data) && response.data.length > 0) {
               initialQrCodeList = response.data;
               shouldShowTickets = true;
               dataReady = true;
-              // Lưu vào cache
               localStorage.setItem(`qr-${id}`, JSON.stringify(response.data));
             }
           } catch (error) {
-            // eslint-disable-next-line no-console
             console.error('Error refreshing token:', error);
-            // console.error('Failed to fetch QR Code:', error);
-            dataReady = true; // Vẫn set ready để tránh loading vô tận
+            dataReady = true;
           }
         } else {
-          dataReady = true; // Nếu chưa complete thì cũng ready
+          dataReady = true;
         }
 
-        // Update state một lần duy nhất
         setState(prev => ({
           ...prev,
           isHaveQrCode: paymentStatus !== 'COMPLETED',
@@ -157,7 +137,6 @@ const CheckoutBlockRender = ({
     initializeData();
   }, [id, paymentStatus]);
 
-  // Socket effect
   useEffect(() => {
     if (!socket || !state.isInitialized) return;
 
@@ -176,7 +155,6 @@ const CheckoutBlockRender = ({
                     ? response.data
                     : [];
 
-                  // Update tất cả state cùng lúc để tránh multiple renders
                   setState(prev => ({
                     ...prev,
                     isHaveQrCode: false,
@@ -186,7 +164,6 @@ const CheckoutBlockRender = ({
                     isDataReady: true,
                   }));
 
-                  // Lưu cache
                   if (qrCodeList.length > 0) {
                     localStorage.setItem(
                       `qr-${id}`,
@@ -205,17 +182,10 @@ const CheckoutBlockRender = ({
 
     return () => {
       socket.off('bookingStatusChanged');
-      socket.emit(
-        'leaveBookingRoom',
-        id,
-        (response: { success: boolean; error?: string }) => {
-          return;
-        },
-      );
+      socket.emit('leaveBookingRoom', id, () => {});
     };
   }, [socket, id, state.isInitialized]);
 
-  // Không render gì cả nếu chưa khởi tạo xong
   if (!state.isInitialized || !state.isDataReady) {
     return <LoadingPage />;
   }
@@ -223,7 +193,7 @@ const CheckoutBlockRender = ({
   return (
     <div
       className={cn(
-        state.isHaveQrCode ? 'bg-white py-0' : 'bg-pj-grey-lightest py-10',
+        state.isHaveQrCode ? 'bg-white py-0' : 'bg-pj-gray-lightest py-10',
       )}
     >
       <Container>
@@ -284,6 +254,7 @@ const CheckoutBlockRender = ({
           </div>
         )}
       </Container>
+
       {state.showNotification && (
         <Notification
           clickOutsideToClose
@@ -310,22 +281,37 @@ const CheckoutBlockRender = ({
                 variant="h3"
                 className="text-pj-green-medium text-center font-semibold"
               >
-                <p>🎉 The ticket has been booked successfully</p>
+                <p>
+                  {translate({
+                    vi: '🎉 Vé của bạn đã được đặt thành công',
+                    en: '🎉 The ticket has been booked successfully',
+                  })}
+                </p>
               </Typography>
               <div>
                 <Typography
                   asChild
                   variant="small-label"
-                  className="text-pj-grey-light text-center"
+                  className="text-pj-gray-light text-center"
                 >
-                  <p>Thank you for using our service</p>
+                  <p>
+                    {translate({
+                      vi: 'Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi',
+                      en: 'Thank you for using our service',
+                    })}
+                  </p>
                 </Typography>
                 <Typography
                   asChild
                   variant="small-label"
-                  className="text-pj-grey-light text-center"
+                  className="text-pj-gray-light text-center"
                 >
-                  <p>Please close this window to view your ticket details</p>
+                  <p>
+                    {translate({
+                      vi: 'Vui lòng đóng cửa sổ này để xem chi tiết vé của bạn',
+                      en: 'Please close this window to view your ticket details',
+                    })}
+                  </p>
                 </Typography>
               </div>
             </div>

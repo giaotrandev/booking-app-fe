@@ -1,3 +1,5 @@
+'use client';
+
 import { Icon } from '#/components/icons';
 import { Col } from '#/components/ui/col';
 import { Row } from '#/components/ui/row';
@@ -5,18 +7,48 @@ import { Typography } from '#/components/ui/typography';
 import { cn } from '#/lib/utilities/cn';
 import { SeatConfiguration } from '#/services/trip/trips-request';
 import { SeatLayout } from './seat-layout';
+import { useTranslate } from '#/i18n/client';
+
 export interface SeatListProps extends SeatConfiguration {}
-const SeatList = ({ decks }: SeatListProps) => {
+
+export const SeatList = ({ decks }: SeatListProps) => {
+  const { translate } = useTranslate();
+
+  const sampleSeatItemCategoryList = [
+    translate({
+      vi: 'Ghế không khả dụng',
+      en: 'Unavailable Seat',
+    }),
+    translate({
+      vi: 'Ghế trống',
+      en: 'Available Seat',
+    }),
+    translate({
+      vi: 'Ghế bạn đang chọn',
+      en: 'Your Selecting Seat',
+    }),
+  ];
+
   return (
     <div>
       <Row>
         <Col className="col-span-full mt-4 lg:col-span-4 lg:mt-0">
           <div className="flex flex-col gap-y-4 lg:gap-y-2">
             <Typography asChild variant="h6" className="font-medium">
-              <p>Please select your desired seat(s)</p>
+              <p>
+                {translate({
+                  vi: 'Vui lòng chọn ghế bạn muốn',
+                  en: 'Please select your desired seat(s)',
+                })}
+              </p>
             </Typography>
             <Typography asChild variant="h6" className="font-bold uppercase">
-              <p>Note:</p>
+              <p>
+                {translate({
+                  vi: 'Lưu ý:',
+                  en: 'Note:',
+                })}
+              </p>
             </Typography>
           </div>
           <ul className="mt-6 flex flex-col gap-y-3">
@@ -25,7 +57,7 @@ const SeatList = ({ decks }: SeatListProps) => {
                 <Icon
                   name="seat"
                   className={cn(
-                    index === 1 && 'fill-pj-grey-light',
+                    index === 1 && 'fill-pj-gray-light',
                     index === 2 && 'fill-pj-green-medium',
                   )}
                 />
@@ -36,6 +68,7 @@ const SeatList = ({ decks }: SeatListProps) => {
             ))}
           </ul>
         </Col>
+
         {Array.isArray(decks) && decks.length > 0 && (
           <Col
             className={cn(
@@ -52,123 +85,3 @@ const SeatList = ({ decks }: SeatListProps) => {
     </div>
   );
 };
-
-export { SeatList };
-const sampleSeatItemCategoryList = [
-  'Unavailable Seat',
-  'Available Seat',
-  'Your Selecting Seat',
-];
-
-// const tripId = '6822e17be29951b9424a63b2';
-
-// const seats = [
-//   {
-//     id: '1',
-//     tripId,
-//     seatNumber: 'A1',
-//     seatType: 'DRIVER',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '2',
-//     tripId,
-//     seatNumber: 'A2',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '3',
-//     tripId,
-//     seatNumber: 'B1',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '4',
-//     tripId,
-//     seatNumber: 'C1',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '5',
-//     tripId,
-//     seatNumber: 'C2',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '6',
-//     tripId,
-//     seatNumber: 'C3',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '7',
-//     tripId,
-//     seatNumber: 'C4',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '8',
-//     tripId,
-//     seatNumber: 'D1',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-//   {
-//     id: '9',
-//     tripId,
-//     seatNumber: 'D2',
-//     seatType: 'PREMIUM',
-//     status: 'AVAILABLE',
-//     isDeleted: false,
-//     bookingTripId: null,
-//     createdAt: '2025-05-13T06:06:52.768Z',
-//     updatedAt: '2025-05-13T06:06:52.768Z',
-//     deletedAt: null,
-//   },
-// ];

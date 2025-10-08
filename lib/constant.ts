@@ -1,3 +1,19 @@
+export const languages = {
+  vi: 'Vi',
+  en: 'En',
+};
+
+export const collections = [
+  // {
+  //   name: 'pages',
+  //   path: '',
+  // },
+  {
+    name: 'booking',
+    path: '/booking',
+  },
+]; // SETUP - Collections: Add/remove list of collections here
+
 export const homePagePath = '/';
 
 export const blurDataUrl =

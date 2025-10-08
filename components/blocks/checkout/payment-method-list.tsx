@@ -4,6 +4,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { RadioGroup, RadioGroupItem } from '#/components/ui/radio-group';
 import { ImageProps, OptionType } from '#/types/global';
 import { useEffect, useState } from 'react';
+import { useTranslate } from '#/i18n/client';
 
 export interface OptionsPaymentProps extends OptionType {
   image?: ImageProps;
@@ -21,6 +22,8 @@ const PaymentMethodList = ({
   const isDesktop = useMediaQuery('(min-width: 1024px)');
   const [selectedValue, setSelectedValue] = useState<string>('');
   const [hasAutoSelected, setHasAutoSelected] = useState(false);
+  const { translate } = useTranslate();
+
   useEffect(() => {
     if (options.length > 0 && !selectedValue && isDesktop && !hasAutoSelected) {
       const defaultValue = options[0].value;
@@ -49,7 +52,10 @@ const PaymentMethodList = ({
             value={item.value}
             aria-label={item.label}
             label={item.label}
-            description="Quick payment via QR code - scan the code using a bank app that supports VietQR to complete your transaction."
+            description={translate({
+              vi: 'Thanh toán nhanh qua mã QR - quét mã bằng ứng dụng ngân hàng hỗ trợ VietQR để hoàn tất giao dịch.',
+              en: 'Quick payment via QR code - scan the code using a bank app that supports VietQR to complete your transaction.',
+            })}
           />
         </div>
       ))}

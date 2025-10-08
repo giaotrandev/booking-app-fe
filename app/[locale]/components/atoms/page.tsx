@@ -28,7 +28,7 @@ const SamplePage = async (props: PageProps) => {
       <div className="flex gap-2">
         <Button variant="big" text="search" />
         <Button text="search" />
-        <Button text="search" colors="grey" />
+        <Button text="search" colors="gray" />
         <Button text="search" colors="none" variant="with-shadow" />
         <ButtonLink text="search" />
       </div>

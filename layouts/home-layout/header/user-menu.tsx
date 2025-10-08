@@ -36,10 +36,15 @@ const UserMenu = ({}: UserMenuProps) => {
         >
           <UserAvatar
             urlAvatar={user?.avatarUrl}
-            userName={user?.name
-              .split(' ')
-              .map(word => word[0].toUpperCase())
-              .join('')}
+            userName={
+              user?.name
+                ? user.name
+                    .trim()
+                    .split(/\s+/) // tách theo khoảng trắng liên tục
+                    .map(word => word[0]?.toUpperCase() ?? '') // kiểm tra undefined
+                    .join('')
+                : ''
+            }
           />
         </button>
       </DropdownMenuTrigger>
@@ -49,16 +54,21 @@ const UserMenu = ({}: UserMenuProps) => {
         className="pointer-events-auto z-[1094] w-full max-w-[600px] rounded-md bg-white drop-shadow-sm"
       >
         <div className="flex w-full flex-col">
-          <div className="border-b-pj-grey-lightest border-b">
+          <div className="border-b-pj-gray-lightest border-b">
             <div className="flex items-center justify-between px-3 py-3">
               <UserAvatar
                 avatarClassName="size-10"
                 titleFallBack="h6"
                 urlAvatar={user?.avatarUrl}
-                userName={user?.name
-                  .split(' ')
-                  .map(word => word[0].toUpperCase())
-                  .join('')}
+                userName={
+                  user?.name
+                    ? user.name
+                        .trim()
+                        .split(/\s+/) // tách theo khoảng trắng liên tục
+                        .map(word => word[0]?.toUpperCase() ?? '') // kiểm tra undefined
+                        .join('')
+                    : ''
+                }
               />
               {user && (user.name || user.email) && (
                 <div className="flex-1 pl-2">

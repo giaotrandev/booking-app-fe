@@ -61,10 +61,10 @@
   --color-pj-red: #e04141;
   --color-pj-red-light: #f8d7da;
   --color-pj-red-medium: #721c24;
-  --color-pj-grey-lightest: #eeeded;
-  --color-pj-grey-medium: #565656;
-  --color-pj-grey-light: #6a6a6b;
-  --color-pj-grey: #414242;
+  --color-pj-gray-lightest: #eeeded;
+  --color-pj-gray-medium: #565656;
+  --color-pj-gray-light: #6a6a6b;
+  --color-pj-gray: #414242;
   --color-pj-blue: #1d7ed8;
   --color-pj-blue-medium: #393f4e;
   --color-pj-green-lightest: #d4edda;
@@ -82,6 +82,7 @@
   --color-pj-input-focus: #0b0b0b;
   --color-pj-input: #bdbdbd;
 
+  --ease-pj-easing: cubic-bezier(0.5, 1.25, 0.75, 1);
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-indeterminate-bar: indeterminate-bar 1.5s
@@ -89,6 +90,26 @@
   --animate-marquee: marquee 30s linear infinite;
   --animate-fade-in: fadeIn 300ms ease forwards;
   --animate-fade-out: fadeOut 300ms ease-in forwards;
+  --animate-collapsible-down: collapsible-down 0.2s
+    cubic-bezier(0.5, 1.25, 0.75, 1);
+  --animate-collapsible-up: collapsible-up 0.2s cubic-bezier(0.5, 1.25, 0.75, 1);
+  
+  @keyframes collapsible-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-collapsible-content-height);
+    }
+  }
+  @keyframes collapsible-up {
+    from {
+      height: var(--radix-collapsible-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
 
   @keyframes accordion-down {
     from {

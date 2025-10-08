@@ -21,7 +21,7 @@ const HomePage = async (props: PageProps) => {
     Array.isArray(all) && all.length > 0 ? `/${all?.join('/')}` : homePagePath;
 
   const allowedRoutes = await getValidRoutes();
-
+  // const localizations =
   if (!allowedRoutes.includes(uri)) {
     return notFound();
   }
@@ -31,7 +31,7 @@ const HomePage = async (props: PageProps) => {
       <HeroBlock />
       <TeaserBlock />
       {/* <ServiceRenderBlock /> */}
-      <ImageWithTextRenderBlock />
+      {/* <ImageWithTextRenderBlock /> */}
       <FAQRenderBlock />
       <TestimonialSliderBlock />
       <FeaturedArticlesRenderBlock />
