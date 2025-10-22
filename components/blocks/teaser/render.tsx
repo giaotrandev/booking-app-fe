@@ -1,4 +1,3 @@
-import Stroke from '#/components/common/stroke';
 import { Container } from '#/components/ui/container';
 import { Typography } from '#/components/ui/typography';
 import { getTranslate } from '#/i18n/server';
@@ -15,16 +14,16 @@ const TeaserRenderBlock = async ({ list }: TeaserRenderBlockProps) => {
     <BlockWrapper>
       <Container>
         <h2>
-          <Typography asChild variant="title" className="uppercase">
-            <span>
+          <Typography asChild variant="h1" className="uppercase">
+            <span className="text-pj-red">
               {await translate({
                 vi: 'Những tuyến đường ',
                 en: 'Popular ',
               })}
             </span>
           </Typography>
-          <Typography asChild variant="title" className="uppercase">
-            <span className="text-pj-red">
+          <Typography asChild variant="h1" className="uppercase">
+            <span>
               {await translate({
                 vi: 'Phổ biến ',
                 en: 'routes',

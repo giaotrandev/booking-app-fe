@@ -12,25 +12,25 @@ interface ProvidersProps extends PropsWithChildren {}
 
 const Providers = ({ children }: ProvidersProps) => {
   return (
-    // <AuthProvider>
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      {/* <GoogleReCaptchaProvider> */}
-      <ToastProvider>
-        <div id="site-wrapper">
-          {/* <Tracking /> */}
-          {/* <RouteLoadingProvider> */}
-          {children}
-          {/* </RouteLoadingProvider> */}
-        </div>
-      </ToastProvider>
-      {/* </GoogleReCaptchaProvider> */}
-    </ThemeProvider>
-    // </AuthProvider>
+    <AuthProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {/* <GoogleReCaptchaProvider> */}
+        <ToastProvider>
+          <div id="site-wrapper">
+            {/* <Tracking /> */}
+            {/* <RouteLoadingProvider> */}
+            {children}
+            {/* </RouteLoadingProvider> */}
+          </div>
+        </ToastProvider>
+        {/* </GoogleReCaptchaProvider> */}
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 

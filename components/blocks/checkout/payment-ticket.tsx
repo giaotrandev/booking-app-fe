@@ -16,6 +16,7 @@ import { UncheckedQrCodeItemRequestProps } from '#/services/QrCode/details/unche
 import { Button } from '#/components/ui/button';
 import { Link } from '#/i18n/routing';
 import { useTranslate } from '#/i18n/client';
+import { Tag } from '#/components/common/tag';
 
 interface PaymentTicketProps
   extends Omit<BookingRequestProps, 'seats' | 'createdAt' | 'basePrice'> {
@@ -107,35 +108,28 @@ const PaymentTicket = ({
                 )}
                 key={index}
               >
-                {item.seat && item.seat.seatNumber && (
-                  <div className="flex items-center justify-between">
-                    <div className="border-pj-red inline-flex rounded-[24px] border px-4 py-1">
-                      <Typography
-                        asChild
-                        className="text-pj-red font-medium uppercase"
-                      >
-                        <p>
-                          {translate({
-                            vi: `Ghế: ${item.seat?.seatNumber}`,
-                            en: `Seat: ${item.seat?.seatNumber}`,
-                          })}
-                        </p>
-                      </Typography>
-                    </div>
-                    <div className="flex items-center gap-x-2">
-                      <Button
-                        icon={{ name: 'print' }}
-                        colors="none"
-                        text={translate({
-                          vi: 'In vé',
-                          en: 'Print ticket',
-                        })}
-                        shape="tag"
-                        className="p-0 text-black lg:text-[16px]"
-                      />
-                    </div>
+                <div className="flex items-center justify-between">
+                  {item.seat && item.seat.seatNumber && (
+                    <Tag
+                      title={translate({
+                        vi: `Ghế: ${item.seat?.seatNumber}`,
+                        en: `Seat: ${item.seat?.seatNumber}`,
+                      })}
+                    />
+                  )}
+                  <div className="flex items-center gap-x-2">
+                    <Button
+                      icon={{ name: 'print' }}
+                      colors="none"
+                      text={translate({
+                        vi: 'In vé',
+                        en: 'Print ticket',
+                      })}
+                      shape="tag"
+                      className="p-0 text-black lg:text-[16px]"
+                    />
                   </div>
-                )}
+                </div>
 
                 {Array.isArray(infoItems) && infoItems.length > 0 && (
                   <div className="bg-pj-gray-lightest rounded-[8px] p-4">

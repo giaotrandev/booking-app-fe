@@ -16,7 +16,7 @@ const buttonVariants = cva(
       variant: {
         default: 'text-[16px]',
         small: 'text-[13px]',
-        'supper-small': 'text-[11px]',
+        'supper-small': 'text-[14px]',
       },
       colors: {
         none: '',

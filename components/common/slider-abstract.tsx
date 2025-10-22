@@ -49,6 +49,7 @@ interface SliderAbstractProps {
   fade?: boolean;
   overlayTwoSide?: boolean;
   arrowsClassName?: string;
+  arrowContainerClassname?: string;
   arrowSize?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
@@ -67,6 +68,7 @@ const SliderAbstract = ({
   gap = 8,
   fade,
   overlayTwoSide,
+  arrowContainerClassname,
   arrowSize,
 }: SliderAbstractProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -181,7 +183,7 @@ const SliderAbstract = ({
       </div>
 
       {(showProgress || showArrows) && (
-        <Container>
+        <Container className={cn(arrowContainerClassname)}>
           <div
             className={cn(
               'mt-10 flex items-center justify-between gap-10',

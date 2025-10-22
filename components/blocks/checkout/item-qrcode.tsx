@@ -113,6 +113,7 @@ const ItemQrCode = ({
                 src={qrCode}
                 className="w-full rounded-xl object-contain"
                 fill
+                placeholder="blur"
                 blurDataURL={blurDataUrl}
                 alt={`qrcode - ${qrCode}`}
               />

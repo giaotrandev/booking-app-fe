@@ -17,8 +17,8 @@ const TestimonialSliderItem = ({
   description,
 }: TestimonialSliderItemProps) => {
   return (
-    <div className="flex w-full justify-between">
-      <div className="hidden lg:block lg:w-[35%]">
+    <div className="flex w-full justify-between gap-x-10">
+      <div className="hidden lg:block lg:w-[40%]">
         {image && image.src && (
           <div className="relative pt-[calc((474/384)*100%)]">
             <Image
@@ -33,7 +33,7 @@ const TestimonialSliderItem = ({
       </div>
 
       {(description || name || position) && (
-        <div className="flex w-full flex-col gap-y-12 lg:w-[55.833%] lg:gap-y-13.75">
+        <div className="flex w-full flex-col gap-y-12 lg:w-[60%] lg:gap-y-13.75">
           <div className="flex flex-col gap-y-6">
             <Image
               src="/images/icons/icon-quote.svg"

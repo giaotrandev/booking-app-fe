@@ -10,7 +10,7 @@ export const convertProvinceItem = async (
   latitude: province.latitude ?? undefined,
   longitude: province.longitude ?? undefined,
   status: province.status ?? undefined,
-  image: province.image ?? undefined,
+  image: province.imageUrl ?? undefined,
   description: province.description ?? undefined,
   distance: province.distance ?? undefined,
   distanceUnit: province.distanceUnit ?? undefined,

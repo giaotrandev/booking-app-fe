@@ -14,6 +14,12 @@ export const collections = [
   },
 ]; // SETUP - Collections: Add/remove list of collections here
 
+export const PROTECTED_ROUTES = [
+  '/my-account',
+  '/my-account/profile',
+  '/my-account/my-booking',
+  '/my-account/change-password',
+];
 export const homePagePath = '/';
 
 export const blurDataUrl =

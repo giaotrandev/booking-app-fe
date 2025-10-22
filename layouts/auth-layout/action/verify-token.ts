@@ -24,13 +24,14 @@ export type VerifyTokenResult = {
   shouldRedirect?: boolean; // 👈 flag để provider xử lý
 };
 
-export async function verifyTokenAction(): Promise<VerifyTokenResult> {
+const verifyTokenAction = async (): Promise<VerifyTokenResult> => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get('at')?.value ?? null;
   const refreshToken = cookieStore.get('rt')?.value ?? null;
   const isDev = process.env.NODE_ENV === 'development';
   const baseURL = isDev ? 'http://localhost:3000' : process.env.NEXT_BASE_URL!;
   if (!accessToken && !refreshToken) {
+    console.log('do 1');
     return {
       valid: false,
       expired: true,
@@ -41,6 +42,8 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
   }
   const atStatus = accessToken ? isTokenExpired(accessToken) : true;
   if (atStatus === false) {
+    console.log('do 2');
+
     return {
       valid: true,
       expired: false,
@@ -63,6 +66,8 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
         const data = await res.json();
         const newAt = data?.accessToken;
         if (newAt) {
+          console.log('do 3');
+
           // Lưu cookie AT mới
           cookieStore.set('at', newAt, {
             httpOnly: true,
@@ -77,6 +82,8 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
           };
         }
       }
+      console.log('do 4');
+
       // 👇 Trường hợp 3: refresh thất bại
       return {
         valid: false,
@@ -86,6 +93,7 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
         shouldRedirect: true,
       };
     } catch (err) {
+      console.log('do 5');
       console.error('Error do ne', err);
       return {
         valid: false,
@@ -96,6 +104,8 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
       };
     }
   }
+  console.log('do 6');
+
   return {
     valid: false,
     expired: true,
@@ -103,4 +113,5 @@ export async function verifyTokenAction(): Promise<VerifyTokenResult> {
     refreshToken,
     shouldRedirect: true,
   };
-}
+};
+export { verifyTokenAction };

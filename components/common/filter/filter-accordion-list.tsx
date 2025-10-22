@@ -15,7 +15,6 @@ import {
   minPriceDefault,
   minTimeDefault,
 } from '#/lib/constant';
-import { FilterItemProps } from '#/layouts/home-layout/filter-trip/navigation-booking/item';
 import { sanitizeTitle } from '#/lib/utilities/sanitize-title';
 import { useDebounce } from '#/lib/hooks/use-debounce';
 import { formatTime } from '#/lib/utilities/format-time';

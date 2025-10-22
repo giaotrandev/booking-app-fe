@@ -15,18 +15,24 @@ import Email from './email';
 import ExclamationCircle from './exclamation-circle';
 import Eye from './eye';
 import FaceHuman from './face-human';
+import Growth from './growth';
 import { Hamburger } from './hamburger';
+import Heart from './heart';
 import HidePassword from './hide-password';
 import Lock from './lock';
 import Logout from './logout';
+import Medal from './medal';
 import Password from './password';
 import Phone from './phone';
 import Plane from './plane';
 import Print from './print';
 import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
+import Shield from './shield';
+import Star from './star';
 import { SteeringWheel } from './steering-wheel';
 import { Swap } from './swap';
+import Tag from './tag';
 import Ticket from './ticket';
 import Upload from './upload';
 import User from './user';
@@ -67,6 +73,12 @@ const icons = {
   password: Password,
   plane: Plane,
   lock: Lock,
+  medal: Medal,
+  heart: Heart,
+  shield: Shield,
+  growth: Growth,
+  star: Star,
+  tag: Tag,
 };
 
 export type IconNamesProps = keyof typeof icons;

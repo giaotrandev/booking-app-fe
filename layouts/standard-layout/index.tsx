@@ -8,19 +8,18 @@ export default async function StandardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const userInformation = await fetchProfileInformation();
-  const header: LayoutHeaderProps = {
-    userInformation: userInformation,
-  };
-  const footer: LayoutFooterProps = {};
+  // const header: LayoutHeaderProps = {
+  //   userInformation: userInformation,
+  // };
+  // const footer: LayoutFooterProps = {};
 
   return (
     <>
-      <LayoutHeader {...header} />
+      <LayoutHeader />
       <div className="mt-16 lg:mt-23.75">
         <LayoutMain>{children}</LayoutMain>
       </div>
-      <LayoutFooter {...footer} />
+      <LayoutFooter />
     </>
   );
 }

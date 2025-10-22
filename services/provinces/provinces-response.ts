@@ -15,6 +15,7 @@ export interface ProvincesResponseProps {
   longitude?: string;
   status?: string;
   image?: string;
+  imageUrl?: string;
   description?: string;
   distanceUnit?: string;
   distance?: number;

@@ -23,7 +23,7 @@ const InformationRender = ({
   const { toast } = useToast();
   const router = useRouter();
   const { translate } = useTranslate();
-  // const [isBooking, setIsBooking] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
   const {
     isSubmit,
     setIsSubmit,
@@ -52,6 +52,7 @@ const InformationRender = ({
     }
 
     try {
+      setIsProcessing(true);
       setIsBooking(true);
       const availableSeatIds = getAvailableSeats().map(seat => seat.id);
 
@@ -81,6 +82,7 @@ const InformationRender = ({
         variant: 'destructive',
       });
       setIsBooking(false); // 🚦 tắt loading
+      setIsProcessing(false);
     }
   };
 
@@ -119,6 +121,7 @@ const InformationRender = ({
           isSubmit={isSubmit}
           setIsSubmit={setIsSubmit}
           initialDefaultValues={defaultValues}
+          processing={isProcessing}
         />
       </div>
     </div>

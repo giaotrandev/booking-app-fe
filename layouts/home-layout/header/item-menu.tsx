@@ -13,7 +13,11 @@ const ItemMenu = ({ active, cta }: ItemMenuProps) => {
   const { setSidenavOpen } = useGlobalsStore();
 
   return (
-    <Typography variant="label" asChild onClick={() => setSidenavOpen(false)}>
+    <Typography
+      variant="button-label"
+      asChild
+      onClick={() => setSidenavOpen(false)}
+    >
       <StretchedLink
         link={cta}
         className={cn(

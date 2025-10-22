@@ -16,14 +16,13 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'px-4.5 h-10 uppercase',
+        default: 'px-5 border border-pj-red h-10 uppercase',
         big: 'py-2.5 w-full lg:max-w-74 uppercase',
         'with-shadow':
           'text-black font-normal py-3 px-4.5 shadow-[0px_4px_4px_0px_#00000040]',
         special: 'w-full lg:max-w-74 py-2.25 px-8',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
         small: 'px-4 py-2 text-[14px] lg:text-[16px]',
-        outline: 'px-4 h-10 border border-pj-red text-pj-red',
+        outline: 'px-5 h-10 border border-pj-red text-pj-red',
       },
       colors: {
         none: '',
@@ -31,6 +30,8 @@ const buttonVariants = cva(
         black: 'bg-black',
         gray: 'bg-pj-gray',
         blue: 'bg-pj-blue',
+        orange: 'bg-pj-orange-medium',
+        white: 'bg-white',
       },
       shape: {
         default: 'rounded-[10px]',

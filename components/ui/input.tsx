@@ -6,8 +6,8 @@ import { Typography } from './typography';
 import { Button } from './button';
 
 const inputVariants = cva([
-  'flex w-full h-14 outline-none lg:h-12  border bg-transparent rounded-[4px] p-3',
-  'border-black placeholder:text-zinc-500',
+  'flex w-full h-14 outline-none lg:h-12 transition-colors border bg-transparent rounded-[4px] p-3',
+  'border-pj-input placeholder:text-zinc-500',
   '[&[aria-invalid=true]]:border-pj-red',
   'file:cursor-pointer file:border-0 file:bg-transparent file:text-[14px]',
   'disabled:pointer-events-none disabled:opacity-50',

@@ -8,9 +8,9 @@ import { ComponentProps } from 'react';
 const typographyVariants = cva([''], {
   variants: {
     variant: {
-      'big-title': 'leading-none text-[48px] lg:text-[64px]',
-      h1: '  leading-none text-[36px] lg:text-[48px]',
-      h2: 'leading-none lg:text-[40px]',
+      'big-title': ' text-[48px]/[1] lg:text-[60px]/[1.25]',
+      h1: 'leading-none text-[36px] lg:text-[48px]',
+      h2: 'leading-none text-[30px] lg:text-[40px]',
       h3: 'font-semibold leading-none text-[28px] lg:text-[32px]',
       h4: 'font-bold leading-none text-[18px] lg:text-[24px]',
       h5: 'font-semibold leading-none lg:text-[22px]',

@@ -19,13 +19,11 @@ const SamplePage = async (props: PageProps) => {
   };
 
   return (
-    // <Layout>
     //   <Template {...template}>
     <div className="max-w-screen-md space-y-10 py-10">
       <div>dd</div>
     </div>
     //   </Template>
-    // </Layout>
   );
 };
 

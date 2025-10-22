@@ -22,6 +22,7 @@ import { useMediaQuery } from 'usehooks-ts';
 import { useCurrentLocale } from '#/i18n/client';
 import { useRouter } from '#/i18n/routing';
 import { useSearchParams } from 'next/navigation';
+import { inputVariants } from '#/components/ui/input';
 
 const dateFormat = 'dd-MM-yyyy';
 
@@ -262,7 +263,8 @@ const NavigationBooking = ({
                 type="button"
                 disabled={processing}
                 className={cn(
-                  'relative h-14 w-full cursor-pointer rounded-xl border px-3 py-3 text-left lg:h-12',
+                  inputVariants(),
+                  'border-pj-gray-border relative h-14 w-full cursor-pointer rounded-xl border px-3 py-3 text-left lg:h-12',
                   'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
                 )}
                 onClick={() => setIsDatePickerOpen(true)}

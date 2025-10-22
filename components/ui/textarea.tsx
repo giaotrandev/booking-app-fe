@@ -11,7 +11,7 @@ const Textarea = ({ className, ...props }: TextareaProps) => {
         data-slot="textarea"
         className={cn(
           'flex min-h-50 w-full rounded-[4px] border p-4 outline-none lg:min-h-60',
-          'border-black placeholder:text-zinc-500',
+          'border-pj-input placeholder:text-zinc-500',
           // 'dark:border-white dark:placeholder:text-zinc-500',
           // disabled
           'disabled:pointer-events-none disabled:opacity-50',

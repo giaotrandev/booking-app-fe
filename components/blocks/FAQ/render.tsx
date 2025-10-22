@@ -77,7 +77,7 @@ const FAQRenderBlock = ({}: FAQRenderBlockProps) => {
       <Container>
         <div className="mx-auto xl:max-w-200">
           <div className="mb-8 flex w-full justify-center lg:mb-6">
-            <Typography asChild variant="h2" className="font-bold">
+            <Typography asChild variant="h1" className="font-bold">
               <h2>
                 {translate({
                   vi: 'Câu hỏi thường gặp',

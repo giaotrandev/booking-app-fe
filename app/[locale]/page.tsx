@@ -12,6 +12,7 @@ import { homePagePath } from '#/lib/constant';
 import { getValidRoutes } from '#/lib/helper/get-valid-routes';
 import { PageProps } from '#/types/global';
 import { notFound } from 'next/navigation';
+import { PopularDestinationBlock } from '#/components/blocks/popular-destinations';
 // Thêm dòng này
 export const generateStaticParams = getStaticParams;
 const HomePage = async (props: PageProps) => {
@@ -34,7 +35,8 @@ const HomePage = async (props: PageProps) => {
       {/* <ImageWithTextRenderBlock /> */}
       <FAQRenderBlock />
       <TestimonialSliderBlock />
-      <FeaturedArticlesRenderBlock />
+      <PopularDestinationBlock />
+      {/* <FeaturedArticlesRenderBlock /> */}
     </Layout>
   );
 };

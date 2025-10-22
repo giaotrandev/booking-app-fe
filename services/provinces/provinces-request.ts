@@ -1,5 +1,3 @@
-import { ImageProps } from '#/types/global';
-import { ProvincesResponseProps } from './provinces-response';
 interface ProvinceItemRequestProps {
   id: string;
   name?: string;

@@ -1,5 +1,4 @@
 import { IconProps } from '#/components/icons';
-import { useTranslate } from '#/i18n/client';
 import { getTranslate } from '#/i18n/server';
 import {
   UserMenuLinkItem,

@@ -22,7 +22,6 @@ const SamplePage = async (props: PageProps) => {
   };
 
   return (
-    // <Layout>
     //   <Template {...template}>
     <div className="max-w-screen-md space-y-10 px-10 py-10">
       <div className="flex gap-2">
@@ -35,7 +34,6 @@ const SamplePage = async (props: PageProps) => {
       <Input placeholder="Email" required type="email" />
     </div>
     //   </Template>
-    // </Layout>
   );
 };
 

@@ -27,7 +27,7 @@ const TeaserList = ({ list }: TeaserListProps) => {
           width={{
             desktop: '390px',
             tablet: '390px',
-            mobile: '282px',
+            mobile: '280px',
           }}
           key={key}
           className={cn(key % 2 !== 0 && 'pt-4 lg:pt-8')}

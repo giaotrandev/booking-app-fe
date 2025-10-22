@@ -25,9 +25,13 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
   const { translate } = useTranslate();
   const menu: LinkProps[] = [
     { text: translate({ vi: 'Trang chủ', en: 'Home' }), url: '/' },
+    // {
+    //   text: translate({ vi: 'Khuyến mãi', en: 'Promotion' }),
+    //   url: '/promotion',
+    // },
     {
-      text: translate({ vi: 'Khuyến mãi', en: 'Promotion' }),
-      url: '/promotion',
+      text: translate({ vi: 'Bài viết', en: 'Posts' }),
+      url: '/posts',
     },
     {
       text: translate({ vi: 'Vé của tôi', en: 'My Booking' }),

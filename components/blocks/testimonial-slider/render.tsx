@@ -5,6 +5,7 @@ import { Typography } from '#/components/ui/typography';
 import { useTranslate } from '#/i18n/client';
 import { BlockWrapper } from '../wrapper';
 import { TestimonialSliderItem } from './item';
+import { useMediaQuery } from 'usehooks-ts';
 
 interface TestimonialSliderRenderBlockProps {}
 
@@ -12,12 +13,13 @@ const TestimonialSliderRenderBlock =
   ({}: TestimonialSliderRenderBlockProps) => {
     const { list } = DATA;
     const { translate } = useTranslate();
+    const isDesktop = useMediaQuery('(min-width: 1024px)');
 
     return (
       <BlockWrapper>
         <Container>
           <h2>
-            <Typography asChild variant="title" className="uppercase">
+            <Typography asChild variant="h1" className="uppercase">
               <span>
                 {translate({
                   vi: 'Những khách hàng nói gì về ',
@@ -25,7 +27,7 @@ const TestimonialSliderRenderBlock =
                 })}{' '}
               </span>
             </Typography>
-            <Typography asChild variant="title" className="uppercase">
+            <Typography asChild variant="h1" className="uppercase">
               <span className="text-pj-red">Vietnam Road Trip</span>
             </Typography>
           </h2>
@@ -38,11 +40,12 @@ const TestimonialSliderRenderBlock =
                   align: 'start',
                 }}
                 gap={0}
-                arrowSize="xl"
+                arrowSize={'xl'}
                 autoplay={{ playOnInit: true, delay: 5000 }}
                 fade
                 showArrows
-                navigationClassName="w-full lg:right-0 lg:bottom-0 lg:absolute lg:w-[55.833%]"
+                arrowContainerClassname="px-0"
+                navigationClassName="px-0 w-full lg:right-0 lg:bottom-0 lg:absolute lg:w-[58.3448%]"
                 arrowsClassName="justify-between w-full"
               >
                 {list.map((item, key) => (

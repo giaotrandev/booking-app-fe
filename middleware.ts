@@ -71,6 +71,7 @@ import createMiddleware from 'next-intl/middleware';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { routing } from './i18n/routing';
+import { PROTECTED_ROUTES } from './lib/constant';
 
 const intlMiddleware = createMiddleware(routing);
 
@@ -107,7 +108,6 @@ export default function middleware(request: NextRequest) {
     '/forgot-password',
     '/verify-email',
   ];
-
   const { pathname, searchParams } = request.nextUrl;
 
   const localeMatch = pathname.match(/^\/(en|vi)(?=\/|$)/);
@@ -125,6 +125,15 @@ export default function middleware(request: NextRequest) {
     }
     return NextResponse.redirect(new URL(`/${locale}`, request.nextUrl.origin));
   }
+  if (
+    PROTECTED_ROUTES.some(route => basePath.startsWith(route)) &&
+    !tokenValid
+  ) {
+    const homenUrl = new URL(`/${locale}`, request.nextUrl.origin);
+    // loginUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(homenUrl);
+  }
+
   // ✅ Gọi next-intl middleware để xử lý locale
   return intlMiddleware(request);
 }

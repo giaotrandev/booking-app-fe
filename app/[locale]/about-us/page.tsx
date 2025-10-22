@@ -1,4 +1,14 @@
-import { setStaticParamsLocale, getStaticParams } from '#/i18n/server';
+import { CoreValuesCardListBlock } from '#/components/blocks/core-values-card-list';
+import { CountingCardListBlock } from '#/components/blocks/counting-card-list';
+import { HeroImageWithTextBlock } from '#/components/blocks/hero-image-with-text';
+import { JouneyCTABlock } from '#/components/blocks/journey-cta';
+import { MilestonesSectionBlock } from '#/components/blocks/milestones-section';
+import { MissionBlock } from '#/components/blocks/mission';
+import {
+  setStaticParamsLocale,
+  getStaticParams,
+  getTranslate,
+} from '#/i18n/server';
 import StandardLayout from '#/layouts/standard-layout';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
@@ -13,12 +23,31 @@ export const generateStaticParams = getStaticParams;
 const AboutUsPage = async (props: PageProps) => {
   const params = await props.params;
   const { locale } = params;
+  const { translate } = await getTranslate();
 
   setStaticParamsLocale(locale);
 
   return (
     <StandardLayout>
-      <div>aaaa</div>
+      <HeroImageWithTextBlock
+        title={await translate({
+          vi: `Về chúng tôi`,
+          en: `About us`,
+        })}
+        description={await translate({
+          vi: `Đồng hành cùng hành trình của bạn với dịch vụ vận chuyển hành khách uy tín và chất lượng hàng đầu Việt Nam`,
+          en: `Accompany your journey with Vietnam’s leading, reliable, and high-quality passenger transport service`,
+        })}
+        imageAlt={await translate({
+          vi: `VietNam Road Trip - Trang về chúng tôi`,
+          en: `VietNam Road Trip - About-us page`,
+        })}
+      />
+      <CountingCardListBlock />
+      <MissionBlock />
+      <CoreValuesCardListBlock />
+      <MilestonesSectionBlock />
+      <JouneyCTABlock />
     </StandardLayout>
   );
 };
