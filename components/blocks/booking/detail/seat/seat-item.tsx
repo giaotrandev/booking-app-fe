@@ -47,7 +47,7 @@ const SeatItem = ({
               'hocus:fill-pj-green-medium pointer-events-auto h-auto max-w-100 min-w-10 cursor-pointer transition-[fill]',
               isHasUpperDeck
                 ? 'w-[60%] md:w-[34%] lg:w-[42%]'
-                : 'w-[60%] md:w-[34%] lg:w-[60%]',
+                : 'w-[60%] md:w-[34%] lg:w-[50%]',
               status === SeatStatus.AVAILABLE &&
                 (selected ? 'fill-pj-green-medium' : 'fill-pj-gray-light'),
               (status === SeatStatus.RESERVED ||

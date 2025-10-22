@@ -29,6 +29,7 @@ import Print from './print';
 import { Seat } from './seat';
 import { SelectChevronDown } from './select-chevron-down';
 import Shield from './shield';
+import { SpinnerIcon } from './spinner';
 import Star from './star';
 import { SteeringWheel } from './steering-wheel';
 import { Swap } from './swap';
@@ -79,6 +80,7 @@ const icons = {
   growth: Growth,
   star: Star,
   tag: Tag,
+  spinner: SpinnerIcon,
 };
 
 export type IconNamesProps = keyof typeof icons;

@@ -167,6 +167,7 @@ const BookingBlock = () => {
   if (loadingProvinces || !hasTriggeredRefetch.current) {
     return <LoadingPage />;
   }
+  console.log('do', allTrips);
   return (
     <BookingRenderBlock
       arrivalList={convertToSelectOptions(provinceList)}

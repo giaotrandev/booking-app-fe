@@ -108,3 +108,31 @@ export type OptionType = {
   label: string;
   value: string;
 };
+export interface TheMediaOptionsProps {
+  /** When viewport = true, the aspectRatio will be disabled. */
+  viewport?: boolean;
+  autoplay?: boolean;
+  loop?: boolean;
+  muted?: boolean;
+  volume?: number;
+  controls?:
+    | boolean
+    | {
+        showPlayPause?: boolean;
+        showFullscreen?: boolean;
+        showVolume?: boolean;
+        showProgressBar?: boolean;
+        showTimer?: boolean;
+      };
+  showLoading?: boolean;
+  aspectRatio?:
+    | {
+        widthUnit: number;
+        heightUnit: number;
+      }
+    | 'auto';
+  breakpoints?: Record<number, Pick<TheMediaOptionsProps, 'aspectRatio'>>;
+}
+export interface VideoInformationProps extends MediaProps {
+  platform: 'generic' | 'youtube' | 'vimeo';
+}

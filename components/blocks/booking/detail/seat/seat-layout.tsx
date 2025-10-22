@@ -71,7 +71,7 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
                                 'h-auto max-w-50 min-w-13',
                                 decks.length > 1
                                   ? 'w-[46%] md:w-[26%] lg:w-[26%]'
-                                  : 'w-[46%] md:w-[26%] lg:w-[46%]',
+                                  : 'w-[46%] md:w-[26%] lg:w-[50%]',
                               )}
                             />
                           </Col>
@@ -104,7 +104,7 @@ const SeatLayout = ({ decks }: SeatLayoutProps) => {
                     )}
 
                     {Array.isArray(otherSeats) && otherSeats.length > 0 && (
-                      <Row className="grid-cols-3 gap-5 lg:grid-cols-3">
+                      <Row className="grid-cols-3 gap-x-2 gap-y-5 lg:grid-cols-3">
                         {otherSeats.map((seat, seatIndex) => (
                           <Col key={seatIndex} className="col-span-1">
                             {deck?.deckId && row?.rowId && (

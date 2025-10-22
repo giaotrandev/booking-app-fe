@@ -72,9 +72,9 @@ export const SeatList = ({ decks }: SeatListProps) => {
         {Array.isArray(decks) && decks.length > 0 && (
           <Col
             className={cn(
-              'col-span-full mt-4 lg:mt-0 lg:max-h-[600px] lg:overflow-y-auto',
+              'col-span-full mt-4 lg:mt-0',
               decks.length === 1
-                ? 'lg:col-span-5 lg:col-start-8'
+                ? 'lg:col-span-4 lg:col-start-9'
                 : 'lg:col-span-6 lg:col-start-7',
             )}
           >

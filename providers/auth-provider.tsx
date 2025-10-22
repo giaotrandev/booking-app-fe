@@ -19,10 +19,7 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
-function isProtectedRoute(path: string) {
-  const basePath = path.replace(/^\/(en|vi)/, '');
-  return PROTECTED_ROUTES.some(route => basePath.startsWith(route));
-}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [tokenInfo, setTokenInfo] = useState<VerifyTokenResult | null>(null);
   const [loading, setLoading] = useState(true);
@@ -30,17 +27,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname(); // 👈 thêm dòng này
   const { clearAuth } = useUserStore();
   const isMounted = useIsMounted();
-
+  function isProtectedRoute(path: string) {
+    const basePath = path.replace(/^\/(en|vi)/, '');
+    return PROTECTED_ROUTES.some(route => basePath.startsWith(route));
+  }
   async function checkToken() {
     setLoading(true);
     try {
       const res = await fetch('/api/verify-token', { credentials: 'include' });
       const result = await res.json();
-
-      // 👇 Chỉ redirect nếu đang ở trang cần login
-      if (result.shouldRedirect && isProtectedRoute(pathname)) {
+      if (result.shouldRedirect) {
         clearAuth();
-        router.replace('/'); // hoặc '/login'
+        if (isProtectedRoute(pathname)) {
+          router.replace('/');
+        }
         return;
       }
 
