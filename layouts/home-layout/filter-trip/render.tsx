@@ -54,15 +54,17 @@ const LayoutFilterTrip = ({
       {/* Desktop */}
       <div
         className={cn(
-          'pointer-events-none absolute top-0 left-0 z-[12] hidden h-screen w-full items-center justify-center lg:flex',
+          'pointer-events-none absolute top-0 left-0 z-[12] hidden h-screen w-full lg:block',
         )}
       >
-        <Suspense>
-          <NavigationBooking
-            arrivalList={arrivalList}
-            destinationList={destinationList}
-          />
-        </Suspense>
+        <div className="absolute top-[52%] left-1/2 flex w-full -translate-x-1/2 justify-center lg:w-[calc(100%-160px)]">
+          <Suspense>
+            <NavigationBooking
+              arrivalList={arrivalList}
+              destinationList={destinationList}
+            />
+          </Suspense>
+        </div>
       </div>
       {/* Mobile */}
       <div className="fixed right-5 bottom-5 z-[1090] flex flex-col gap-y-2 lg:hidden">
@@ -120,7 +122,7 @@ const LayoutFilterTrip = ({
               setFilterOpen(false);
             }}
             // className="pointer-events-none inset-y-auto top-1/2 left-1/2 z-[1094] w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-auto"
-            className="inset-y-auto top-1/2 left-1/2 z-[1094] w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2 overflow-x-hidden overflow-y-auto"
+            className="inset-y-auto top-1/2 left-1/2 z-[1094] w-[calc(100%-40px)] -translate-x-1/2 -translate-y-1/2"
             overlay={{ className: 'z-1093 bg-black/30' }}
           >
             <SheetHeader>

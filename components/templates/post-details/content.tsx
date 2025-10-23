@@ -1,17 +1,16 @@
 import { Typography } from '#/components/ui/typography';
-import DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'dompurify';
+
 interface ContentProps {
   content?: string;
 }
 
 const Content = ({ content = '' }: ContentProps) => {
-  // 👉 Giả lập hacker chèn script
-  const testContent =
-    content +
-    `<script>console.log('test — nếu bạn thấy dòng này trong console, nghĩa là chưa an toàn')</script>`;
-
-  // 🧹 Làm sạch HTML trước khi render
-  const safeContent = DOMPurify.sanitize(testContent);
+  // 🔒 Chỉ sanitize ở client-side (DOMPurify cần DOM API)
+  const safeContent =
+    typeof window !== 'undefined'
+      ? DOMPurify.sanitize(content || '')
+      : content || ''; // Server-side: trả về raw content (sẽ được sanitize ở client)
 
   return (
     <Typography

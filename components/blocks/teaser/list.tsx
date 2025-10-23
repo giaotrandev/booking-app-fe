@@ -20,7 +20,7 @@ const TeaserList = ({ list }: TeaserListProps) => {
       showArrows
       showProgress
       overlayTwoSide
-      className="px-5 lg:px-30"
+      className="px-5 lg:px-20"
     >
       {list.map((item, key) => (
         <Slide

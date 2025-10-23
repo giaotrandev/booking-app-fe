@@ -6,7 +6,13 @@ import { PostsResponseProps } from '#/services/posts/post-response';
 export interface PostItemProps
   extends Pick<
     PostsResponseProps,
-    'title' | 'excerpt' | 'slug' | 'thumbnail' | 'category' | 'id'
+    | 'title'
+    | 'excerpt'
+    | 'slug'
+    | 'thumbnail'
+    | 'category'
+    | 'id'
+    | 'featuredImage'
   > {
   imageAlt?: string;
 }
@@ -15,7 +21,7 @@ export interface PostItemProps
 
 const PostItem = ({
   title,
-  thumbnail,
+  featuredImage,
   slug,
   excerpt,
   category,
@@ -43,7 +49,7 @@ const PostItem = ({
       title={title}
       excerpt={excerpt}
       slug={`posts/${slug}`}
-      thumbnail={thumbnail}
+      thumbnail={featuredImage}
       category={category}
       buttonTitle={translate({
         vi: `Xem thêm`,

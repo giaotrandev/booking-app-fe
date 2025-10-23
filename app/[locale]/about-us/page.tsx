@@ -30,6 +30,7 @@ const AboutUsPage = async (props: PageProps) => {
   return (
     <StandardLayout>
       <HeroImageWithTextBlock
+        imageUrl="https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/vietnam-road-trip-about-us-hero.webp"
         title={await translate({
           vi: `Về chúng tôi`,
           en: `About us`,

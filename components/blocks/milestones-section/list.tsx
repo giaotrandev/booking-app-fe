@@ -21,7 +21,8 @@ const MilestoneList = ({}: MilestoneListProps) => {
         vi: 'Thành lập với 5 xe đầu tiên',
         en: 'Founded with the first 5 vehicles',
       }),
-      image: '/images/hero.webp',
+      image:
+        'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/about-us-3.webp',
     },
     {
       year: '2014',
@@ -30,7 +31,8 @@ const MilestoneList = ({}: MilestoneListProps) => {
         vi: 'Phủ sóng 20 tỉnh thành',
         en: 'Expanded operations to 20 provinces',
       }),
-      image: '/images/placeholder.jpg',
+      image:
+        'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/about-us-4.webp',
     },
     {
       year: '2018',
@@ -39,7 +41,8 @@ const MilestoneList = ({}: MilestoneListProps) => {
         vi: 'Ra mắt ứng dụng đặt vé online',
         en: 'Launched the online ticket booking app',
       }),
-      image: '/images/hero.webp',
+      image:
+        'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/about-us-5.webp',
     },
     {
       year: '2024',
@@ -48,7 +51,8 @@ const MilestoneList = ({}: MilestoneListProps) => {
         vi: 'Dẫn đầu thị trường vận tải hành khách',
         en: 'Leading the passenger transport market',
       }),
-      image: '/images/hero.webp',
+      image:
+        'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/about-us-2.webp',
     },
   ];
 

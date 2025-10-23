@@ -49,6 +49,14 @@ const defaultSlides: HeroSlideInput[] = [
   },
   {
     image: {
+      alt: 'Hero image 1',
+      src: 'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/home/home-1.webp',
+      width: 1920,
+      height: 1080,
+    },
+  },
+  {
+    image: {
       alt: 'Hero video 1',
       src: '/images/hero.webp',
       width: 1920,
@@ -69,8 +77,8 @@ const defaultSlides: HeroSlideInput[] = [
   },
   {
     image: {
-      alt: 'Hero image 2',
-      src: '/images/hero.webp',
+      alt: 'Hero image 3',
+      src: 'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/home/home-2.webp',
       width: 1920,
       height: 1080,
     },

@@ -7,12 +7,14 @@ interface HeroImageWithTextBlockRenderProps {
   title?: string;
   description?: string;
   imageAlt?: string;
+  imageUrl: string;
 }
 
 const HeroImageWithTextBlockRender = async ({
   title,
   description,
   imageAlt,
+  imageUrl,
 }: HeroImageWithTextBlockRenderProps) => {
   return (
     <section className="relative h-135">
@@ -27,7 +29,7 @@ const HeroImageWithTextBlockRender = async ({
           </Typography>
         </div>
         <Image
-          src="/images/hero.webp"
+          src={imageUrl}
           alt={imageAlt ?? ''}
           fill
           className="object-cover"

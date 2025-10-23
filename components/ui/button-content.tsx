@@ -17,7 +17,7 @@ const ButtonContent = ({
     <span className="relative flex items-center overflow-hidden">
       <span
         className={cn(
-          'lg:group-hocus-visible/button:-translate-y-full flex transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]',
+          'lg:group-hocus-visible/button:-translate-y-full flex flex-none transition-transform duration-500 ease-[cubic-bezier(.4,0,0,1)]',
           icon && 'items-center gap-x-2',
           iconPosition === 'right' && 'flex-row-reverse',
         )}

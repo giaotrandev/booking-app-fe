@@ -71,7 +71,7 @@ const DATA = {
   list: [
     {
       image: {
-        src: '/images/placeholder.jpg',
+        src: 'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/member-1.webp',
         alt: 'Ngọc Anh',
       },
       name: 'Ngọc Anh',
@@ -86,7 +86,7 @@ const DATA = {
     },
     {
       image: {
-        src: '/images/placeholder.jpg',
+        src: 'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/member-2.webp',
         alt: 'Hoang Nam',
       },
       name: 'Hoang Nam',
@@ -101,7 +101,7 @@ const DATA = {
     },
     {
       image: {
-        src: '/images/placeholder.jpg',
+        src: 'https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/member-3.webp',
         alt: 'Thảo Vy',
       },
       name: 'Thảo Vy',

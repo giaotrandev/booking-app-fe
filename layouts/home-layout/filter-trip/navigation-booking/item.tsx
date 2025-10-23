@@ -175,7 +175,7 @@ const NavigationBooking = ({
   return (
     <div
       className={cn(
-        'pointer-events-auto relative flex w-full flex-col items-center gap-y-6 rounded-[20px] bg-white px-4 pt-15 pb-8 lg:max-w-232 lg:flex-row lg:space-y-0 lg:gap-x-3 lg:px-3 lg:py-5',
+        'pointer-events-auto relative flex w-full flex-col items-center gap-y-6 rounded-[20px] bg-white px-4 pt-15 pb-8 lg:flex-row lg:space-y-0 lg:gap-x-3 lg:px-3 lg:py-5 xl:max-w-232',
         // !isInSpeacialLayout && 'mx-auto max-w-150',
         className,
       )}

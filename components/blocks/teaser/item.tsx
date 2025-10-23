@@ -74,7 +74,7 @@ const TeaserItem = ({
         />
         <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-t from-black/70 via-black/50 to-transparent" />
       </div>
-      <div className="border-pj-gray-border relative w-full border border-t-0 bg-white px-5 pt-7 pb-6 lg:py-5">
+      <div className="border-pj-gray-border relative w-full rounded-b-[24px] border border-t-0 bg-white px-5 pt-7 pb-6 lg:py-5">
         {(name || code) && (
           <div className="absolute bottom-[calc(100%+12px)] left-5 z-1 w-[calc(100%-40px)] pt-4">
             {name && (

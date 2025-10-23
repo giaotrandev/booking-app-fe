@@ -83,7 +83,7 @@ const LayoutHeader = ({ sidenav, userInformation }: LayoutHeaderProps) => {
             // sidenavOpen && 'opacity-0',
           )}
         />
-        <div className="flex w-full items-center justify-between px-5 lg:px-30">
+        <div className="flex w-full items-center justify-between px-5 lg:px-20">
           <div>
             <Link href="/">
               <Image

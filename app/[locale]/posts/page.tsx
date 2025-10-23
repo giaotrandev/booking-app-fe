@@ -28,6 +28,7 @@ const PostsPage = async (props: PageProps) => {
   return (
     <StandardLayout>
       <HeroImageWithTextBlock
+        imageUrl={'/images/hero.webp'}
         title={await translate({
           vi: `Khám Phá Việt Nam`,
           en: `Explore Viet Nam`,

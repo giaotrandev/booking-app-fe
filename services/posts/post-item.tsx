@@ -13,6 +13,7 @@ export const convertPostItem = async (
   excerpt: post.excerpt ?? undefined,
   slug: post.slug ?? '',
   thumbnail: post.thumbnail ?? undefined,
+  featuredImage: post.featuredImage ?? undefined,
   title: post.title ?? undefined,
   publishedAt: post.publishedAt ?? undefined,
   content: post.content ?? undefined,

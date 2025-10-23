@@ -5,14 +5,20 @@ import { PostsResponseProps } from '#/services/posts/post-response';
 export interface PopularDestinationItemProps
   extends Pick<
     PostsResponseProps,
-    'title' | 'excerpt' | 'slug' | 'thumbnail' | 'category' | 'id'
+    | 'title'
+    | 'excerpt'
+    | 'slug'
+    | 'thumbnail'
+    | 'category'
+    | 'id'
+    | 'featuredImage'
   > {}
 
 const PopularDestinationItem = async ({
   title,
   excerpt,
   slug,
-  thumbnail,
+  featuredImage,
   category,
 }: PopularDestinationItemProps) => {
   const { translate } = await getTranslate();
@@ -37,7 +43,7 @@ const PopularDestinationItem = async ({
       title={title}
       excerpt={excerpt}
       slug={`posts/${slug}`}
-      thumbnail={thumbnail}
+      thumbnail={featuredImage}
       category={category}
       buttonTitle={await translate({
         vi: `Xem thêm`,

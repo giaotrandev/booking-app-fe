@@ -10,6 +10,7 @@ import Autoplay from 'embla-carousel-autoplay';
 import { Typography } from '#/components/ui/typography';
 import { TheMedia } from '../the-media';
 import { VideoInformationProps } from '#/types/global';
+import { Container } from '#/components/ui/container';
 
 export interface HeroSlide {
   image: {
@@ -43,13 +44,6 @@ const HeroRenderBlock = ({ slides = [] }: HeroRenderBlockProps) => {
           // Return array của delays cho mỗi slide
           const delays = slides.map(slide => {
             return slide.video ? 60000 : 5000;
-          });
-
-          console.log(`Slide ${currentIndex}:`, {
-            hasVideo,
-            delay: delays[currentIndex],
-            totalSlides: slides.length,
-            isLastSlide: currentIndex === slides.length - 1,
           });
 
           return delays;
@@ -108,7 +102,7 @@ const HeroRenderBlock = ({ slides = [] }: HeroRenderBlockProps) => {
       ref={emblaRef}
       className="relative h-dvh !min-h-dvh overflow-hidden"
     >
-      <div className="flex h-dvh overflow-hidden">
+      <div className="relative z-[10] flex h-dvh overflow-hidden">
         {slides.map((item, index) => (
           <div
             key={index}
@@ -142,16 +136,32 @@ const HeroRenderBlock = ({ slides = [] }: HeroRenderBlockProps) => {
       </div>
 
       {/* Hero Title */}
-      <div className="pointer-events-none absolute top-1/2 left-1/2 z-[11] -translate-x-1/2 -translate-y-1/2 lg:top-50">
+      <div className="pointer-events-none absolute top-1/2 left-1/2 z-[100] flex w-full -translate-x-1/2 -translate-y-1/2 flex-col gap-y-2 px-5 lg:top-60">
         <Typography
-          variant="h1"
+          variant="big-title"
           asChild
-          className="text-center text-white uppercase"
+          className="text-center font-bold text-white uppercase"
         >
-          <h1>START YOUR TRIP WITH US HERE</h1>
+          <h1>
+            {translate({
+              vi: `Hành Trình An Toàn Bắt Đầu Từ Đây`,
+              en: `Your Safe Journey Starts Here`,
+            })}
+          </h1>
+        </Typography>
+        <Typography
+          variant="h4"
+          asChild
+          className="text-center font-medium text-white uppercase"
+        >
+          <p>
+            {translate({
+              vi: `Đặt vé xe liên tỉnh dễ dàng, nhanh chóng và tiện lợi`,
+              en: `Book intercity bus tickets easily, quickly, and conveniently`,
+            })}
+          </p>
         </Typography>
       </div>
-
       {/* Navigation Dots */}
       {scrollSnaps.length > 1 && (
         <div
@@ -166,7 +176,7 @@ const HeroRenderBlock = ({ slides = [] }: HeroRenderBlockProps) => {
             <button
               key={index}
               className={cn(
-                'size-4 cursor-pointer rounded-[50%] bg-white opacity-30 transition-opacity hover:opacity-60 aria-selected:opacity-100 dark:bg-white',
+                'bg-pj-red size-4 cursor-pointer rounded-[50%] border border-white opacity-30 transition-opacity hover:opacity-60 aria-selected:opacity-100',
               )}
               onClick={() => onDotButtonClick(index)}
               aria-selected={index === selectedIndex}

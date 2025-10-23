@@ -29,6 +29,7 @@ export interface PostsResponseProps {
   content?: string;
   excerpt?: string;
   thumbnail?: string;
+  featuredImage?: string;
   status: 'PUBLISHED' | 'DRAFT';
   publishedAt?: string;
   createdAt?: string;

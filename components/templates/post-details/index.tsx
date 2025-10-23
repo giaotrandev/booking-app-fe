@@ -37,7 +37,7 @@ const PostDetailsTemplate = ({
           categoryName={category?.name}
         />
       )}
-      {/* {content && (
+      {content && (
         <BlockWrapper>
           <Container>
             <div className="lg:mx-auto lg:max-w-300">
@@ -45,7 +45,7 @@ const PostDetailsTemplate = ({
             </div>
           </Container>
         </BlockWrapper>
-      )} */}
+      )}
       {Array.isArray(relatedPostList) && relatedPostList.length > 0 && (
         <BlockWrapper className="border-pj-gray-lightest border-t">
           <Container>

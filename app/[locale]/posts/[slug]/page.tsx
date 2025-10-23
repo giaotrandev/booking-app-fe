@@ -46,7 +46,7 @@ const PostDetailsPage = async (props: PageProps) => {
           ? `${postDetails.author?.firstName ?? ''}${postDetails.author?.lastName ?? ''}`
           : undefined,
       createdAt: postDetails?.createdAt ?? undefined,
-      thumbnail: postDetails?.thumbnail ?? undefined,
+      thumbnail: postDetails?.featuredImage ?? undefined,
       title: postDetails?.title ?? undefined,
       content: postDetails?.content ?? undefined,
       category: {

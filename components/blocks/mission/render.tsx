@@ -49,7 +49,7 @@ const MissionBlockRender = async ({}: MissionBlockRenderProps) => {
               >
                 <p>
                   {translate({
-                    vi: 'Với hơn 15 năm kinh nghiệm trong ngành vận tải hành khách, chúng tôi không ngừng nỗ lực để mang đến cho bạn những chuyến đi an toàn, thoải mái và đáng tin cậy nhất. dịch sang tiếng anh',
+                    vi: 'Với hơn 15 năm kinh nghiệm trong ngành vận tải hành khách, chúng tôi không ngừng nỗ lực để mang đến cho bạn những chuyến đi an toàn, thoải mái và đáng tin cậy nhất.',
                     en: 'With over 15 years of experience in passenger transportation, we continuously strive to provide you with the safest, most comfortable, and most reliable travel experiences.',
                   })}
                 </p>
@@ -59,7 +59,7 @@ const MissionBlockRender = async ({}: MissionBlockRenderProps) => {
           <Col className="col-span-full lg:col-span-6">
             <div className="relative overflow-hidden pt-[calc((400/463.5)*100%)]">
               <Image
-                src="/images/hero.webp"
+                src="https://pub-459bf266ac1b494db84a566366b2a2e6.r2.dev/images/about-us/vietnam-road-trip-about-us-our-mission.webp"
                 alt={await translate({
                   vi: `VietNam Road Trip - Trang về chúng tôi`,
                   en: `VietNam Road Trip - About-us page`,

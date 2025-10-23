@@ -54,7 +54,7 @@ const sampleData = [
     },
     description: {
       en: 'A professional support team is ready to assist you anytime, anywhere. Quick answers to inquiries and fast issue resolution.',
-      vi: 'Đội ngũ tư vấn viên chuyên nghiệp sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi. Giải đáp thắc mắc và xử lý sự cố nhanh chóng. dịch sang tiếng anh',
+      vi: 'Đội ngũ tư vấn viên chuyên nghiệp sẵn sàng hỗ trợ bạn mọi lúc, mọi nơi. Giải đáp thắc mắc và xử lý sự cố nhanh chóng.',
     },
   },
 ];

@@ -90,7 +90,7 @@ const Filters = ({
           colors={selectedValues.includes('all') ? 'red' : 'none'}
           asChild
           className={cn(
-            'flex-none whitespace-nowrap uppercase transition-[colors,background-colors] duration-500 lg:min-w-30',
+            'w-full flex-none whitespace-nowrap uppercase transition-[colors,background-colors] duration-500 lg:min-w-30',
             !selectedValues.includes('all') &&
               'hocus-visible:bg-pj-red hocus-visible:text-white',
           )}

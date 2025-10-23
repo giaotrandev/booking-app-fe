@@ -25,7 +25,7 @@ const TestimonialSliderItem = ({
               src={image.src}
               fill
               alt={image.alt ?? ''}
-              sizes="26.667vw"
+              sizes="50vw"
               className="object-cover"
             />
           </div>
@@ -45,8 +45,8 @@ const TestimonialSliderItem = ({
             {description && (
               <Typography
                 asChild
-                className="text-pj-gray-light w-full font-normal italic lg:max-w-147"
-                variant="label"
+                className="text-pj-gray-light w-full font-normal italic"
+                variant="h4"
               >
                 <p>{description}</p>
               </Typography>
