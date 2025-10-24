@@ -8,7 +8,6 @@ import { i18n } from '#/i18n/config';
 import { notFound } from 'next/navigation';
 import { BotIdClient } from 'botid/client';
 
-import Script from 'next/script';
 import { PropsWithChildren } from 'react';
 import { getStaticParams, setStaticParamsLocale } from '#/i18n/server';
 import { NextIntlClientProvider } from 'next-intl';
@@ -16,6 +15,10 @@ import '#/styles/globals.css';
 interface LocaleLayoutProps
   extends Pick<PageProps, 'params'>,
     PropsWithChildren {}
+export const metadata = {
+  title: 'Vietnam Road Trip',
+  description: 'Đặt vé xe liên tỉnh dễ dàng và nhanh chóng',
+};
 
 export const generateStaticParams = () => {
   return getStaticParams();

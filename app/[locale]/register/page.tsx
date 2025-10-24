@@ -8,14 +8,68 @@ import {
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
-  title: 'Sample',
-  description: 'This is a sample page, please remove this page after tested',
-};
-
 // Thêm dòng này
 export const generateStaticParams = getStaticParams;
+// ✅ Dynamic metadata cho trang Đăng ký
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const { translate } = await getTranslate();
 
+  const title = await translate({
+    vi: 'Đăng ký tài khoản - Vietnam Road Trip',
+    en: 'Register Account - Vietnam Road Trip',
+  });
+
+  const description = await translate({
+    vi: 'Tạo tài khoản Vietnam Road Trip để đặt vé xe liên tỉnh, theo dõi hành trình và quản lý thông tin cá nhân của bạn.',
+    en: 'Create a Vietnam Road Trip account to book intercity bus tickets, track your trips, and manage your profile.',
+  });
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  const url =
+    locale === 'vi'
+      ? 'https://vietnamroadtrip.vn/vi/register'
+      : 'https://vietnamroadtrip.vn/en/register';
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'Vietnam Road Trip',
+      type: 'website',
+      images: [
+        {
+          url: '/images/logo.png',
+          width: 1200,
+          height: 630,
+          alt: await translate({
+            vi: 'Vietnam Road Trip - Đăng ký tài khoản',
+            en: 'Vietnam Road Trip - Register Account',
+          }),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/images/logo.png'],
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        vi: 'https://vietnamroadtrip.vn/vi/register',
+        en: 'https://vietnamroadtrip.vn/en/register',
+      },
+    },
+  };
+}
 const RegisterPage = async ({ params }: PageProps) => {
   const { locale } = await params;
   setStaticParamsLocale(locale);

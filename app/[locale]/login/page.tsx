@@ -7,12 +7,70 @@ import {
 } from '#/i18n/server';
 import { PageProps } from '#/types/global';
 import { Metadata } from 'next';
+export async function generateMetadata({ params }: PageProps) {
+  const { locale } = await params;
+  const { translate } = await getTranslate();
 
-export const metadata: Metadata = {
-  title: 'Sample',
-  description: 'This is a sample page, please remove this page after tested',
-};
+  const title = await translate({
+    vi: 'Đăng Nhập - Vietnam Road Trip',
+    en: 'Login - Vietnam Road Trip',
+  });
 
+  const description = await translate({
+    vi: 'Đăng nhập để đặt vé xe liên tỉnh nhanh chóng, quản lý vé đã đặt và theo dõi hành trình dễ dàng cùng Vietnam Road Trip.',
+    en: 'Log in to quickly book interprovincial bus tickets, manage your bookings, and easily track your journeys with Vietnam Road Trip.',
+  });
+
+  const keywords = await translate({
+    vi: 'đăng nhập, vé xe, vé xe liên tỉnh, Vietnam Road Trip, đặt vé xe khách, vé xe online',
+    en: 'login, bus ticket, interprovincial bus, Vietnam Road Trip, online bus booking',
+  });
+
+  const url =
+    locale === 'vi'
+      ? 'https://vietnamroadtrip.vn/vi/login'
+      : 'https://vietnamroadtrip.vn/en/login';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
+  return {
+    metadataBase: new URL(siteUrl),
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: 'Vietnam Road Trip',
+      type: 'website',
+      locale: locale === 'vi' ? 'vi_VN' : 'en_US',
+      images: [
+        {
+          url: '/images/logo.png',
+          width: 1200,
+          height: 630,
+          alt: await translate({
+            vi: 'Vietnam Road Trip - Đăng nhập tài khoản',
+            en: 'Vietnam Road Trip - Login Page',
+          }),
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/images/logo.png'],
+    },
+    alternates: {
+      canonical: url,
+      languages: {
+        vi: 'https://vietnamroadtrip.vn/vi/login',
+        en: 'https://vietnamroadtrip.vn/en/login',
+      },
+    },
+  };
+}
 // Thêm dòng này
 export const generateStaticParams = getStaticParams;
 
